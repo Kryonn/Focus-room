@@ -5,10 +5,11 @@ import { GridStack } from 'gridstack'
 import 'gridstack/dist/gridstack.min.css'
 import Pomodoro from './tool-component/pomodoro.jsx'
 
-const grid = ({ gridInstanceRef, gridRefRef }) => {
+const grid = ({ gridInstanceRef, gridRefRef, gridPositionRef }) => {
 
     const gridRef = useRef(null);
     const gridInstance = useRef(null);
+    const gridPosition = useRef(null);
     const column = 10;
     const row = 5;
     let columnHeight = 100;
@@ -22,32 +23,38 @@ const grid = ({ gridInstanceRef, gridRefRef }) => {
             column: column,
             maxRow: row,
             row: row,
-            margin: 5 },
+            margin: 2},
             gridRef.current);
 
         gridInstanceRef(gridInstance.current);
         gridRefRef(gridRef.current);
 
-        // setWidget({
-        //     addWidget: () => {
-        //         const div = document.createElement("div");
-        //         div.classList.add("grid-stack-item");
-        //         div.innerHTML = `
-        //             <div class="grid-stack-item-content">
-        //                 <div class="${styles.box}"></div>
-        //             </div>
-        //         `
+        function updateElementPosition() {
+            const nodes = gridInstance.current.engine.nodes;
+            const occuped = Array.from(
+                { length: column },
+                () => Array(row).fill(false)
+            )
 
-        //         gridRef.current.appendChild(div);
-        //         gridInstance.current.makeWidget(div);
+            for(let k=0;k<nodes.length;k++) {
+                const xPos = nodes[k].x;
+                const yPos = nodes[k].y;
+                const width = nodes[k].w;
+                const height = nodes[k].h;
+                for(let i=xPos;i<xPos + width;i++) {
+                    for(let j=yPos;j<yPos + height;j++) {
+                        occuped[i][j] = true;
+                    }
+                }
+            }
 
-        //         const box = document.querySelector(`.${styles.box}`);
+            gridPositionRef(occuped);
 
-        //         const root = createRoot(box);
+        }
 
-        //         root.render(<Pomodoro/>);
-        //     }
-        // })
+        gridInstance.current.on("added removed change", updateElementPosition);
+
+        updateElementPosition();
 
     }, []);
 

@@ -1,6 +1,11 @@
 import styles from "./pomodoro.module.css"
 
 const pomodoro = () => {
+  let hour = 0;
+  let minute = 0;
+  // let 
+
+
   return (
     <div className={styles.main}>
         <div className={styles.timeDiv}>
