@@ -1,0 +1,47 @@
+.main {
+    color: rgb(50, 50, 50);
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    /* border: 1px solid red; */
+}
+
+.timeDiv {
+    /* height: 70%; */
+    flex: 7;
+    display: flex;
+    font-size: 23px;
+    box-sizing: border-box;
+    justify-content: center;
+    /* border: 1px solid red; */
+    align-items: center;
+    width: 100%;
+}
+
+
+.buttonDiv {
+    flex: 3;
+    height: 30%;
+    display: flex;
+    /* border: 1px solid red; */
+    width: 100%;
+    justify-content: space-between;
+    gap: 3px;
+}
+
+.button {
+    background-color: rgb(50, 50, 50);
+    border: none;
+    /* border: 1px solid red; */
+    font-size: 10px;
+    padding: 4px;
+    flex: 1;
+    border-radius: 5px;
+}
+
+.button:hover {
+    cursor: pointer;
+}

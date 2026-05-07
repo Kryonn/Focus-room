@@ -1,0 +1,39 @@
+.main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.grid {
+    background-color: rgb(50, 50, 50);
+    border-radius: 10px;
+    flex: 1;
+}
+
+:global(.grid-stack-item-content) {
+    border: 2px solid rgb(50, 50, 50);
+    background-color: rgb(26, 26, 26);
+    width: 100%;
+    border-radius: 10px;
+}
+
+.box {
+    height: 100%;
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+
+:global(.grid-stack-item) {
+    /* border: 1px solid red; */
+    border-radius: 10px;
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

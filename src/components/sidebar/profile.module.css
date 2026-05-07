@@ -1,0 +1,21 @@
+.main {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.profile_img {
+    width: 36px;
+    border-radius: 100%;
+}
+
+.profile_name {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-family: "Inter", sans-serif;
+}

@@ -1,0 +1,23 @@
+.main {
+    width: 900px;
+    height: 70px;
+    padding: 5px;
+    display: flex;
+    border: 2px solid rgb(50, 50, 50);
+    background-color: rgb(26, 26, 26);
+    border-radius: 15px;
+    gap: 5px;
+}
+
+.tool {
+    height: 100%;
+    /* width: 100px; */
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    border: none;
+    background-color: rgb(50, 50, 50);
+}
+
+.tool:hover {
+    cursor: pointer;
+}
