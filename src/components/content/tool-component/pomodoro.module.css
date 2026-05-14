@@ -6,14 +6,17 @@
     box-sizing: border-box;
     height: 100%;
     width: 100%;
+    justify-content: space-between;
+    container-type: size;
     /* border: 1px solid red; */
 }
 
 .timeDiv {
-    /* height: 70%; */
-    flex: 7;
+    height: 60%;
+    /* flex: 7; */
     display: flex;
-    font-size: 23px;
+    /* font-size: 23px; */
+    font-size: clamp(23px, 25cqi, 40px);
     box-sizing: border-box;
     justify-content: center;
     border: 1px solid red;
@@ -23,19 +26,27 @@
 
 
 .buttonDiv {
-    flex: 3;
+    /* flex: 3; */
     height: 30%;
     display: flex;
+    box-sizing: border-box;
     border: 1px solid red;
     width: 100%;
     justify-content: space-between;
+    align-items: center;
     gap: 3px;
+}
+
+.button svg {
+    height: 100%;
+    width: 100%;
 }
 
 .button {
     background-color: rgb(50, 50, 50);
     border: none;
     /* border: 1px solid red; */
+    height: 100%;
     font-size: 10px;
     padding: 4px;
     flex: 1;
@@ -43,6 +54,70 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.small .settings {
+    display: none;
+}
+
+.tall {
+    container-type: size;
+}
+
+.tall .timeDiv {
+    display: flex;
+    font-size: clamp(30px, 15cqh, 50px);
+    flex-direction: column;
+    letter-spacing: 3px;
+    border: 1px solid red;
+    flex: 4;
+}
+
+.tall .buttonDiv {
+    display: flex;
+    flex: 1;
+    border: 1px solid red;
+}
+
+.tall .doubleDot {
+    display: none;
+}
+
+.tall .settings {
+    display: none;
+}
+
+.big {
+    display: flex;
+    container-type: size;
+    flex-direction: column;
+}
+
+.big .timeDiv {
+    display: flex;
+    flex: 4;
+    border: 1px solid red;
+}
+
+.big .buttonDiv {
+    display: flex;
+    width: 100%;
+    flex: 1;
+    border: 1px solid red;
+}
+
+.big .buttonDiv svg {
+    display: flex;
+    /* height: 80%; */
+    max-height: 80%;
+    flex-grow: 0;
+    width: 100%;
+    border: 1px solid green;
+}
+
+.big .button {
+    height: 100%;
+    border: 1px solid red;
 }
 
 .button:hover {

@@ -21,10 +21,8 @@
     border-radius: 10px;
 }
 
-.pomodoro {
-    height: 100%;
+.pomodoro {    
     border-radius: 10px;
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
