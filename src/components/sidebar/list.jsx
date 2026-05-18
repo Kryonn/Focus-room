@@ -1,30 +1,9 @@
 import styles from "./list.module.css"
 
-const list = () => {
+const list = ( { listRef } ) => {
   return (
     <nav className={styles.main}>
-        <ul className={styles.list}>
-            <li className={styles.element}>
-              <a className={styles.link} href="">asdf</a>
-            </li>
-            <li className={styles.element}>
-              <a className={styles.link} href="">asdf</a>
-            </li>
-            <li className={styles.element}>
-              <a className={styles.link} href="">asdf</a>
-            </li>
-            <li className={styles.element}>
-              <a className={styles.link} href="">asdf</a>
-            </li>
-            <li className={styles.element}>
-              <a className={styles.link} href="">asdf</a>
-            </li>
-            <li className={styles.element}>
-              <a className={styles.link} href="">asdf</a>
-            </li>
-            <li className={styles.element}>
-              <a className={styles.link} href="">asdf</a>
-            </li>
+        <ul ref={listRef} className={styles.list}>
             <li className={styles.element}>
               <a className={styles.link} href="">asdf</a>
             </li>
