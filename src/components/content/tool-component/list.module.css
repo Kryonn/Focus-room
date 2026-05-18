@@ -58,20 +58,20 @@
     padding: 10px;
     box-sizing: border-box;
     color: rgb(50, 50, 50);
-
 }
 
 .list li p {
     font-size: 17px;
     flex: 1;
     height: 100%;
-    /* border: 1px solid red; */
+    border: 1px solid red;
     display: flex;
     align-items: center;
 }
 
 .list li div {
-    display: flex;
+    display: none;
+
 }
 
 .list li button {

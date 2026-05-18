@@ -5,7 +5,7 @@ const profile = () => {
   return (
     <div className={styles.main}>
         <img className={styles.profile_img} src={profileImg} alt="" />
-        <p className={styles.profile_name}>Xexe Avino</p>
+        <p className={styles.profile_name}>Nome</p>
     </div>
   )
 }

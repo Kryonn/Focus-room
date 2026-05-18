@@ -10,7 +10,7 @@ const sidebarButton = () => {
             <p>Buscar</p>
         </button>
         <button className={styles.button}>
-            <img src={addIcon} alt="" />
+            <img className={styles.img} src={addIcon} alt="" />
             <p>Adicionar</p>
         </button>
     </div>
