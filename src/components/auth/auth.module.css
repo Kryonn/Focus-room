@@ -1,0 +1,53 @@
+.main {
+    background-color: var(--black-two);
+    width: 100vw;
+    height: 100vh;
+    /* display: flex; */
+    position: relative;
+    /* justify-content: left; */
+    /* align-items: center; */
+    /* padding: 130px; */
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.spline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.content {
+    position: relative;
+    top: 70px;
+    left: 150px;
+    z-index: 2;
+    display: flex;
+    height: 530px;
+    width: 500px;
+    background-color: #1A1A1Ab8;
+    border-radius: 20px;
+}
+
+.auth {
+    /* width: 400px;
+    height: 100px; */
+    /* position: absolute; */
+    /* left: 0; */
+}
+
+
+.img {
+    /* flex: 10; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: none;
+    object-position: center;
+    /* height: 80%; */
+    overflow: hidden;
+    border-radius: 0px 20px 20px 0px;
+    /* width: 100%; */
+    /* border: 1px solid red; */    
+}
