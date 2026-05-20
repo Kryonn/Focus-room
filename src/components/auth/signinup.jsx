@@ -1,9 +1,29 @@
 import styles from "./signinup.module.css"
-// import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const signinup = ({ setScreen }) => {
-    // const [username, setUsername] = useState(null);
-    // const [password, setPassword] = useState(null);
+    const [screenState, setScreenState] = useState("Sign In");
+    const [loginHidden, setLoginHidden] = useState("")
+    const [registerHidden, setRegisterHidden] = useState("hidden");
+
+    useEffect(() => {
+        if(screenState === "Sign In") {
+            setRegisterHidden("hidden");
+            setLoginHidden("");
+        } else {
+            setRegisterHidden("");
+            setLoginHidden("hidden");
+        }
+    }, [screenState]);
+
+    const toggleState = (event) => {
+        // event.target.preventDefault();
+        if(screenState === "Sign In") {
+            setScreenState("Sign Up");
+        } else {
+            setScreenState("Sign In");
+        }
+    };
 
     const verifyInput = (event) => {
         if(!event.target.value) {
@@ -20,23 +40,41 @@ const signinup = ({ setScreen }) => {
     return (
         <div className={styles.main}>
             <form className={styles.login} action="">
-                <h1 className={styles.title}>Sign In</h1>
+                <h1 className={styles.title}>{screenState}</h1>
                 <div className={styles["input-div"]}>
                     <div className={styles["label-input-div"]}>
-                        <div className={styles["label-input"]}>
-                            <input className={styles.input} id="username" type="text" name="" onChange={verifyInput}/>
-                            <label className={styles.label} htmlFor="username">Username</label>
+                        <div className={`${styles["label-input"]} register ${styles[registerHidden]}`}>
+                            <input className={styles.input} id="email" type="text" name="" onChange={verifyInput}/>
+                            <label className={styles.label} htmlFor="email">E-mail</label>
                         </div>
-                        <div className={styles["label-input"]}>
-                            <input className={styles.input} id="password" type="password" name="" onChange={verifyInput}/>
-                            <label className={styles.label} htmlFor="password">Password</label>
+                        <div className={`${styles["label-input"]} register ${styles[registerHidden]}`}>
+                            <input className={styles.input} id="username-register" type="text" name="" onChange={verifyInput}/>
+                            <label className={styles.label} htmlFor="username-register">Username</label>
+                        </div>
+                        <div className={`${styles["label-input"]} register ${styles[registerHidden]}`}>
+                            <input className={styles.input} id="password-register" type="password" name="" onChange={verifyInput}/>
+                            <label className={styles.label} htmlFor="password-register">Password</label>
+                        </div>
+                        <div className={`${styles["label-input"]} register ${styles[registerHidden]}`}>
+                            <input className={styles.input} id="password-login" type="password" name="" onChange={verifyInput}/>
+                            <label className={styles.label} htmlFor="password-confirm-register">Confirm password</label>
+                        </div>
+                        <div className={`${styles["label-input"]} login ${styles[loginHidden]}`}>
+                            <input className={styles.input} id="username-login" type="text" name="" onChange={verifyInput}/>
+                            <label className={styles.label} htmlFor="username-login">Username</label>
+                        </div>
+                        <div className={`${styles["label-input"]} login ${styles[loginHidden]}`}>
+                            <input className={styles.input} id="password-login" type="password" name="" onChange={verifyInput}/>
+                            <label className={styles.label} htmlFor="password-login">Password</label>
                         </div>
                     </div>
-                    <p className={styles["password-message"]}>Forgot your password? <a className={styles.link}>Recover account</a></p>
+                    <p className={`${styles["password-message"]} login ${styles[loginHidden]}`}>Forgot your password? <a className={styles.link}>Recover account</a></p>
                 </div>
                 <div className={styles["button-div"]}>
-                    <button className={styles.button}type="submit" onClick={() => setScreen("app")}>Login</button>
-                    <p className={styles["register-message"]}>New here? <a className={styles.link}>Create an account</a></p>
+                    <button className={`${styles.button} login ${styles[loginHidden]}`} type="button" onClick={() => { setScreen("app") }}>{screenState}</button>
+                    <button className={`${styles.button} register ${styles[registerHidden]}`}type="button" onClick={toggleState}>{screenState}</button>
+                    <p className={`${styles["register-message"]} login ${styles[loginHidden]}`}>New here? <a className={styles.link} onClick={toggleState}>Create an account</a></p>
+                    <p className={`${styles["register-message"]} register ${styles[registerHidden]}`}>Already have an account? <a className={styles.link} onClick={toggleState}>Sign In</a></p>
                 </div>
             </form>
 
