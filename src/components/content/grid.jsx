@@ -23,7 +23,9 @@ const grid = ({ gridInstanceRef, gridRefRef, gridPositionRef }) => {
             column: column,
             maxRow: row,
             row: row,
-            margin: 2},
+            margin: 2,
+            staticGrid: true,
+            handle: '.handle'},
             gridRef.current);
 
         gridInstanceRef(gridInstance.current);

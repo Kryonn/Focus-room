@@ -3,6 +3,7 @@ import Tool from "./tool.jsx"
 import Grid from "./grid.jsx"
 import Pomodoro from "./tool-component/pomodoro.jsx"
 import List from "./tool-component/list.jsx"
+import Board from "./tool-component/board.jsx"
 import { createRoot } from "react-dom/client"
 import { useRef, useState } from "react"
 
@@ -13,6 +14,7 @@ const content = () => {
   const [gridPosition, setGridPosition] = useState(null);
   let pomodoroRoot = [];
   let listRoot = [];
+  let boardRoot = [];
 
   function trueMatrix(matrix) {
     return matrix.every(
@@ -65,7 +67,27 @@ const content = () => {
 
       listRoot[list.length - 1] = createRoot(list[list.length - 1]);
       listRoot[list.length - 1].render(<List/>); 
+    },
+
+    boardComponent: () => {
+      const div = document.createElement("div");
+      div.classList.add("grid-stack-item");
+      div.innerHTML = `
+        <div class="grid-stack-item-content">
+          <div class="${styles.board}" style="height: 100%; width: 100%; display: flex"></div>
+        </div>
+      `
+
+      gridRef.appendChild(div);
+      gridInstance.makeWidget(div, { w: 3, h: 2, minW: 3, minH: 2 });
+
+      const board = document.querySelectorAll(`.${styles.board}`);
+
+      boardRoot[board.length - 1] = createRoot(board[board.length - 1]);
+      boardRoot[board.length - 1].render(<Board/>); 
     }
+
+
 
     // listComponent: () => {
     //   const div = document.createElement("div");

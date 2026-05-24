@@ -1,5 +1,22 @@
 .main {
-    width: 900px;
+    /* width: 900px;
+    height: 70px;
+    padding: 5px;
+    display: flex;
+    border: 2px solid rgb(50, 50, 50);
+    background-color: rgb(26, 26, 26);
+    border-radius: 15px;
+    gap: 5px; */
+    padding: 0 20px;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid red;
+}
+
+.tool, .setting {
+    width: 400px;
     height: 70px;
     padding: 5px;
     display: flex;
@@ -9,15 +26,12 @@
     gap: 5px;
 }
 
-.tool {
+.button {
     height: 100%;
     /* width: 100px; */
     aspect-ratio: 1 / 1;
     border-radius: 8px;
     border: none;
     background-color: rgb(50, 50, 50);
-}
-
-.tool:hover {
     cursor: pointer;
 }

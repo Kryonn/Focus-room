@@ -5,7 +5,7 @@ import Auth from "./components/auth/auth.jsx"
 import { useState } from 'react'
 
 function App() {
-  const [screen, setScreen] = useState("auth");
+  const [screen, setScreen] = useState("app");
 
   if(screen === "auth") {
     return (
