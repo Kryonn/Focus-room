@@ -1,22 +1,17 @@
 .main {
-    /* width: 900px;
-    height: 70px;
-    padding: 5px;
-    display: flex;
-    border: 2px solid rgb(50, 50, 50);
-    background-color: rgb(26, 26, 26);
-    border-radius: 15px;
-    gap: 5px; */
     padding: 0 20px;
     box-sizing: border-box;
     width: 100%;
     display: flex;
+    gap: 5px;
     justify-content: space-between;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
-.tool, .setting {
-    width: 400px;
+
+.tool {
+    flex: 1;
+    /* width: 100%; */
     height: 70px;
     padding: 5px;
     display: flex;
@@ -24,6 +19,17 @@
     background-color: rgb(26, 26, 26);
     border-radius: 15px;
     gap: 5px;
+}
+
+.settings {
+    position: relative;
+    height: 70px;
+    padding: 5px;
+    border-radius: 15px;
+    gap: 5px;
+    /* width: 0%; */
+    background-color: rgb(26, 26, 26);
+    border: none;
 }
 
 .button {
@@ -35,3 +41,41 @@
     background-color: rgb(50, 50, 50);
     cursor: pointer;
 }
+
+.settings .button {
+    background-color: transparent;
+    color: rgb(50, 50, 50);
+}
+
+.dropup {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 85px;
+    right: 0px;
+    /* border: 1px solid red; */
+    /* width: 100px; */
+    border-radius: 15px 15px 0px 15px;
+    background-color: rgb(26, 26, 26);
+    padding: 10px;
+    gap: 2px;
+}
+
+.dropup a {
+    text-wrap: nowrap;
+    color: rgb(50, 50, 50);
+    font-size: 15px;
+    padding: 10px;
+    /* border: 1px solid red; */
+}
+
+.dropup a:hover {
+    background-color: rgb(62, 62, 62);
+    border-radius: 5px;
+    color: rgb(26, 26, 26);
+}
+
+.hidden {
+    display: none;
+}
+/* } */
