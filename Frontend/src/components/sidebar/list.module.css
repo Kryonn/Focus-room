@@ -1,0 +1,43 @@
+.main {
+    padding: 10px 5px 5px 5px;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    border-radius: 20px;
+}
+
+.list {
+    flex: 1;
+    min-width: 0;
+    gap: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: none;
+}
+
+.element {
+    width: 100%;
+    color: var(--white-one);
+    align-items: center;
+}
+
+.link {
+    width: 100%;
+    display: flex;
+    padding: 10px;
+    height: 40px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    align-items: center;
+    color: var(--white-one);
+}
+
+.link:hover {
+    background-color: var(--black-two);
+}
+
+.hidden {
+    display: none;
+}

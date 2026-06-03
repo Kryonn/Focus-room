@@ -1,0 +1,38 @@
+.main {
+    width: 100%;
+    border-bottom: 1px solid var(--black-two);
+    display: flex;
+    flex-direction: column;
+    padding: 5px 5px 10px 5px;
+    box-sizing: border-box;
+    gap: 10px;
+}
+
+.button {
+    background: none;
+    border-radius: 10px;
+    height: 40px;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+    color: var(--white-one);
+    font: inherit;
+    /* border: 1px solid red; */
+}
+
+.button.hide {
+    justify-content: center;
+    align-items: center;
+}
+
+.button:hover {
+    background-color: var(--black-two);
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}

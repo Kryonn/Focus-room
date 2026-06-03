@@ -1,0 +1,50 @@
+.main {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0px 30px 10px;
+    box-sizing: border-box;
+}
+
+.main.hide {
+    justify-content: center;
+    padding: 20px 0px 30px 0px;
+}
+
+.main.hide .profile_img {
+    cursor: pointer;
+}
+
+.profile_img {
+    width: 40px;
+    border-radius: 100%;
+}
+
+.profile_name {
+    display: flex;
+    align-items: center;
+    color: var(--white-one);
+    font-family: var(--title-font);
+    font-size: var(--title-font-size);
+}
+
+.hide-button {
+    background-color: transparent;
+    border: none;   
+    border-radius: 10px;
+    /* width: px; */
+    aspect-ratio: 1 / 1;
+}
+
+.hide-button:hover {
+    background-color: var(--black-two);
+    cursor: pointer;
+}
+
+.hide-button.hide {
+    display: none;
+}
+
+.hide-image {
+    fill: var(--black-two);
+}

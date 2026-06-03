@@ -1,0 +1,18 @@
+.main {
+    background-color: var(--black-one);
+    width: 230px;
+    height: calc(100vh - 40px);
+    box-sizing: border-box;
+    border-radius: 20px;
+    padding: 16px;
+    border: 2px solid var(--black-two);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    font-family: var(--text-font);
+    font-size: var(--text-font-size);
+}
+
+.main.hide {
+    width: 90px;
+}

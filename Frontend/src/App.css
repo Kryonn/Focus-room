@@ -1,0 +1,21 @@
+.main {
+  background-color: #272727;
+  width: 100vw;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+}
+
+:root {
+  --black-one: #1A1A1A;
+  --black-two: #272727;
+  --black-three: #323232;
+  --white-one: #c8c8c8;
+  --white-two: #969696;
+  --title-font: "Poppins", sans-serif;
+  --title-font-size: 18px;
+  --text-font: "Raleway", sans-serif;
+  --text-font-size: 14px;
+
+}

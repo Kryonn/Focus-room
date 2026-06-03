@@ -1,0 +1,143 @@
+.main {
+    display: flex;
+    /* border: 1px solid blue; */
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    color: rgb(26, 26, 26);
+    font-family: "Roboto";
+    font-size: 20px;
+    gap: 10px;
+}
+
+.title {
+    /* border: 1px solid red; */
+    flex: 1;
+    min-height: 0;
+    background-color: rgb(50, 50, 50);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.title p {
+    text-align: center;
+    align-items: center;
+}
+
+.button-div {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.button-div .title-button {
+    height: 100%;
+    aspect-ratio: 1/1;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.button-div .title-button:hover {
+    background-color: rgb(26, 26, 26);
+}
+
+.button-div .title-button:hover svg {
+    fill: rgb(50, 50, 50);
+}
+
+.list-nav {
+    /* border: 1px solid green; */
+    min-height: 0;
+    padding: 3px;
+    /* background-color: rgb(50, 50, 50); */
+    /* border-radius: 5px; */
+    /* width: 100%; */
+    flex: 3;
+}
+
+.list {
+/* border: 1px solid red; */
+    overflow-y: scroll;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.list::-webkit-scrollbar {
+    display: none;
+}
+
+.list-element {
+    /* border: 1px solid red; */
+    border-radius: 5px;
+    /* border: 1px solid red; */
+    display: flex;
+    /* height: 100px; */
+    align-items: center;
+    padding: 3px 3px 3px 10px;
+    box-sizing: border-box;
+    color: rgb(50, 50, 50);
+}
+
+.list-element-title {
+    font-size: 17px;
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.list-element:hover {
+    background-color: rgb(35, 35, 35);
+}
+
+.list-element-button-div {
+    display: flex;
+    justify-content: space-between;
+    height: 25px;
+    padding: 5px;
+    gap: 3px;
+    /* flex: 1; */
+}
+
+.list-element-button {
+    flex: 1;
+    border-radius: 5px;
+    border: none;
+    background-color: transparent;
+    font-size: 20px;
+    color: rgb(50, 50, 50);
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 3px;
+    cursor: pointer;
+}
+
+.list-element-button:hover {
+    background-color: rgb(50, 50, 50);
+}
+
+.list-element-button:hover svg path {
+    fill: rgb(35, 35, 35);
+}
+
+.big {
+    container-type: size;
+    
+}
+
+.big .title {
+    max-height: 40px;
+    
+}
