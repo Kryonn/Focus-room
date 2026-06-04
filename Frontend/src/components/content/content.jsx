@@ -4,6 +4,7 @@ import Grid from "./grid.jsx"
 import Pomodoro from "./tool-component/pomodoro.jsx"
 import List from "./tool-component/list.jsx"
 import Board from "./tool-component/board.jsx"
+import Note from "./tool-component/note.jsx"
 import { createRoot } from "react-dom/client"
 import { useRef, useState } from "react"
 
@@ -15,6 +16,7 @@ const content = () => {
   const pomodoroRoot = useRef([]);
   const listRoot = useRef([]);
   const boardRoot = useRef([]);
+  const noteRoot = useRef([]);
   // const [listRoot, setPomodoroRoot] = useState([]);
   // const [boardRoot, setPomodoroRoot] = useState([]);
   // let pomodoroRoot = [];
@@ -90,6 +92,26 @@ const content = () => {
 
       boardRoot[board.length - 1] = createRoot(board[board.length - 1]);
       boardRoot[board.length - 1].render(<Board/>); 
+    },
+
+    noteComponent: () => {
+      const div = document.createElement("div");
+      div.classList.add("grid-stack-item");
+      div.innerHTML = `
+        <div class="grid-stack-item-content">
+          <div class="alvo-note" style="height: 100%; width: 100%; display: flex"></div>
+        </div>
+      `
+
+      gridRef.appendChild(div);
+      gridInstance.makeWidget(div, { w: 2, h: 2, minH: 2, minW: 2 });
+
+      const note = document.querySelectorAll(".alvo-note");
+
+      noteRoot[note.length - 1] = createRoot(note[note.length - 1]);
+      noteRoot[note.length - 1].render(<Note/>);
+
+
     }
 
 

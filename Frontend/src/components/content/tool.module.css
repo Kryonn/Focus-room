@@ -105,4 +105,30 @@
 .hidden {
     display: none;
 }
+
+.button {
+    padding: 10px;
+}
+
+.settings-div {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.settings-div svg {
+    height: 80%;
+    width: 80%;
+    fill: rgb(50, 50, 50);
+
+}
+
+
+button svg {
+    fill: rgb(26, 26, 26);
+    /* height: 80%; */
+    aspect-ratio: 1 / 1;
+    height: 100%;
+    width: 100%;
+    /* border: 1px solid red; */
+}
 /* } */
