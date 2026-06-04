@@ -21,12 +21,21 @@ const grid = ({ gridInstanceRef, gridRefRef, gridPositionRef }) => {
             float: true,
             resizable: { handles: 'se' },
             column: column,
+            cellHeight: 'auto',
             maxRow: row,
             row: row,
             margin: 2,
             staticGrid: false,
             handle: '.handle'},
             gridRef.current);
+
+        function fixGridHeight() {
+            if(gridInstance.current && gridRef.current) {
+                const currentGridHeight = gridRef.current.clientHeight;
+                const calculatedCellHeight = currentGridHeight / row;
+                gridInstance.current.cellHeight(calculatedCellHeight); 
+            }
+        }
 
         gridInstanceRef(gridInstance.current);
         gridRefRef(gridRef.current);
@@ -54,6 +63,7 @@ const grid = ({ gridInstanceRef, gridRefRef, gridPositionRef }) => {
 
         }
 
+        fixGridHeight();
         gridInstance.current.on("added removed change", updateElementPosition);
 
         updateElementPosition();

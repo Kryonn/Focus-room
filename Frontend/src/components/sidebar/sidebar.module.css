@@ -11,6 +11,7 @@
     flex-shrink: 0;
     font-family: var(--text-font);
     font-size: var(--text-font-size);
+    transition: width 0.4s ease 0.2s;
 }
 
 .main.hide {

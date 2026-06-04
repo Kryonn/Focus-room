@@ -24,8 +24,8 @@
 }
 
 .button.hide {
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center; */
+    /* align-items: center; */
 }
 
 .button:hover {
@@ -33,6 +33,13 @@
     cursor: pointer;
 }
 
+p {
+    opacity: 1;
+    transition: opacity 0.1s ease 0.3s;
+}
+
 .hidden {
-    display: none;
+    opacity: 0;
+    
+    /* display: none; */
 }
