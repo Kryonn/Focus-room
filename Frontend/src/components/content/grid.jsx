@@ -5,7 +5,7 @@ import { GridStack } from 'gridstack'
 import 'gridstack/dist/gridstack.min.css'
 import Pomodoro from './tool-component/pomodoro.jsx'
 
-const grid = ({ gridInstanceRef, gridRefRef, gridPositionRef }) => {
+const grid = ({ gridParameter, gridInstanceRef, gridRefRef, gridPositionRef }) => {
 
     const gridRef = useRef(null);
     const gridInstance = useRef(null);
@@ -14,18 +14,19 @@ const grid = ({ gridInstanceRef, gridRefRef, gridPositionRef }) => {
     const row = 5;
     let columnHeight = 100;
     const gridHeight = row * columnHeight;
+    console.log(gridParameter)
 
   
     useEffect(() => {
         gridInstance.current = GridStack.init({
-            float: true,
+            float: gridParameter.float,
             resizable: { handles: 'se' },
             column: column,
             cellHeight: 'auto',
             maxRow: row,
             row: row,
             margin: 2,
-            staticGrid: false,
+            staticGrid: gridParameter.static,
             handle: '.handle'},
             gridRef.current);
 
@@ -37,8 +38,20 @@ const grid = ({ gridInstanceRef, gridRefRef, gridPositionRef }) => {
             }
         }
 
-        gridInstanceRef(gridInstance.current);
-        gridRefRef(gridRef.current);
+        gridInstanceRef.current[gridParameter.index] = gridInstance.current
+        gridRefRef.current[gridParameter.index] = gridRef.current
+
+        // gridParameter.setInstanceRef(prevList => {
+        //     let copy = prevList
+        //     copy[gridParameter.index] = gridInstance.current
+        //     return copy
+        // })
+
+        // gridParameter.setRefRef(prevList => {
+        //     let copy = prevList
+        //     copy[gridParameter.index] = gridRef.current
+        //     return copy
+        // })
 
         function updateElementPosition() {
             const nodes = gridInstance.current.engine.nodes;
@@ -59,7 +72,15 @@ const grid = ({ gridInstanceRef, gridRefRef, gridPositionRef }) => {
                 }
             }
 
-            gridPositionRef(occuped);
+            gridPositionRef.current[gridParameter.index] = occuped
+
+            // gridParameter.setPositionRef(prevList => {
+            //     let copy = prevList
+            //     copy[gridParameter.index] = occuped
+            //     return copy
+            // })
+
+            // gridPositionRef(occuped);
 
         }
 
