@@ -13,7 +13,7 @@ import Note from "./tool-component/note.jsx"
 import { createRoot } from "react-dom/client"
 import { useRef, useState, useEffect } from "react"
 
-const content = () => {
+const content = ({ gridState, listGridParameter, setListGridParameter, listGridInstance, listGridRef, listGridPosition }) => {
   console.log("Content renderizou");
 
   // Default Grid Values
@@ -35,15 +35,11 @@ const content = () => {
   //           gridRef.current);
 
   // Refs
-  // const [gridInstance, setGridInstance] = useState(null);
-  // const [gridRef, setGridRef] = useState(null);
-  // const [gridPosition, setGridPosition] = useState(null);
-  const listGridInstance = useRef([]);
-  // const [gridRef, setGridRef] = useState([]);
-  const listGridPosition = useRef([]);
-  const listGridRef = useRef([]);
-  const [listGridParameter, setListGridParameter] = useState([]);
-  const [gridState, setGridState] = useState(0)
+  // const listGridInstance = useRef([]);
+  // const listGridPosition = useRef([]);
+  // const listGridRef = useRef([]);
+  // const [listGridParameter, setListGridParameter] = useState([]);
+  // const [gridState, setGridState] = useState(0)
   
   // Components Root Lists
   const pomodoroRoot = useRef([]);

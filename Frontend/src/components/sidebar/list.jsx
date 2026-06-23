@@ -1,7 +1,7 @@
 import styles from "./list.module.css"
 import { useEffect, useRef } from "react"
 
-const list = ( { mode, listRef } ) => {
+const list = ( { setGridState, mode, listRef, listGridParameter, setListGridParameter } ) => {
 
   const navRef = useRef(null);
 
@@ -11,14 +11,30 @@ const list = ( { mode, listRef } ) => {
     list.addEventListener("transitioned", () => {
       list.style.display = "none";
     })
+
+    listGridParameter.forEach((listElement) => {
+      const li = document.createElement("li");
+      li.classList.add(`${styles.element}`);
+      li.innerHTML = `
+        <a class=${styles.link} href="">${listElement.name}</a>
+      `
+
+      listRef.current.append(li);
+    })
   }, []);
 
   return (
     <nav ref={navRef} className={`${styles.main} ${mode === "hide" ? styles["hidden"] : "" }`}>
         <ul ref={listRef} className={styles.list}>
-            <li className={styles.element}>
-              <a className={styles.link} href="">asdf</a>
-            </li>
+          {
+            listGridParameter.map((listElement, index) => (
+              <li onClick={() => setGridState(index)} key={listElement.name} className={styles.element}>
+                <a className={styles.link}>
+                  {listElement.name}
+                </a>
+              </li>
+            ))
+          }
         </ul>
     </nav>
   )
