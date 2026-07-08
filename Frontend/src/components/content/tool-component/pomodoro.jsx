@@ -22,8 +22,6 @@ const pomodoro = () => {
   const [workTime, setWorkTime] = useState(25); 
   const [breakTime, setBreakTime] = useState(25); 
   const mainRef = useRef(null);
-  // const workTime = 5;
-  // const breakTime = 6;
 
   function pausePlay() {
     if(pomodoroState === "pause") {
@@ -164,12 +162,6 @@ const pomodoro = () => {
     }
   }, [pomodoroState]);
 
-  // useEffect(() => {
-  //   setTimeout(() => {  
-  //     setPomodoroState("running");
-  //   }, 2000);
-  // }, [pomodoroMode]);
-
   useEffect(() => {
     if(settingButton) {
       setPlayPath(POMODORO_PATH.unmuted);
@@ -196,28 +188,18 @@ const pomodoro = () => {
       console.log(cellWidth);
 
       if(cellHeight == null) {
-        // setLayoutMode("wide");
-        // console.log("wide");
-        // return;
         mode = "wide";
       } 
 
       if(cellWidth == null) {
-        // setLayoutMode("tall");
-        // console.log("tall");
-        // return;
         mode = "tall";
       } 
 
       if(cellWidth == null && cellHeight == null) {
-        // setLayoutMode("small");
-        // console.log("small");
-        // return;
         setSettingButton(false);
         mode = "small";
       } 
-
-      console.log(mode);
+      
       setLayoutMode(mode);
     })
 

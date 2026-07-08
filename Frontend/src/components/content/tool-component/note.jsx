@@ -9,7 +9,6 @@ const note = () => {
         </div>
         <div className={styles["text-div"]}>
             <textarea className={styles["text-input"]} name=""></textarea>
-            {/* <input className={styles["text-input"]} type="text" /> */}
         </div>
     </div>
   )

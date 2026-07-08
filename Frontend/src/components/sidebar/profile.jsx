@@ -24,8 +24,6 @@ const profile = ({ mode, toggleMode }) => {
         <button ref={profileRef} onClick={toggleMode} className={`${styles["hide-button"]} ${styles[mode]}`} type="button">
           <img className={styles["hide-image"]} src={hideIcon} alt="" />
         </button>
-        {/* <img src="" alt="" /> */}
-        {/* <p className={styles.profile_name}>Nome</p> */}
     </div>
   )
 }

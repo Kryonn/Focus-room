@@ -14,7 +14,6 @@ import { createRoot } from "react-dom/client"
 import { useRef, useState, useEffect } from "react"
 
 const content = ({ gridState, listGridParameter, setListGridParameter, listGridInstance, listGridRef, listGridPosition }) => {
-  console.log("Content renderizou");
 
   // Default Grid Values
   const resizableGridDefault = { handles: 'se' };
@@ -22,30 +21,13 @@ const content = ({ gridState, listGridParameter, setListGridParameter, listGridI
   const rowGridDefault = 5; 
   const cellHeightGridDefault = 'auto';
   const marginGraidDefault = 2;
-
-  // const float: false,
-  //           resizable: { handles: 'se' },
-  //           column: column,
-  //           cellHeight: 'auto',
-  //           maxRow: row,
-  //           row: row,
-  //           margin: 2,
-  //           staticGrid: false,
-  //           handle: '.handle'},
-  //           gridRef.current);
-
-  // Refs
-  // const listGridInstance = useRef([]);
-  // const listGridPosition = useRef([]);
-  // const listGridRef = useRef([]);
-  // const [listGridParameter, setListGridParameter] = useState([]);
-  // const [gridState, setGridState] = useState(0)
   
   // Components Root Lists
   const pomodoroRoot = useRef([]);
   const listRoot = useRef([]);
   const boardRoot = useRef([]);
   const noteRoot = useRef([]);
+  const widgetRoot = useRef([]);
 
   // Verify space on grid
   function trueMatrix(matrix) {
@@ -166,14 +148,6 @@ const content = ({ gridState, listGridParameter, setListGridParameter, listGridI
     }
 
     getUserGrid().then((list) => {
-      // const nullList = Array(list.length).fill(null);
-      // setListGridInstance(nullList);
-      // setListGridRef(nullList);
-      // setListGridPosition(nullList);
-      // setListGridParameter([]);
-
-        // console.log(list);
-
       const parameterList = list.map((listElement, index) => ({
           name: listElement.name,
           static: listElement.static,
@@ -181,26 +155,6 @@ const content = ({ gridState, listGridParameter, setListGridParameter, listGridI
           index: index,
       }))
 
-      console.log(parameterList)
-
-      // for(let i=0;i<list.length;i++) {
-      //   const parameterObject = {
-      //     name: list[i].name,
-      //     static: list[i].static,
-      //     float: list[i].float,
-      //     // instanceRef: listGridInstance[i],
-      //     // refRef: listGridRef[i],
-      //     // positionRef: listGridPosition[i],
-      //     index: i,
-      //     setInstanceRef: setListGridInstance,
-      //     setRefRef: setListGridRef,
-      //     setPositionRef: setListGridPosition
-      //   }
-
-      //   setListGridParameter(prevList => {
-      //     return [...prevList, parameterObject]
-      //   });
-      // }
       setListGridParameter(parameterList);
     });
 
@@ -210,31 +164,13 @@ const content = ({ gridState, listGridParameter, setListGridParameter, listGridI
 
   return (
     <div className={styles.main}>
-          {/* // listGridParameter.map((item, index) => {
-          //   // console.log(item)
-          //   // console.log(listGridParameter)
-          //   console.log(index)
-          //   console.log(gridState)
-          //   if(gridState === index) {
-          //     console.log(index)
-          //     return <Grid className={styles.hidden} key={item.name} gridParameter={item} gridInstanceRef={listGridInstance} gridRefRef={listGridRef} gridPositionRef={listGridPosition}/>
-          //   }
-          //   else {
-          //     return <Grid key={item.name} gridParameter={item} gridInstanceRef={listGridInstance} gridRefRef={listGridRef} gridPositionRef={listGridPosition}/>
-          //   }
-          // }) */}
         {
-          listGridParameter[gridState] && (<Grid key={listGridParameter[gridState].name} gridParameter={listGridParameter[gridState]} gridInstanceRef={listGridInstance} gridRefRef={listGridRef} gridPositionRef={listGridPosition}/>)
+          listGridParameter[gridState] && (<Grid key={listGridParameter[gridState].name} widgetRoot={widgetRoot} gridParameter={listGridParameter[gridState]} gridInstanceRef={listGridInstance} gridRefRef={listGridRef} gridPositionRef={listGridPosition}/>)
         }
 
         {
-          listGridParameter[gridState] && (<Tool setWidget={functionList} gridParameter={listGridParameter[gridState]} gridInstanceRef={listGridInstance} gridRefRef={listGridRef} gridPositionRef={listGridPosition}/>)
-          
+          listGridParameter[gridState] && (<Tool setWidget={functionList} gridParameter={listGridParameter[gridState]} gridInstanceRef={listGridInstance} gridRefRef={listGridRef} gridPositionRef={listGridPosition}/>)  
         }
-        
-        {/* <Grid gridInstanceRef={setGridInstance} gridRefRef={setGridRef} gridPositionRef={setGridPosition}/> */}
-        {/* <Grid gridParameter={listGridParameter}/>
-        <Tool setWidget={functionList} gridRef={gridInstance}/> */}
     </div>
   )
 }
