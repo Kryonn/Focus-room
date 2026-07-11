@@ -20,26 +20,51 @@
     box-sizing: border-box;
     color: var(--white-one);
     font: inherit;
-    /* border: 1px solid red; */
-}
-
-.button.hide {
-    /* justify-content: center; */
-    /* align-items: center; */
+    border: 1px solid red;
+    cursor: pointer;
 }
 
 .button:hover {
     background-color: var(--black-two);
-    cursor: pointer;
 }
 
 p {
     opacity: 1;
-    transition: opacity 0.1s ease 0.3s;
+    max-width: 100px;
+    transition: max-width 0.4s ease 0.3s, opacity 0.1s ease 0.4s;
+    /* border: 1px solid red; */
 }
 
-.hidden {
+.p-hidden {
     opacity: 0;
-    
+    max-width: 0px;
+    transition: max-width 0.1s ease 0.4s, opacity 0.2s ease 0.1s;
+    cursor: pointer;
+    margin: 0px;
+    padding: 0px;
+    /* border: 1px solid red; */
     /* display: none; */
+}
+
+.input-hidden {
+    opacity: 0;
+    max-width: 0px;
+    transition: max-width 0.1s ease 0.7s, opacity 0.1s ease 0.05s;
+    cursor: pointer;
+    margin: 0px;
+    padding: 0px;
+    /* border: 1px solid red; */
+    /* display: none; */
+}
+
+.search-input {
+    transition: max-width 0.1s ease 0.8s, opacity 0.2s ease 0.4s;
+    /* opacity: 1; */
+    background-color: var(--white-one);
+    border: 1px solid red;
+    max-width: 300px;
+    border: none;
+    display: flex;
+    /* flex-grow: 1; */
+    width: 100%;
 }

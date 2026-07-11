@@ -57,4 +57,23 @@ export const WidgetModel = {
         }
     },
 
+    async putWidget(id, username, gridName, width, height, xposition, yposition) {
+        try {
+
+
+            const res = await db.query(`
+                UPDATE widget
+                SET width=$1, height=$2, xposition=$3, yposition=$4
+                WHERE id=$5 AND username=$6 AND gridName=$7
+                `, [width, height, xposition, yposition, id, username, gridName]
+            )
+
+            // console.log(res);
+
+            return res;
+        } catch(err) {
+            throw err;
+        }
+    }
+
 }

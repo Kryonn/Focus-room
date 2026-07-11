@@ -9,7 +9,7 @@ import List from "./tool-component/list.jsx"
 import Board from "./tool-component/board.jsx"
 import Note from "./tool-component/note.jsx"
 
-// React Functions
+// React
 import { createRoot } from "react-dom/client"
 import { useRef, useState, useEffect } from "react"
 
@@ -53,7 +53,7 @@ const content = ({ gridState, listGridParameter, setListGridParameter, listGridI
       
       div.innerHTML = `
           <div class="grid-stack-item-content ">
-            <div class="${styles.pomodoro} alvo-pomodoro" style="height:100%; width: 100%; display: flex"></div>
+            <div class="${styles.pomodoro} alvo-pomodoro widget" style="height:100%; width: 100%; display: flex"></div>
           </div>
       `
 
@@ -134,33 +134,6 @@ const content = ({ gridState, listGridParameter, setListGridParameter, listGridI
 
     }
   }
-
-  useEffect(() => {
-    const user = "asd";
-    // Acessar o nome do usuário no sessionstorage
-    
-    const getUserGrid = async () => {
-      const url = `${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}/grid?username=${user}`;
-      const getRes = await fetch(url, { method: "GET" });
-      const data = await getRes.json();
-      return data.data;
-      // console.log("getres.data:", getRes.json().data);
-    }
-
-    getUserGrid().then((list) => {
-      const parameterList = list.map((listElement, index) => ({
-          name: listElement.name,
-          static: listElement.static,
-          float: listElement.float,
-          index: index,
-      }))
-
-      setListGridParameter(parameterList);
-    });
-
-  }, []);
-
-  
 
   return (
     <div className={styles.main}>

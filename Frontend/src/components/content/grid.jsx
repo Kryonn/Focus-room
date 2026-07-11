@@ -1,67 +1,62 @@
+// CSS
 import styles from "./grid.module.css"
+
+// React
 import { useEffect, useRef, useState } from "react"
 import { createRoot } from "react-dom/client"
+
+// Grid
 import { GridStack } from 'gridstack'
 import 'gridstack/dist/gridstack.min.css'
+
+// Components
 import Pomodoro from './tool-component/pomodoro.jsx'
 import List from "./tool-component/list.jsx"
+
+// Functions
+import { utils } from "../../utils/utils.js"
+
+// Services
+import { WidgetService } from "../../services/widget.service.js"
 
 const default_list_min_width = 3;
 const default_list_min_height = 2;
 
 const grid = ({ widgetRoot, gridParameter, gridInstanceRef, gridRefRef, gridPositionRef }) => {
-
+    // Refs
     const gridRef = useRef(null);
     const gridInstance = useRef(null);
     const gridPosition = useRef(null);
+
+    // Default grid settings
+    const columnHeight = 100;
     const column = 10;
     const row = 5;
-    let columnHeight = 100;
+    const margin = 2;
     const gridHeight = row * columnHeight;
-    console.log(gridParameter)
 
-  
+    // Update widget with debounce
+    const updateDebounce = useRef(
+        utils.debounce((id, username, gridName, width, height, xposition, yposition) => {
+            WidgetService.putRequest(id, username, gridName, width, height, xposition, yposition);
+        }, 500)
+    ).current;
+
     useEffect(() => {
+        // Initialize Grid
         gridInstance.current = GridStack.init({
             float: gridParameter.float,
             resizable: { handles: 'se' },
             column: column,
             cellHeight: 'auto',
-            maxRow: row,
             row: row,
-            margin: 2,
-            staticGrid: gridParameter.static,
-            handle: '.handle'},
-            gridRef.current);
+            margin: margin,
+            staticGrid: gridParameter.static},
+            gridRef.current
+        );
 
-        function fixGridHeight() {
-            if(gridInstance.current && gridRef.current) {
-                const currentGridHeight = gridRef.current.clientHeight;
-                const calculatedCellHeight = currentGridHeight / row;
-                gridInstance.current.cellHeight(calculatedCellHeight); 
-            }
-        }
-
-        const getWidget = async () => {
-            const params = new URLSearchParams({
-                username: "asd",
-                gridName: gridParameter.name
-            })
-            const url = `http://localhost:3000/widget?${params}`;
-            const getResponse = await fetch(url, {
-                method: "GET"
-            });
-            const data = (await getResponse).json();
-            return data;
-        }
-
-        
-
-        getWidget().then((data) => {
-            let widgetType = "";
-            const list = data.data;
-            console.log("list: ", list);
-
+        // Get grid widgets
+        WidgetService.getRequest("asd", gridParameter.name).then((list) => {
             gridRef.current.innerHTML = "";
 
             list.forEach((widget) => {
@@ -73,7 +68,7 @@ const grid = ({ widgetRoot, gridParameter, gridInstanceRef, gridRefRef, gridPosi
                 newWidget.setAttribute("gs-h", widget.height);
                 newWidget.setAttribute("gs-x", widget.xposition);
                 newWidget.setAttribute("gs-y", widget.yposition);
-                widgetType = widget.id.split('-')[0];
+                const widgetType = widget.id.split('-')[0];
                 
                 // Specify setup
                 switch(widgetType) {
@@ -96,12 +91,15 @@ const grid = ({ widgetRoot, gridParameter, gridInstanceRef, gridRefRef, gridPosi
 
             const widgetList = gridRef.current.querySelectorAll(".widget");
 
+            // Render widgets
             list.forEach((widget, index) => {
                 
                 widgetRoot.current[index] = createRoot(widgetList[index]);
 
+                // Set widget type
                 const type = widget.id.split('-')[0];
 
+                // Render correct widget according type
                 switch(type) {
                     case "pomodoro":
                         widgetRoot.current[index].render(<Pomodoro/>);
@@ -112,49 +110,30 @@ const grid = ({ widgetRoot, gridParameter, gridInstanceRef, gridRefRef, gridPosi
                         break;
                 }
             })
-
         })
 
-        gridInstanceRef.current[gridParameter.index] = gridInstance.current
-        gridRefRef.current[gridParameter.index] = gridRef.current
+        function updateWidget(event, el) {
+            const node = el.gridstackNode;
 
-        function updateElementPosition() {
-            const nodes = gridInstance.current.engine.nodes;
-            const occuped = Array.from(
-                { length: column },
-                () => Array(row).fill(false)
-            )
-
-            for(let k=0;k<nodes.length;k++) {
-                const xPos = nodes[k].x;
-                const yPos = nodes[k].y;
-                const width = nodes[k].w;
-                const height = nodes[k].h;
-                for(let i=xPos;i<xPos + width;i++) {
-                    for(let j=yPos;j<yPos + height;j++) {
-                        occuped[i][j] = true;
-                    }
-                }
-            }
-
-            gridPositionRef.current[gridParameter.index] = occuped;
-
+            updateDebounce(node.id.split('_')[0], "asd", gridParameter.name, node.w, node.h, node.x, node.y);
         }
 
-        fixGridHeight();
-        gridInstance.current.on("added removed change", updateElementPosition);
+        // Attribute refs array
+        gridInstanceRef.current[gridParameter.index] = gridInstance.current;
+        gridRefRef.current[gridParameter.index] = gridRef.current;
+        gridPositionRef.current[gridParameter.index] = utils.updateElementPosition(gridInstance, column, row);
 
-        updateElementPosition();
-
+        // Add listeners
+        gridInstance.current.on("dragstop resizestop", updateWidget);
+        gridInstance.current.on("added removed change", () => {
+            gridPositionRef.current[gridParameter.index] = utils.updateElementPosition(gridInstance, column, row);
+        });
     }, []);
 
-    
-
-    return (
-    
-    <div className={`main ${styles.main}`} style={{ height: gridHeight + "px" }}>
-        <div className={`grid-stack ${styles.grid}`}  ref={gridRef}></div>
-    </div>
+    return (    
+        <div className={`main ${styles.main}`} style={{ height: gridHeight + "px" }}>
+            <div className={`grid-stack ${styles.grid}`}  ref={gridRef}></div>
+        </div>
     )
 }
 export default grid

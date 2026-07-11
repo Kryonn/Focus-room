@@ -18,8 +18,8 @@ function App() {
     const listGridInstance = useRef([]);
     const listGridRef = useRef([]);
     const listGridPosition = useRef([]);
-    const [gridState, setGridState] = useState(0)
-    const [listGridParameter, setListGridParameter] = useState([]) 
+    const [gridState, setGridState] = useState(0);
+    const [listGridParameter, setListGridParameter] = useState([]); 
     const [gridObserver, setGridObserver] = useState(false);
 
     useEffect(() => {

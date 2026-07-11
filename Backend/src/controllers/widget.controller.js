@@ -53,5 +53,26 @@ export const WidgetController = {
         }
 
         
+    },
+
+    async updateWidget(req, res) {
+        const body = req.body;
+        const id = body.id;
+        const username = body.username;
+        const gridName = body.gridName;
+        const width = body.width;
+        const height = body.height;
+        const xposition = body.xposition;
+        const yposition = body.yposition;
+
+        console.log(body);
+
+        try {
+            const updateResponse = await WidgetModel.putWidget(id, username, gridName, width, height, xposition, yposition);
+
+            res.status(201).json({ error: false, data: updateResponse });
+        } catch(err) {
+            res.status(400).json({ error: err.message });   
+        }
     }
 }
