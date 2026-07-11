@@ -13,6 +13,20 @@ const GridController = {
         } catch(error) {
             res.status(400).json({ error: false, msg: error.message });
         }
+    },
+
+    async createUserGrid(req, res) {
+        const body = req.body;
+        const username = body.username;
+        const gridName = body.gridName;
+
+        try {
+            const insertResponse = await GridModel.insertUserGrid(username, gridName);
+
+            res.status(201).json({ error: false, data: insertResponse });
+        } catch(err) {
+            res.status(400).json({ error: err.message });
+        }
     }
 }
 

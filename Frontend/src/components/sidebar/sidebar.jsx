@@ -5,7 +5,7 @@ import List from "./list"
 import SidebarButton from "./sidebarButton"
 import { useRef, useState } from "react";
 
-const sidebar = ({ setGridState, listGridParameter, setListGridParameter }) => {
+const sidebar = ({ setGridObserver, setGridState, listGridParameter, setListGridParameter }) => {
   const listRef = useRef(null);
   const [sidebarMode, setSidebarMode] = useState("show");
 
@@ -26,8 +26,8 @@ const sidebar = ({ setGridState, listGridParameter, setListGridParameter }) => {
 
   return (
     <nav className={`${styles.main} ${styles[sidebarMode]}`}>
-        <Profile mode={sidebarMode} toggleMode={toggleSidebarMode}/>
-        <SidebarButton mode={sidebarMode} functions={buttonFunction}/>
+        <Profile  mode={sidebarMode} toggleMode={toggleSidebarMode}/>
+        <SidebarButton setGridObserver={setGridObserver} mode={sidebarMode} functions={buttonFunction}/>
         {
         listGridParameter && <List setGridState={setGridState} mode={sidebarMode} listRef={listRef} listGridParameter={listGridParameter} setListGridParameter={setListGridParameter}/>
         }

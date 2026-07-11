@@ -1,11 +1,12 @@
 import styles from "./sidebarButton.module.css"
 import searchIcon from "../../assets/search-icon.svg"
 import addIcon from "../../assets/add-icon.svg"
-import { useRef, useEffect } from "react"
+import Popup from "./popup.jsx"
+import { useRef, useEffect, useState } from "react"
 
 
-const sidebarButton = ( { mode, functions } ) => {
-
+const sidebarButton = ( { setGridObserver, mode, functions } ) => {
+  const [popupState, setPopupState] = useState(false);
   const searchRef = useRef(null);
   const addRef = useRef(null);
 
@@ -26,11 +27,14 @@ const sidebarButton = ( { mode, functions } ) => {
 
   return (
     <div className={styles.main}>
+        {
+          popupState && (<Popup setGridObserver={setGridObserver} setPopupState={setPopupState}/>)
+        }
         <button className={`${styles.button} ${styles[mode]}`}>
             <img src={searchIcon} alt="" />
             <p ref={searchRef} className={mode === "hide" ? styles["hidden"] : ""}>Buscar</p>
         </button>
-        <button onClick={functions.addFunction} className={`${styles.button} ${styles[mode]}`}>
+        <button onClick={() => {setPopupState((prev) => !prev)}} className={`${styles.button} ${styles[mode]}`}>
             <img className={styles.img} src={addIcon} alt="" />
             <p ref={addRef} className={mode === "hide" ? styles["hidden"] : ""} >Adicionar</p>
         </button>

@@ -20,6 +20,7 @@ function App() {
     const listGridPosition = useRef([]);
     const [gridState, setGridState] = useState(0)
     const [listGridParameter, setListGridParameter] = useState([]) 
+    const [gridObserver, setGridObserver] = useState(false);
 
     useEffect(() => {
       const user = "asd";
@@ -42,12 +43,12 @@ function App() {
 
         setListGridParameter(parameterList);
       }
-    )}, [])
+    )}, [gridObserver])
 
     return (
       <div className='main'>
         {
-          listGridParameter && (<Sidebar setGridState={setGridState} listGridParameter={listGridParameter} setListGridParameter={setListGridParameter}/>)
+          listGridParameter && (<Sidebar setGridObserver={setGridObserver} setGridState={setGridState} listGridParameter={listGridParameter} setListGridParameter={setListGridParameter}/>)
         }
         {
           listGridParameter && (<Content gridState={gridState} listGridParameter={listGridParameter} setListGridParameter={setListGridParameter} listGridInstance={listGridInstance} listGridRef={listGridRef} listGridPosition={listGridPosition}/>)

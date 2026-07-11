@@ -5,7 +5,8 @@ import { WidgetController } from "../controllers/widget.controller.js";
 const router = express.Router();
 
 router.get("/grid", GridController.getUserGrid);
-router.post("/widget", WidgetController.createWidget);
+router.post("/grid", GridController.createUserGrid);
 router.get("/widget", WidgetController.getWidgetAll);
+router.post("/widget", WidgetController.createWidget);
 
 export default router
