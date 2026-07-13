@@ -36,7 +36,7 @@
 
 .hide-button {
     background-color: transparent;
-    border: none;   
+    border: none;
     border-radius: 10px;
     transition: opacity 0.1s ease 0.3s;
     opacity: 1;

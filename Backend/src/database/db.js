@@ -1,12 +1,12 @@
-import { Pool } from 'pg'
-import 'dotenv/config'
+import { Pool } from "pg";
+import "dotenv/config";
 
-const connectionString = process.env.DATABASE_URL; 
+const connectionString = process.env.DATABASE_URL;
 
 const pool = new Pool({
-    connectionString
+    connectionString,
 });
 
 export default {
-    query: (text, params) => pool.query(text, params)
-}
+    query: (text, params) => pool.query(text, params),
+};

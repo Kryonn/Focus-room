@@ -1,4 +1,4 @@
-import GridModel from "../model/grid.model.js"
+import GridModel from "../model/grid.model.js";
 
 const GridController = {
     async getUserGrid(req, res) {
@@ -8,9 +8,13 @@ const GridController = {
 
         try {
             const selectReponse = await GridModel.selectUserGrid(username);
-            
-            res.status(200).json({ error: false, msg: "Lista de grids retornado com sucesso", data: selectReponse });
-        } catch(error) {
+
+            res.status(200).json({
+                error: false,
+                msg: "Lista de grids retornado com sucesso",
+                data: selectReponse,
+            });
+        } catch (error) {
             res.status(400).json({ error: false, msg: error.message });
         }
     },
@@ -21,13 +25,16 @@ const GridController = {
         const gridName = body.gridName;
 
         try {
-            const insertResponse = await GridModel.insertUserGrid(username, gridName);
+            const insertResponse = await GridModel.insertUserGrid(
+                username,
+                gridName,
+            );
 
             res.status(201).json({ error: false, data: insertResponse });
-        } catch(err) {
+        } catch (err) {
             res.status(400).json({ error: err.message });
         }
-    }
-}
+    },
+};
 
 export default GridController;

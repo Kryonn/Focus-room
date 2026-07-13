@@ -1,5 +1,5 @@
 import express from "express";
-import GridController from "../controllers/grid.controller.js"
+import GridController from "../controllers/grid.controller.js";
 import { WidgetController } from "../controllers/widget.controller.js";
 
 const router = express.Router();
@@ -10,4 +10,4 @@ router.get("/widget", WidgetController.getWidgetAll);
 router.post("/widget", WidgetController.createWidget);
 router.put("/widget", WidgetController.updateWidget);
 
-export default router
+export default router;

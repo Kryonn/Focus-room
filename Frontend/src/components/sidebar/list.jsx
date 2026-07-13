@@ -1,42 +1,50 @@
-import styles from "./list.module.css"
-import { useEffect, useRef } from "react"
+import styles from "./list.module.css";
+import { useEffect, useRef } from "react";
 
-const list = ( { setGridState, mode, listRef, listGridParameter, setListGridParameter } ) => {
+const list = ({
+    setGridState,
+    mode,
+    listRef,
+    listGridParameter,
+    setListGridParameter,
+}) => {
+    const navRef = useRef(null);
 
-  const navRef = useRef(null);
+    useEffect(() => {
+        const list = navRef.current;
 
-  useEffect(() => {
-    const list = navRef.current;
+        list.addEventListener("transitioned", () => {
+            list.style.display = "none";
+        });
 
-    list.addEventListener("transitioned", () => {
-      list.style.display = "none";
-    })
-
-    listGridParameter.forEach((listElement) => {
-      const li = document.createElement("li");
-      li.classList.add(`${styles.element}`);
-      li.innerHTML = `
+        listGridParameter.forEach((listElement) => {
+            const li = document.createElement("li");
+            li.classList.add(`${styles.element}`);
+            li.innerHTML = `
         <a class=${styles.link} href="">${listElement.name}</a>
-      `
+      `;
 
-      listRef.current.append(li);
-    })
-  }, []);
+            listRef.current.append(li);
+        });
+    }, []);
 
-  return (
-    <nav ref={navRef} className={`${styles.main} ${mode === "hide" ? styles["hidden"] : "" }`}>
-        <ul ref={listRef} className={styles.list}>
-          {
-            listGridParameter.map((listElement, index) => (
-              <li onClick={() => setGridState(index)} key={listElement.name} className={styles.element}>
-                <a className={styles.link}>
-                  {listElement.name}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-    </nav>
-  )
-}
-export default list
+    return (
+        <nav
+            ref={navRef}
+            className={`${styles.main} ${mode === "hide" ? styles["hidden"] : ""}`}
+        >
+            <ul ref={listRef} className={styles.list}>
+                {listGridParameter.map((listElement, index) => (
+                    <li
+                        onClick={() => setGridState(index)}
+                        key={listElement.name}
+                        className={styles.element}
+                    >
+                        <a className={styles.link}>{listElement.name}</a>
+                    </li>
+                ))}
+            </ul>
+        </nav>
+    );
+};
+export default list;

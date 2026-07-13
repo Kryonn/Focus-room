@@ -6,10 +6,13 @@ export const WidgetController = {
         const gridName = req.query.gridName;
 
         try {
-            const selectResponse = await WidgetModel.selectWidgetAll(username, gridName);
+            const selectResponse = await WidgetModel.selectWidgetAll(
+                username,
+                gridName,
+            );
 
             return res.status(200).json({ error: false, data: selectResponse });
-        } catch(err) {
+        } catch (err) {
             return res.status(400).json({ error: err.message });
         }
     },
@@ -25,7 +28,7 @@ export const WidgetController = {
         let insertResponse = "";
 
         try {
-            switch(type) {
+            switch (type) {
                 case "pomodoro":
                     insertResponse = await WidgetModel.insertPomodoro(
                         id,
@@ -48,11 +51,9 @@ export const WidgetController = {
             }
 
             return res.status(201).json({ error: false, data: insertResponse });
-        } catch(err) {
+        } catch (err) {
             return res.status(400).json({ error: err.message });
         }
-
-        
     },
 
     async updateWidget(req, res) {
@@ -68,11 +69,19 @@ export const WidgetController = {
         console.log(body);
 
         try {
-            const updateResponse = await WidgetModel.putWidget(id, username, gridName, width, height, xposition, yposition);
+            const updateResponse = await WidgetModel.putWidget(
+                id,
+                username,
+                gridName,
+                width,
+                height,
+                xposition,
+                yposition,
+            );
 
             res.status(201).json({ error: false, data: updateResponse });
-        } catch(err) {
-            res.status(400).json({ error: err.message });   
+        } catch (err) {
+            res.status(400).json({ error: err.message });
         }
-    }
-}
+    },
+};

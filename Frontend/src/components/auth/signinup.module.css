@@ -61,9 +61,9 @@
 .label-input .label {
     font-weight: 600;
     top: 50%;
-    position: absolute; 
+    position: absolute;
     transform: translateY(-50%);
-    transition: .5s;
+    transition: 0.5s;
     color: var(--white-two);
     cursor: text;
     /* border: 1px solid red; */
@@ -86,7 +86,7 @@
     font: inherit;
     padding: 7px;
     box-sizing: border-box;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .label-input .input:focus {
@@ -131,7 +131,7 @@
     height: 30px;
     border: 2px solid var(--white-two);
     border-radius: 12px;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .button-div .button:hover {

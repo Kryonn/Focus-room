@@ -1,8 +1,16 @@
 import { apiFetch } from "./api";
 
 export const WidgetService = {
-    async putRequest(id, username, gridName, width, height, xposition, yposition) {
-        const endpoint = "/widget"
+    async putRequest(
+        id,
+        username,
+        gridName,
+        width,
+        height,
+        xposition,
+        yposition,
+    ) {
+        const endpoint = "/widget";
 
         try {
             const res = await apiFetch(endpoint, {
@@ -14,12 +22,12 @@ export const WidgetService = {
                     width: width,
                     height: height,
                     xposition: xposition,
-                    yposition: yposition
-                })
+                    yposition: yposition,
+                }),
             });
 
             return res;
-        } catch(err) {
+        } catch (err) {
             console.log("deu ruim");
         }
     },
@@ -27,7 +35,7 @@ export const WidgetService = {
     async getRequest(username, gridName) {
         const params = new URLSearchParams({
             username: username,
-            gridName: gridName
+            gridName: gridName,
         });
 
         const url = "/widget?" + params;
@@ -38,8 +46,8 @@ export const WidgetService = {
             // const jsResponse = await res.json();
 
             return res.data;
-        } catch(err) {
-            console.log("deu ruimm")
+        } catch (err) {
+            console.log("deu ruimm");
         }
-    }
-}
+    },
+};
