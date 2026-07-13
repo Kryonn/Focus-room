@@ -16,6 +16,7 @@ const tool = ({
                 <button
                     onClick={() => {
                         setWidget.pomodoroComponent(
+                            gridParameter,
                             gridInstanceRef.current[gridParameter.index],
                             gridRefRef.current[gridParameter.index],
                             gridPositionRef.current[gridParameter.index],

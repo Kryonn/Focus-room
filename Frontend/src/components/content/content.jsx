@@ -15,6 +15,7 @@ import { useRef, useState, useEffect } from "react";
 
 // Utils
 import { utils } from "../../utils/utils.js";
+import { WidgetService } from "../../services/widget.service.js";
 
 const content = ({
     gridState,
@@ -45,7 +46,7 @@ const content = ({
 
     // Add Components Function List
     const functionList = {
-        pomodoroComponent: (gridInstance, gridRef, gridPosition) => {
+        pomodoroComponent: async (gridParameter, gridInstance, gridRef, gridPosition) => {
             // if (trueMatrix(gridPosition) && gridPosition !== null) {
             //     return;
             // }
@@ -57,12 +58,15 @@ const content = ({
                 return;
             }
 
+            
             const div = document.createElement("div");
             div.classList.add("grid-stack-item");
-
+            
             const id = "pomodoro-" + Date.now();
-
+            
             div.setAttribute("gs-id", id);
+            // id, username, gridName, xposition, yposition, type)
+
 
             div.innerHTML = `
           <div class="grid-stack-item-content ">
@@ -74,6 +78,15 @@ const content = ({
             gridInstance.makeWidget(div);
 
             const pomodoro = document.querySelectorAll(".alvo-pomodoro");
+
+            await WidgetService.postRequest(
+                id,
+                "asd",
+                gridParameter.name,
+                div.gridstackNode.x,
+                div.gridstackNode.y,
+                "pomodoro"
+            );
 
             pomodoroRoot.current[pomodoro.length - 1] = createRoot(
                 pomodoro[pomodoro.length - 1],

@@ -9,5 +9,6 @@ router.post("/grid", GridController.createUserGrid);
 router.get("/widget", WidgetController.getWidgetAll);
 router.post("/widget", WidgetController.createWidget);
 router.put("/widget", WidgetController.updateWidget);
+router.delete("/widget", WidgetController.removeWidget);
 
 export default router;

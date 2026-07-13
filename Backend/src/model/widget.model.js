@@ -84,4 +84,20 @@ export const WidgetModel = {
             throw err;
         }
     },
+
+    async deleteWidget(id, username, gridName) {
+        try {
+            const res = await db.query(
+                `
+                DELETE FROM widget
+                WHERE id=$1 AND username=$2 AND gridName=$3
+                `,
+                [id, username, gridName]
+            )
+
+            return res;
+        } catch(err) {
+            throw error;
+        }
+    }
 };

@@ -84,4 +84,23 @@ export const WidgetController = {
             res.status(400).json({ error: err.message });
         }
     },
+
+    async removeWidget(req, res) {
+        const body = req.body;
+        const id = body.id;
+        const username = body.username;
+        const gridName = body.gridName;
+
+        try {
+            const removeResponse = await WidgetModel.deleteWidget(
+                id,
+                username,
+                gridName
+            );
+
+            res.status(200).json({ error: false, data: removeResponse });
+        } catch(err) {
+            res.status(400).json({ error: err.message });
+        }
+    }
 };
