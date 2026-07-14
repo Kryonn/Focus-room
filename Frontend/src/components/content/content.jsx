@@ -46,30 +46,41 @@ const content = ({
 
     // Add Components Function List
     const functionList = {
-        pomodoroComponent: async (gridParameter, gridInstance, gridRef, gridPosition) => {
+        pomodoroComponent: async (
+            gridParameter,
+            gridInstance,
+            gridRef,
+            gridPosition,
+        ) => {
             // if (trueMatrix(gridPosition) && gridPosition !== null) {
             //     return;
             // }
 
             console.log("gridposition: ", gridPosition);
 
-            if(!utils.verifyGrid(gridPosition, "pomodoro", rowGridDefault, columnGridDefault)) {
+            if (
+                !utils.verifyGrid(
+                    gridPosition,
+                    "pomodoro",
+                    rowGridDefault,
+                    columnGridDefault,
+                )
+            ) {
                 console.log("ASDASDASD");
                 return;
             }
 
-            
             const div = document.createElement("div");
             div.classList.add("grid-stack-item");
-            
+
             const id = "pomodoro-" + Date.now();
-            
+
             div.setAttribute("gs-id", id);
             // id, username, gridName, xposition, yposition, type)
 
-
             div.innerHTML = `
           <div class="grid-stack-item-content ">
+            <button class="${styles.button} delete-button">x</button>
             <div class="${styles.pomodoro} alvo-pomodoro widget" style="height:100%; width: 100%; display: flex"></div>
           </div>
       `;
@@ -85,7 +96,7 @@ const content = ({
                 gridParameter.name,
                 div.gridstackNode.x,
                 div.gridstackNode.y,
-                "pomodoro"
+                "pomodoro",
             );
 
             pomodoroRoot.current[pomodoro.length - 1] = createRoot(

@@ -72,7 +72,7 @@ const grid = ({
                 {
                     float: gridParameter.float,
                     resizable: { handles: "se" },
-                    column: column,                                                                                     
+                    column: column,
                     cellHeight: "auto",
                     row: row,
                     margin: margin,
@@ -85,7 +85,7 @@ const grid = ({
 
             // Get grid widgets
             WidgetService.getRequest("asd", gridParameter.name).then((list) => {
-                if(!isMounted || !gridRef.current) {
+                if (!isMounted || !gridRef.current) {
                     return;
                 }
 
@@ -105,13 +105,20 @@ const grid = ({
                     // Specify setup
                     switch (widgetType) {
                         case "list":
-                            newWidget.setAttribute("minW", default_list_min_width);
-                            newWidget.setAttribute("minH", default_list_min_height);
+                            newWidget.setAttribute(
+                                "minW",
+                                default_list_min_width,
+                            );
+                            newWidget.setAttribute(
+                                "minH",
+                                default_list_min_height,
+                            );
                             break;
                     }
 
                     newWidget.innerHTML = `
                         <div class="grid-stack-item-content ">
+                            <button class="${styles.button} delete-button">x</button>
                             <div class="${styles[widgetType]} alvo-${widgetType} widget" style="height:100%; width: 100%; display: flex"></div>
                         </div>
                     `;
@@ -119,18 +126,30 @@ const grid = ({
                     // Append html element and widget
                     gridRef.current.append(newWidget);
                     gridInstance.current.makeWidget(newWidget);
-                });
 
-                
+                    const buttonList = gridRef.current.querySelectorAll(".delete-button");
+
+                    buttonList[buttonList.length - 1].addEventListener("click", async () => {
+                        if(gridInstance.current) {
+                            gridInstance.current.removeWidget(newWidget, true);
+                        };
+
+                        if(widgetRoot.current[buttonList.length - 1]) {
+                            widgetRoot.current[buttonList.length - 1].unmount();
+                            delete widgetRoot.current[buttonList - 1];
+                        }
+
+                        await WidgetService.deleteRequest(widget.id, "asd", gridParameter.name);
+                    })
+                });
 
                 const widgetList = gridRef.current.querySelectorAll(".widget");
 
                 // Render widgets
                 list.forEach((widget, index) => {
-                    if(widgetRoot.current[index]) {
+                    if (widgetRoot.current[index]) {
                         widgetRoot.current[index].unmount();
                     }
-
 
                     widgetRoot.current[index] = createRoot(widgetList[index]);
 
@@ -151,7 +170,7 @@ const grid = ({
             });
 
             function updateWidget(event, el) {
-                if(!el.gridstackNode) {
+                if (!el.gridstackNode) {
                     return;
                 }
 
@@ -177,28 +196,29 @@ const grid = ({
             // Add listeners
             gridInstance.current.on("dragstop resizestop", updateWidget);
             gridInstance.current.on("added removed change", () => {
-                if(gridInstance.current) {
-                    gridPositionRef.current[gridParameter.index] = utils.updateElementPosition(gridInstance, column, row);
-                } 
+                if (gridInstance.current) {
+                    gridPositionRef.current[gridParameter.index] =
+                        utils.updateElementPosition(gridInstance, column, row);
+                }
             });
-
         }, 0);
-        
 
         return () => {
             isMounted = false;
             clearTimeout(initTimeout);
 
-            if(widgetRoot.current) {
-                Object.values(widgetRoot.current).forEach((root) => root && root.unmount());
+            if (widgetRoot.current) {
+                Object.values(widgetRoot.current).forEach(
+                    (root) => root && root.unmount(),
+                );
                 widgetRoot.current = [];
             }
 
-            if(gridInstance.current) {
+            if (gridInstance.current) {
                 cleanupGrid.destroy(true);
                 gridInstance.current = null;
             }
-        }
+        };
     }, []);
 
     return (

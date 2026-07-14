@@ -35,10 +35,25 @@
     align-items: center;
     color: var(--white-one);
     cursor: pointer;
+    justify-content: space-between;
 }
 
 .link:hover {
     background-color: var(--black-two);
+}
+
+.grid-delete-button {
+    display: none;
+}
+
+.link:hover .grid-delete-button {
+    height: 100%;
+    display: block;
+    border-radius: 3px;
+    border: none;
+    background-color: var(--black-one);
+    color: var(--white-one);
+    cursor: pointer;
 }
 
 .hidden {

@@ -7,6 +7,24 @@
     /* border: 1px solid red; */
 }
 
+:global(.grid-stack-item-content):hover .button {
+    margin: 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-radius: 4px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--black-three);
+    border: none;
+    display: block;
+    cursor: pointer;
+}
+
+.button {
+    display: none;
+}
+
 .hidden {
     display: none;
 }

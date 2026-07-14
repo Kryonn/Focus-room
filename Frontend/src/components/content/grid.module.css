@@ -23,6 +23,24 @@
     border-radius: 10px;
 }
 
+:global(.grid-stack-item-content):hover .button {
+    margin: 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-radius: 4px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--black-three);
+    border: none;
+    display: block;
+    cursor: pointer;
+}
+
+:global(.grid-stack-item-content):hover .button:hover {
+    background-color: var(--black-two);
+}
+
 .pomodoro {
     border-radius: 10px;
     display: flex;
@@ -35,4 +53,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.button {
+    display: none;
 }

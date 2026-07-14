@@ -95,12 +95,12 @@ export const WidgetController = {
             const removeResponse = await WidgetModel.deleteWidget(
                 id,
                 username,
-                gridName
+                gridName,
             );
 
             res.status(200).json({ error: false, data: removeResponse });
-        } catch(err) {
+        } catch (err) {
             res.status(400).json({ error: err.message });
         }
-    }
+    },
 };

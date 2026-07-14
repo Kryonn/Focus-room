@@ -41,6 +41,7 @@ const sidebar = ({
             />
             {listGridParameter && (
                 <List
+                    setGridObserver={setGridObserver}
                     setGridState={setGridState}
                     mode={sidebarMode}
                     listRef={listRef}

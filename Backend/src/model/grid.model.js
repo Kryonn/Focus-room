@@ -34,6 +34,21 @@ const GridModel = {
             throw err;
         }
     },
+
+    async deleteGrid(username, gridName) {
+        try {
+            const res = await db.query(
+                `
+                DELETE FROM grid
+                WHERE username=$1 AND name=$2`,
+                [username, gridName]
+            );
+
+            return res;
+        } catch(err) {
+            throw err;
+        }
+    }
 };
 
 export default GridModel;

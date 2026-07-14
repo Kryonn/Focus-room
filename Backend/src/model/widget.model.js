@@ -92,12 +92,12 @@ export const WidgetModel = {
                 DELETE FROM widget
                 WHERE id=$1 AND username=$2 AND gridName=$3
                 `,
-                [id, username, gridName]
-            )
+                [id, username, gridName],
+            );
 
             return res;
-        } catch(err) {
+        } catch (err) {
             throw error;
         }
-    }
+    },
 };

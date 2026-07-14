@@ -35,6 +35,20 @@ const GridController = {
             res.status(400).json({ error: err.message });
         }
     },
+
+    async removeGrid(req, res) {
+        const body = req.body;
+        const username = body.username;
+        const gridName = body.gridName;
+
+        try {
+            const deleteResponse = await GridModel.deleteGrid(username, gridName);
+
+            res.status(200).json({ error: false, data: deleteResponse });
+        } catch(err) {
+            res.status(400).json({ error: err.message });
+        }
+    }
 };
 
 export default GridController;

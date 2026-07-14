@@ -63,13 +63,29 @@ export const WidgetService = {
                     gridName: gridName,
                     xposition: xposition,
                     yposition: yposition,
-                    type: type
+                    type: type,
+                }),
+            });
+
+            return res;
+        } catch (err) {
+            console.log("deu ruim");
+        }
+    },
+
+    async deleteRequest(id, username, gridName) {
+        const url = "/widget";
+
+        try {
+            const res = await apiFetch(url, {
+                method: "DELETE",
+                body: JSON.stringify({
+                    id: id,
+                    username: username,
+                    gridName: gridName
                 })
             });
 
-            console.log("x: ", xposition);
-            console.log("y: ", yposition);
-    
             return res;
         } catch(err) {
             console.log("deu ruim");
