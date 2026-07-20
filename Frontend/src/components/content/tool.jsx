@@ -63,14 +63,6 @@ const tool = ({
                 >
                     asd
                 </button>
-                <button
-                    onClick={() => {
-                        setWidget.boardComponent();
-                    }}
-                    className={styles["button"]}
-                >
-                    asd
-                </button>
                 <button className={styles["button"]}>asd</button>
             </div>
             <div className={styles.settings}>

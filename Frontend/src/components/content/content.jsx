@@ -127,28 +127,6 @@ const content = ({
             widgetRoot[list.length - 1].render(<List />);
         },
 
-        boardComponent: (gridInstance, gridRef, gridPosition) => {
-            // if (trueMatrix(gridPosition) && gridPosition !== null) {
-            //     return;
-            // }
-
-            const div = document.createElement("div");
-            div.classList.add("grid-stack-item");
-            div.innerHTML = `
-        <div class="grid-stack-item-content">
-          <div class="${styles.board} alvo-board" style="height: 100%; width: 100%; display: flex"></div>
-        </div>
-      `;
-
-            gridRef.appendChild(div);
-            gridInstance.makeWidget(div, { w: 3, h: 2, minW: 3, minH: 2 });
-
-            const board = document.querySelectorAll(".alvo-board");
-
-            boardRoot[board.length - 1] = createRoot(board[board.length - 1]);
-            boardRoot[board.length - 1].render(<Board />);
-        },
-
         noteComponent: (gridInstance, gridRef, gridPosition) => {
             // if (trueMatrix(gridPosition) && gridPosition !== null) {
             //     return;
