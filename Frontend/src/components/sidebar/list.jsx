@@ -19,15 +19,15 @@ const list = ({
             list.style.display = "none";
         });
 
-    //     listGridParameter.forEach((listElement) => {
-    //         const li = document.createElement("li");
-    //         li.classList.add(`${styles.element}`);
-    //         li.innerHTML = `
-    //     <a class=${styles.link} href="">${listElement.name}</a>
-    //   `;
+        //     listGridParameter.forEach((listElement) => {
+        //         const li = document.createElement("li");
+        //         li.classList.add(`${styles.element}`);
+        //         li.innerHTML = `
+        //     <a class=${styles.link} href="">${listElement.name}</a>
+        //   `;
 
-    //         listRef.current.append(li);
-    //     });
+        //         listRef.current.append(li);
+        //     });
     }, []);
 
     return (
@@ -44,23 +44,32 @@ const list = ({
                     >
                         <a className={styles.link}>
                             <p>{listElement.name}</p>
-                            <button onClick={async (e) => {
-                                e.stopPropagation();
-                                const grid = e.target.closest(".element");
-                                const gridName = listElement.name;
+                            <button
+                                onClick={async (e) => {
+                                    e.stopPropagation();
+                                    const grid = e.target.closest(".element");
+                                    const gridName = listElement.name;
 
-
-                                try {
-                                    await GridService.deleteRequest("asd", gridName);
-                                    setListGridParameter(prevList =>
-                                        prevList.filter(item => item.name !== gridName)
-                                    );
-                                    setGridObserver(prev => !prev);
-                                } catch(err) {
-                                    console.log(err.message);
-                                }
-                                
-                            }} className={styles["grid-delete-button"]}>xis</button>
+                                    try {
+                                        await GridService.deleteRequest(
+                                            "asd",
+                                            gridName,
+                                        );
+                                        setListGridParameter((prevList) =>
+                                            prevList.filter(
+                                                (item) =>
+                                                    item.name !== gridName,
+                                            ),
+                                        );
+                                        setGridObserver((prev) => !prev);
+                                    } catch (err) {
+                                        console.log(err.message);
+                                    }
+                                }}
+                                className={styles["grid-delete-button"]}
+                            >
+                                xis
+                            </button>
                         </a>
                     </li>
                 ))}

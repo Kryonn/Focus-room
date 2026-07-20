@@ -27,7 +27,6 @@ function App() {
                 const getRes = await fetch(url, { method: "GET" });
                 const data = await getRes.json();
                 return data.data;
-                // console.log("getres.data:", getRes.json().data);
             };
 
             getUserGrid().then((list) => {

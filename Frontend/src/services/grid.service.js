@@ -1,4 +1,4 @@
-import { apiFetch } from "./api"
+import { apiFetch } from "./api";
 
 export const GridService = {
     async deleteRequest(username, gridName) {
@@ -9,16 +9,15 @@ export const GridService = {
                 method: "DELETE",
                 body: JSON.stringify({
                     username: username,
-                    gridName: gridName
-                })
+                    gridName: gridName,
+                }),
             });
 
             console.log("res: ", res);
-    
+
             return res;
-        } catch(err) {
+        } catch (err) {
             throw err;
         }
-
-    }
-}
+    },
+};

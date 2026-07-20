@@ -82,13 +82,13 @@ export const WidgetService = {
                 body: JSON.stringify({
                     id: id,
                     username: username,
-                    gridName: gridName
-                })
+                    gridName: gridName,
+                }),
             });
 
             return res;
-        } catch(err) {
+        } catch (err) {
             console.log("deu ruim");
         }
-    }
+    },
 };

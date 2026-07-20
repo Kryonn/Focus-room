@@ -42,13 +42,16 @@ const GridController = {
         const gridName = body.gridName;
 
         try {
-            const deleteResponse = await GridModel.deleteGrid(username, gridName);
+            const deleteResponse = await GridModel.deleteGrid(
+                username,
+                gridName,
+            );
 
             res.status(200).json({ error: false, data: deleteResponse });
-        } catch(err) {
+        } catch (err) {
             res.status(400).json({ error: err.message });
         }
-    }
+    },
 };
 
 export default GridController;

@@ -127,20 +127,33 @@ const grid = ({
                     gridRef.current.append(newWidget);
                     gridInstance.current.makeWidget(newWidget);
 
-                    const buttonList = gridRef.current.querySelectorAll(".delete-button");
+                    const buttonList =
+                        gridRef.current.querySelectorAll(".delete-button");
 
-                    buttonList[buttonList.length - 1].addEventListener("click", async () => {
-                        if(gridInstance.current) {
-                            gridInstance.current.removeWidget(newWidget, true);
-                        };
+                    buttonList[buttonList.length - 1].addEventListener(
+                        "click",
+                        async () => {
+                            if (gridInstance.current) {
+                                gridInstance.current.removeWidget(
+                                    newWidget,
+                                    true,
+                                );
+                            }
 
-                        if(widgetRoot.current[buttonList.length - 1]) {
-                            widgetRoot.current[buttonList.length - 1].unmount();
-                            delete widgetRoot.current[buttonList - 1];
-                        }
+                            if (widgetRoot.current[buttonList.length - 1]) {
+                                widgetRoot.current[
+                                    buttonList.length - 1
+                                ].unmount();
+                                delete widgetRoot.current[buttonList - 1];
+                            }
 
-                        await WidgetService.deleteRequest(widget.id, "asd", gridParameter.name);
-                    })
+                            await WidgetService.deleteRequest(
+                                widget.id,
+                                "asd",
+                                gridParameter.name,
+                            );
+                        },
+                    );
                 });
 
                 const widgetList = gridRef.current.querySelectorAll(".widget");

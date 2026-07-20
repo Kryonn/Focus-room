@@ -41,14 +41,14 @@ const GridModel = {
                 `
                 DELETE FROM grid
                 WHERE username=$1 AND name=$2`,
-                [username, gridName]
+                [username, gridName],
             );
 
             return res;
-        } catch(err) {
+        } catch (err) {
             throw err;
         }
-    }
+    },
 };
 
 export default GridModel;
