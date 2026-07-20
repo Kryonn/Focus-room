@@ -44,7 +44,6 @@ export const utils = {
     verifyGrid(positionMatrix, widgetType, row, column) {
         const matrix = positionMatrix;
 
-        console.log(matrix);
         for (let i = 0; i < column; i++) {
             for (let j = 0; j < row; j++) {
                 switch (widgetType) {
@@ -58,11 +57,11 @@ export const utils = {
                     case "list":
                         if (!matrix[i][j]) {
                             let emptySpace = true;
-                            for (let k = i; k < i + 2; k++) {
-                                for (let l = j; l < j + 3; l++) {
+                            for (let k = i; k < i + 3; k++) {
+                                for (let l = j; l < j + 2; l++) {
                                     if (
-                                        k >= row ||
-                                        l >= column ||
+                                        k >= column ||
+                                        l >= row ||
                                         matrix[k][l]
                                     ) {
                                         emptySpace = false;

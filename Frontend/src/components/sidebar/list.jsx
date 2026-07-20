@@ -19,15 +19,6 @@ const list = ({
             list.style.display = "none";
         });
 
-        //     listGridParameter.forEach((listElement) => {
-        //         const li = document.createElement("li");
-        //         li.classList.add(`${styles.element}`);
-        //         li.innerHTML = `
-        //     <a class=${styles.link} href="">${listElement.name}</a>
-        //   `;
-
-        //         listRef.current.append(li);
-        //     });
     }, []);
 
     return (

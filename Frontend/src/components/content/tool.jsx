@@ -36,7 +36,12 @@ const tool = ({
                 </button>
                 <button
                     onClick={() => {
-                        setWidget.listComponent();
+                        setWidget.listComponent(
+                            gridParameter,
+                            gridInstanceRef.current[gridParameter.index],
+                            gridRefRef.current[gridParameter.index],
+                            gridPositionRef.current[gridParameter.index],
+                        );
                     }}
                     className={styles["button"]}
                 >

@@ -33,16 +33,7 @@ const content = ({
     const marginGraidDefault = 2;
 
     // Components Root Lists
-    const pomodoroRoot = useRef([]);
-    const listRoot = useRef([]);
-    const boardRoot = useRef([]);
-    const noteRoot = useRef([]);
     const widgetRoot = useRef([]);
-
-    // Verify space on grid
-    // function trueMatrix(matrix) {
-    //     return matrix.every((row) => row.every((element) => element === true));
-    // }
 
     // Add Components Function List
     const functionList = {
@@ -52,10 +43,6 @@ const content = ({
             gridRef,
             gridPosition,
         ) => {
-            // if (trueMatrix(gridPosition) && gridPosition !== null) {
-            //     return;
-            // }
-
             console.log("gridposition: ", gridPosition);
 
             if (
@@ -76,7 +63,6 @@ const content = ({
             const id = "pomodoro-" + Date.now();
 
             div.setAttribute("gs-id", id);
-            // id, username, gridName, xposition, yposition, type)
 
             div.innerHTML = `
           <div class="grid-stack-item-content ">
@@ -99,32 +85,46 @@ const content = ({
                 "pomodoro",
             );
 
-            pomodoroRoot.current[pomodoro.length - 1] = createRoot(
-                pomodoro[pomodoro.length - 1],
+            widgetRoot.current[pomodoro.length - 1] = createRoot(
+                widgetRoot[pomodoro.length - 1],
             );
-            pomodoroRoot.current[pomodoro.length - 1].render(<Pomodoro />);
+            widgetRoot.current[pomodoro.length - 1].render(<Pomodoro />);
         },
 
-        listComponent: (gridInstance, gridRef, gridPosition) => {
-            // if (trueMatrix(gridPosition) && gridPosition !== null) {
-            //     return;
-            // }
+        listComponent: (gridParameter, gridInstance, gridRef, gridPosition) => {
+            if (
+                !utils.verifyGrid(
+                    gridPosition,
+                    "list",
+                    rowGridDefault,
+                    columnGridDefault,
+                )
+            ) {
+                console.log("ASDASDASD");
+                return;
+            }
+
 
             const div = document.createElement("div");
             div.classList.add("grid-stack-item");
+            const id = "list" + Date.now();
+
+            div.setAttribute("gs-id", id);
+
             div.innerHTML = `
         <div class="grid-stack-item-content">
-          <div class="${styles.list} alvo-list" style="height: 100%; width: 100%; display: flex"></div>
+          <button class="${styles.button} delete-button">x</button>
+          <div class="${styles.list} alvo-list widget" style="height: 100%; width: 100%; display: flex"></div>
         </div>
       `;
 
             gridRef.appendChild(div);
             gridInstance.makeWidget(div, { w: 3, h: 2, minW: 3, minH: 2 });
 
-            const list = document.querySelectorAll(".alvo-list");
+            const list = document.querySelectorAll(".widget");
 
-            listRoot[list.length - 1] = createRoot(list[list.length - 1]);
-            listRoot[list.length - 1].render(<List />);
+            widgetRoot[list.length - 1] = createRoot(list[list.length - 1]);
+            widgetRoot[list.length - 1].render(<List />);
         },
 
         boardComponent: (gridInstance, gridRef, gridPosition) => {

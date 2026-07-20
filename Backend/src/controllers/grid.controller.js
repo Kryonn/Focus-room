@@ -4,8 +4,6 @@ const GridController = {
     async getUserGrid(req, res) {
         const username = req.query.username;
 
-        console.log(username);
-
         try {
             const selectReponse = await GridModel.selectUserGrid(username);
 
