@@ -184,8 +184,6 @@ const pomodoro = () => {
             const cellWidth = widget.getAttribute("gs-w");
             const cellHeight = widget.getAttribute("gs-h");
             let mode = "big";
-            console.log(cellHeight);
-            console.log(cellWidth);
 
             if (cellHeight == null) {
                 mode = "wide";

@@ -50,27 +50,15 @@ export const utils = {
                     case "pomodoro":
                         console.log("Matriz: ", matrix[i][j]);
                         if (!matrix[i][j]) {
-                            return true;
+                            if(this.verifyWidget(matrix, row, column, 1, 1, i, j)) {
+                                return true;
+                            }
                         }
                         break;
 
                     case "list":
                         if (!matrix[i][j]) {
-                            let emptySpace = true;
-                            for (let k = i; k < i + 3; k++) {
-                                for (let l = j; l < j + 2; l++) {
-                                    if (
-                                        k >= column ||
-                                        l >= row ||
-                                        matrix[k][l]
-                                    ) {
-                                        emptySpace = false;
-                                        break;
-                                    }
-                                }
-                                if (!emptySpace) break;
-                            }
-                            if (emptySpace) {
+                            if(this.verifyWidget(matrix, row, column, 3, 2, i, j)) {
                                 return true;
                             }
                         }
@@ -78,5 +66,28 @@ export const utils = {
                 }
             }
         }
+
+        return false;
     },
+
+    verifyWidget(matrix, row, column, width, height, i, j) {
+        let emptySpace = true;
+        for (let k = i; k < i + width; k++) {
+            for (let l = j; l < j + height; l++) {
+                if (
+                    k >= column ||
+                    l >= row ||
+                    matrix[k][l]
+                ) {
+                    emptySpace = false;
+                    break;
+                }
+            }
+            if (!emptySpace) break;
+        }
+        if (emptySpace) {
+            return true;
+        }
+        return false;
+    }
 };

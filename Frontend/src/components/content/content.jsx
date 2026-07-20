@@ -74,7 +74,7 @@ const content = ({
             gridRef.appendChild(div);
             gridInstance.makeWidget(div);
 
-            const pomodoro = document.querySelectorAll(".alvo-pomodoro");
+            const widgetList = document.querySelectorAll(".widget");
 
             await WidgetService.postRequest(
                 id,
@@ -85,10 +85,10 @@ const content = ({
                 "pomodoro",
             );
 
-            widgetRoot.current[pomodoro.length - 1] = createRoot(
-                widgetRoot[pomodoro.length - 1],
+            widgetRoot.current[widgetList.length - 1] = createRoot(
+                widgetList[widgetList.length - 1],
             );
-            widgetRoot.current[pomodoro.length - 1].render(<Pomodoro />);
+            widgetRoot.current[widgetList.length - 1].render(<Pomodoro />);
         },
 
         listComponent: (gridParameter, gridInstance, gridRef, gridPosition) => {
@@ -114,39 +114,38 @@ const content = ({
             div.innerHTML = `
         <div class="grid-stack-item-content">
           <button class="${styles.button} delete-button">x</button>
-          <div class="${styles.list} alvo-list widget" style="height: 100%; width: 100%; display: flex"></div>
+          <div class="{styles.list} alvo-list widget" style="height: 100%; width: 100%; display: flex"></div>
         </div>
       `;
 
             gridRef.appendChild(div);
             gridInstance.makeWidget(div, { w: 3, h: 2, minW: 3, minH: 2 });
 
-            const list = document.querySelectorAll(".widget");
+            const widgetList = document.querySelectorAll(".widget");
 
-            widgetRoot[list.length - 1] = createRoot(list[list.length - 1]);
-            widgetRoot[list.length - 1].render(<List />);
+            widgetRoot[widgetList.length - 1] = createRoot(widgetList[widgetList.length - 1]);
+            widgetRoot[widgetList.length - 1].render(<List />);
         },
 
-        noteComponent: (gridInstance, gridRef, gridPosition) => {
-            // if (trueMatrix(gridPosition) && gridPosition !== null) {
-            //     return;
-            // }
-
+        noteComponent: (gridParameter, gridInstance, gridRef, gridPosition) => {
             const div = document.createElement("div");
             div.classList.add("grid-stack-item");
+            const id = "note" + Date.now();
+            div.setAttribute("gs-id", id);
             div.innerHTML = `
         <div class="grid-stack-item-content">
-          <div class="alvo-note" style="height: 100%; width: 100%; display: flex"></div>
+          <button class="${styles.button} delete-button">x</button>
+          <div class="${styles.note} alvo-note widget" style="height: 100%; width: 100%; display: flex"></div>
         </div>
       `;
 
             gridRef.appendChild(div);
             gridInstance.makeWidget(div, { w: 2, h: 2, minH: 2, minW: 2 });
 
-            const note = document.querySelectorAll(".alvo-note");
+            const widgetList = document.querySelectorAll(".widget");
 
-            noteRoot[note.length - 1] = createRoot(note[note.length - 1]);
-            noteRoot[note.length - 1].render(<Note />);
+            widgetRoot[widgetList.length - 1] = createRoot(widgetList[widgetList.length - 1]);
+            widgetRoot[widgetList.length - 1].render(<Note />);
         },
     };
 

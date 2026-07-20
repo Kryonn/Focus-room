@@ -40,7 +40,7 @@ const tool = ({
                             gridParameter,
                             gridInstanceRef.current[gridParameter.index],
                             gridRefRef.current[gridParameter.index],
-                            gridPositionRef.current[gridParameter.index],
+                            gridPositionRef.current[gridParameter.index]
                         );
                     }}
                     className={styles["button"]}
@@ -57,7 +57,20 @@ const tool = ({
                 </button>
                 <button
                     onClick={() => {
-                        setWidget.noteComponent();
+                        setWidget.noteComponent(
+                            gridParameter,
+                            gridInstanceRef.current[gridParameter.index],
+                            gridRefRef.current[gridParameter.index],
+                            gridPositionRef.current[gridParameter.index]
+                        );
+                    }}
+                    className={styles["button"]}
+                >
+                    asd
+                </button>
+                <button
+                    onClick={() => {
+                        setWidget.boardComponent();
                     }}
                     className={styles["button"]}
                 >
