@@ -1,7 +1,8 @@
 import styles from "./listpopup.module.css";
+import { WidgetService } from "../../../services/widget.service.js";
 import { useRef, useState } from "react";
 
-const listpopup = ({ setUpdateListPopupState, setAddListPopupState, addTask, popupEvent, setListName }) => {
+const listpopup = ({ username, gridname, id, setUpdateListPopupState, setAddListPopupState, addTask, popupEvent, setListName }) => {
     const taskDateRef = useRef(null);
     const taskNameRef = useRef(null);
     const [isEditName, setIsEditName] = useState(popupEvent.includes("Edit"));
@@ -36,7 +37,7 @@ const listpopup = ({ setUpdateListPopupState, setAddListPopupState, addTask, pop
                         />
                     </div>) }
                     <button
-                        onClick={() => { if(isEditName) { setListName(taskNameRef.current.value); setUpdateListPopupState(prev => !prev)} else {addTask(taskNameRef.current.value, taskDateRef.current.value); setAddListPopupState(prev => !prev) }}}
+                        onClick={() => { if(isEditName) { setListName(taskNameRef.current.value); setUpdateListPopupState(prev => !prev); WidgetService.putListRequest(username, gridname, id, taskNameRef.current.value)} else {addTask(taskNameRef.current.value, taskDateRef.current.value); setAddListPopupState(prev => !prev) }}}
                         className={styles.button}
                         type="button"
                     >

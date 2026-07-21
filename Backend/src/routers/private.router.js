@@ -20,5 +20,6 @@ router.put("/widget/list", WidgetController.updateListWidget);
 // Task
 router.post("/task", TaskController.createTask);
 router.delete("/task", TaskController.removeTask);
+router.get("/task", TaskController.getTaskAll);
 
 export default router;

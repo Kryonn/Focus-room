@@ -176,7 +176,7 @@ const grid = ({
                             break;
 
                         case "list":
-                            widgetRoot.current[index].render(<List />);
+                            widgetRoot.current[index].render(<List username={"asd"} gridname={gridParameter.name} id={widget.id} listname={widget.listname} />);
                             break;
                     }
                 });

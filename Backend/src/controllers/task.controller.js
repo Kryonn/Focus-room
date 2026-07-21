@@ -1,6 +1,21 @@
 import TaskModel from "../model/task.model.js"
 
 const TaskController = {
+    async getTaskAll(req, res) {
+        const params = req.query;
+        const username = params.username;
+        const gridname = params.gridname;
+        const widgetid = params.widgetid;
+
+        try {
+            const getResponse = await TaskModel.selectTaskAll(username, gridname, widgetid);
+
+            res.status(200).json({ error: false, data: getResponse });
+        } catch(err) {
+            res.status(400).json({ error: err.message });
+        }
+    },
+
     async createTask(req, res) {
         const body = req.body;
         const username = body.username;

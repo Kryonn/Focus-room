@@ -91,4 +91,24 @@ export const WidgetService = {
             console.log("deu ruim");
         }
     },
+
+    async putListRequest(username, gridname, id, newListName) {
+        const url = "/widget/list";
+
+        try {
+            const res = await apiFetch(url, {
+                method: "PUT",
+                body: JSON.stringify({
+                    username: username,
+                    gridname: gridname,
+                    id: id,
+                    newListName: newListName
+                })
+            })
+
+            return res;
+        } catch(err) {
+            return err;
+        }
+    }
 };

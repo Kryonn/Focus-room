@@ -1,25 +1,26 @@
 import styles from "./list.module.css";
+import TaskService from "../../../services/task.service.js";
 import Listpopup from "./listpopup.jsx";
 import { useState, useRef, useEffect, use } from "react";
+import grid from "../grid.jsx";
 
-const list = () => {
+const list = ({ username, gridname, id, listname }) => {
     const [layoutMode, setLayoutMode] = useState(null);
     const mainRef = useRef(null);
     const listRef = useRef(null);
     const [popupEvent, setPopupEvent] = useState("Add task");
     const [listAddPopupState, setAddListPopupState] = useState(false);
     const [listUpdatePopupState, setUpdateListPopupState] = useState(false);
-    const [listName, setListName] = useState("Default name");
+    const [listName, setListName] = useState(listname);
 
-    const [taskList, setTaskList] = useState([
-        { title: "task1", deadline: "02/08/2026" },
-        { title: "task2", deadline: "10/08/2026" },
-    ]);
+    const [taskList, setTaskList] = useState([]);
 
-    const addTask = (taskName, taskDate) => {
+    const addTask = async (taskName, taskDate) => {
         setTaskList((prev) => 
             [...prev, { title: taskName, deadline: taskDate }]
         )
+
+        await TaskService.postRequest(username, gridname, id, taskName, taskDate);
     }
 
     const removeTask = (indexToRemove) => {
@@ -43,6 +44,16 @@ const list = () => {
     
 
     useEffect(() => {
+        TaskService.getRequest(username, gridname, id).then((list) => {
+            list.map((item) => { 
+                setTaskList((prev) =>
+                    [...prev, { title: item.taskname, deadline: item.deadline }]
+                )
+            })
+            
+        })
+
+
         const resizeObserver = new ResizeObserver((entries) => {
             const entry = entries[0];
             const { width, height } = entry.contentRect;
@@ -70,7 +81,7 @@ const list = () => {
                 listAddPopupState && (<Listpopup setAddListPopupState={setAddListPopupState} addTask={addTask} popupEvent={"Add task"}/>)
             }
             {
-                listUpdatePopupState && (<Listpopup setUpdateListPopupState={setUpdateListPopupState} popupEvent={"Edit list name"} setListName={setListName}/>)
+                listUpdatePopupState && (<Listpopup username={username} gridname={gridname} id={id} setUpdateListPopupState={setUpdateListPopupState} popupEvent={"Edit list name"} setListName={setListName}/>)
             }
             <div className={styles.title}>
                 <p>{listName}</p>
@@ -118,7 +129,7 @@ const list = () => {
                                         </svg>
                                     </button> */}
 
-                                    <button onClick={() => { removeTask(index) }} className={styles["list-element-button"]}>
+                                    <button onClick={() => { removeTask(index); TaskService.deleteRequest(username, gridname, id, element.title) }} className={styles["list-element-button"]}>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 640 640"
