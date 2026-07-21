@@ -15,6 +15,7 @@ router.get("/widget", WidgetController.getWidgetAll);
 router.post("/widget", WidgetController.createWidget);
 router.put("/widget", WidgetController.updateWidget);
 router.delete("/widget", WidgetController.removeWidget);
+router.put("/widget/list", WidgetController.updateListWidget);
 
 // Task
 router.post("/task", TaskController.createTask);

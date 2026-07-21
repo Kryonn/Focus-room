@@ -103,4 +103,20 @@ export const WidgetController = {
             res.status(400).json({ error: err.message });
         }
     },
+
+    async updateListWidget(req, res) {
+        const body = req.body;
+        const username = body.username;
+        const gridname = body.gridname;
+        const id = body.id;
+        const newListName = body.newListName;
+
+        try {
+            const updateResponse = await WidgetModel.updateListWidget(username, gridname, id, newListName);
+
+            res.status(200).json({ error: false, data: updateResponse });
+        } catch(err) {
+            res.status(400).json({ error: err.message });
+        }
+    }
 };

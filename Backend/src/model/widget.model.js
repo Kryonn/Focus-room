@@ -100,4 +100,20 @@ export const WidgetModel = {
             throw error;
         }
     },
+
+    async updateListWidget(username, gridname, widgetid, newListName) {
+        try {
+            const res = await db.query(
+                `
+                UPDATE widget
+                SET listname = $1
+                WHERE username = $2 AND gridname = $3 AND id = $4
+                `, [newListName, username, gridname, widgetid]
+            )
+
+            return res;
+        } catch(err) {
+            throw err;
+        }
+    }
 };
