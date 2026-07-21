@@ -28,7 +28,7 @@
     background-color: var(--black-two);
 }
 
-p {
+.sidebar-button-p {
     opacity: 1;
     max-width: 100px;
     transition:

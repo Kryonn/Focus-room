@@ -88,10 +88,12 @@
     padding: 3px 3px 3px 10px;
     box-sizing: border-box;
     color: rgb(50, 50, 50);
+    font-size: 17px;
+
 }
 
 .list-element-title {
-    font-size: 17px;
+    /* border: 1px solid red; */
     flex: 1;
     height: 100%;
     display: flex;
@@ -129,6 +131,15 @@
 
 .list-element-button:hover svg path {
     fill: rgb(35, 35, 35);
+}
+
+.list-element-deadline {
+    width: 120px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
 }
 
 .big {

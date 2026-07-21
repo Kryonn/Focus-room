@@ -53,7 +53,6 @@ const content = ({
                     columnGridDefault,
                 )
             ) {
-                console.log("ASDASDASD");
                 return;
             }
 
@@ -107,7 +106,7 @@ const content = ({
 
             const div = document.createElement("div");
             div.classList.add("grid-stack-item");
-            const id = "list" + Date.now();
+            const id = "list-" + Date.now();
 
             div.setAttribute("gs-id", id);
 
@@ -130,7 +129,7 @@ const content = ({
         noteComponent: (gridParameter, gridInstance, gridRef, gridPosition) => {
             const div = document.createElement("div");
             div.classList.add("grid-stack-item");
-            const id = "note" + Date.now();
+            const id = "note-" + Date.now();
             div.setAttribute("gs-id", id);
             div.innerHTML = `
         <div class="grid-stack-item-content">

@@ -43,10 +43,11 @@ const sidebarButton = ({ setGridObserver, mode, functions }) => {
                 />
                 <p
                     ref={searchRef}
-                    className={
-                        mode === "hide" || !searchButtonState
+                    className={`
+                        ${mode === "hide" || !searchButtonState
                             ? styles["p-hidden"]
-                            : ""
+                            : ""} ${styles["sidebar-button-p"]}
+                        `
                     }
                 >
                     Buscar
@@ -61,7 +62,7 @@ const sidebarButton = ({ setGridObserver, mode, functions }) => {
                 <img className={styles.img} src={addIcon} alt="" />
                 <p
                     ref={addRef}
-                    className={mode === "hide" ? styles["p-hidden"] : ""}
+                    className={`${mode === "hide" ? styles["p-hidden"] : ""} ${styles["sidebar-button-p"]}`}
                 >
                     Adicionar
                 </p>
