@@ -16,6 +16,8 @@ router.post("/widget", WidgetController.createWidget);
 router.put("/widget", WidgetController.updateWidget);
 router.delete("/widget", WidgetController.removeWidget);
 router.put("/widget/list", WidgetController.updateListWidget);
+router.put("/widget/note/name", WidgetController.updateNoteNameWidget);
+router.put("/widget/note/description", WidgetController.updateNoteDescriptionWidget);
 
 // Task
 router.post("/task", TaskController.createTask);

@@ -127,6 +127,10 @@ const content = ({
         },
 
         noteComponent: (gridParameter, gridInstance, gridRef, gridPosition) => {
+            if(!utils.verifyGrid(gridPosition, "note", rowGridDefault, columnGridDefault)) {
+                return;
+            }
+            
             const div = document.createElement("div");
             div.classList.add("grid-stack-item");
             const id = "note-" + Date.now();

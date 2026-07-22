@@ -63,6 +63,14 @@ export const utils = {
                             }
                         }
                         break;
+                    
+                    case "note":
+                        if(!matrix[i][j]) {
+                            if(this.verifyWidget(matrix, row, column, 2, 2, i, j)) {
+                                return true;
+                            }
+                        }
+                        break;
                 }
             }
         }

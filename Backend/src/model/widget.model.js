@@ -115,5 +115,37 @@ export const WidgetModel = {
         } catch(err) {
             throw err;
         }
+    },
+
+    async updateNoteNameWidget(username, gridname, widgetid, newNoteName) {
+        try {
+            const res = await db.query(
+                `
+                UPDATE widget
+                SET notename = $1
+                WHERE username = $2 AND gridname = $3 AND id = $4
+                `, [newNoteName, username, gridname, widgetid]
+            )
+
+            return res;
+        } catch(err) {
+            throw err;
+        }
+    },
+
+    async updateNoteDescriptionWidget(username, gridname, widgetid, newNameDescription) {
+        try {
+            const res = await db.query(
+                `
+                UPDATE widget
+                SET notedescription = $1
+                WHERE username = $2 AND gridname = $3 AND id = $4
+                `, [newNameDescription, username, gridname, widgetid]
+            )
+
+            return res;
+        } catch(err) {
+            throw err;
+        }
     }
 };

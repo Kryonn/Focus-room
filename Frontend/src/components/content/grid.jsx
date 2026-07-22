@@ -12,6 +12,7 @@ import "gridstack/dist/gridstack.min.css";
 // Components
 import Pomodoro from "./tool-component/pomodoro.jsx";
 import List from "./tool-component/list.jsx";
+import Note from "./tool-component/note.jsx";
 
 // Utils
 import { utils } from "../../utils/utils.js";
@@ -56,6 +57,14 @@ const grid = ({
             },
             500,
         ),
+    ).current;
+
+    const updateNoteDescriptionDebounce = useRef(
+        utils.debounce(
+            (username, gridname, widgetid, newNoteDescription) => {
+                WidgetService.putNoteDescriptionRequest(username, gridname, widgetid, newNoteDescription);
+            }, 2000
+        )
     ).current;
 
     useEffect(() => {
@@ -177,6 +186,10 @@ const grid = ({
 
                         case "list":
                             widgetRoot.current[index].render(<List username={"asd"} gridname={gridParameter.name} id={widget.id} listname={widget.listname} />);
+                            break;
+
+                        case "note":
+                            widgetRoot.current[index].render(<Note username={"asd"} gridname={gridParameter.name} id={widget.id} updateNoteDescriptionDebounce={updateNoteDescriptionDebounce} notename={widget.notename} notedescription={widget.notedescription} />);
                             break;
                     }
                 });

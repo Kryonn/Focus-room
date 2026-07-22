@@ -118,5 +118,37 @@ export const WidgetController = {
         } catch(err) {
             res.status(400).json({ error: err.message });
         }
+    },
+
+    async updateNoteNameWidget(req, res) {
+        const body = req.body;
+        const username = body.username;
+        const gridname = body.gridname;
+        const id = body.id;
+        const newNoteName = body.newNoteName;
+
+        try {
+            const updateResponse = await WidgetModel.updateNoteNameWidget(username, gridname, id, newNoteName);
+
+            res.status(200).json({ error: false, data: updateResponse });
+        } catch(err) {
+            res.status(400).json({ error: err.message });
+        }
+    },
+
+    async updateNoteDescriptionWidget(req, res) {
+        const body = req.body;
+        const username = body.username;
+        const gridname = body.gridname;
+        const id = body.id;
+        const newNoteDescription = body.newNoteDescription;
+
+        try {
+            const updateResponse = await WidgetModel.updateNoteDescriptionWidget(username, gridname, id, newNoteDescription);
+
+            res.status(200).json({ error: false, data: updateResponse });
+        } catch(err) {
+            res.status(400).json({ error: err.message });
+        }
     }
 };

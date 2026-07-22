@@ -110,5 +110,45 @@ export const WidgetService = {
         } catch(err) {
             return err;
         }
+    },
+
+    async putNoteDescriptionRequest(username, gridname, id, newNoteDescription) {
+        const url = "/widget/note/description"
+
+        try {
+            const res = await apiFetch(url, {
+                method: "PUT",
+                body: JSON.stringify({
+                    username: username,
+                    gridname: gridname,
+                    id: id,
+                    newNoteDescription
+                })
+            });
+
+            return res;
+        } catch(err) {
+            return err;
+        }
+    },
+
+    async putNoteNameRequest(username, gridname, id, newNoteName) {
+        const url = "/widget/note/name";
+
+        try {
+            const res = await apiFetch(url, {
+                method: "PUT",
+                body: JSON.stringify({
+                    username: username,
+                    gridname: gridname,
+                    id: id,
+                    newNoteName: newNoteName
+                })
+            })
+
+            return res;
+        } catch(err) {
+            return err;
+        }
     }
 };
