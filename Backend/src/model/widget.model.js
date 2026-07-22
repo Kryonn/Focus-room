@@ -6,6 +6,14 @@ const default_pomodoro_break_time = 20;
 const default_pomodoro_width = 1;
 const default_pomodoro_height = 1;
 
+// List default settings
+const default_list_width = 3
+const default_list_height = 2
+
+// Note default settings
+const default_note_width = 2
+const default_note_height = 2
+
 export const WidgetModel = {
     async selectWidgetAll(username, gridName) {
         try {
@@ -141,6 +149,36 @@ export const WidgetModel = {
                 SET notedescription = $1
                 WHERE username = $2 AND gridname = $3 AND id = $4
                 `, [newNameDescription, username, gridname, widgetid]
+            )
+
+            return res;
+        } catch(err) {
+            throw err;
+        }
+    },
+
+    async insertList(username, gridname, id, listName, xposition, yposition) {
+        try {
+            const res = await db.query(
+                `
+                INSERT INTO widget (username, gridname, id, listname, xposition, yposition, width, height)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+                `, [username, gridname, id, listName, xposition, yposition, default_list_width, default_list_height]
+            )
+
+            return res;
+        } catch(err) {
+            throw err;
+        }
+    },
+
+    async insertNote(username, gridname, id, noteName, xPosition, yPosition) {
+        try {
+            const res = await db.query(
+                `
+                INSERT INTO widget (username, gridname, id, notename, xposition, yposition, width, height)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+                `, [username, gridname, id, noteName, xPosition, yPosition, default_note_width, default_note_height]
             )
 
             return res;

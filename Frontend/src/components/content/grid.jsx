@@ -127,7 +127,11 @@ const grid = ({
 
                     newWidget.innerHTML = `
                         <div class="grid-stack-item-content ">
-                            <button class="${styles.button} delete-button">x</button>
+                            <button class="${styles["remove-button"]} delete-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                                    <path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z"/>
+                                </svg>
+                            </button>
                             <div class="${styles[widgetType]} alvo-${widgetType} widget" style="height:100%; width: 100%; display: flex"></div>
                         </div>
                     `;

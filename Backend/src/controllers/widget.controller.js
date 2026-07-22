@@ -150,5 +150,41 @@ export const WidgetController = {
         } catch(err) {
             res.status(400).json({ error: err.message });
         }
+    },
+
+    async createList(req, res) {
+        const body = req.body;
+        const username = body.username;
+        const gridname = body.gridname;
+        const widgetid = body.widgetid;
+        const listname = body.listname;
+        const xposition = body.xposition;
+        const yposition = body.yposition;
+
+        try {
+            const insertResponse = await WidgetModel.insertList(username, gridname, widgetid, listname, xposition, yposition);
+
+            res.status(201).json({ error: false, data: insertResponse });
+        } catch(err) {
+            res.status(400).json({ error: err.message });
+        }
+    },
+
+    async createNote(req, res) {
+        const body = req.body;
+        const username = body.username;
+        const gridname = body.gridname;
+        const widgetid = body.widgetid;
+        const notename = body.notename;
+        const xposition = body.xposition;
+        const yposition = body.yposition;
+
+        try {
+            const insertResponse = await WidgetModel.insertNote(username, gridname, widgetid, notename, xposition, yposition);
+
+            res.status(201).json({ error: false, data: insertResponse });
+        } catch(err) {
+            res.status(400).json({ error: err.message });
+        }
     }
 };

@@ -13,6 +13,8 @@ router.delete("/grid", GridController.removeGrid);
 // Widget
 router.get("/widget", WidgetController.getWidgetAll);
 router.post("/widget", WidgetController.createWidget);
+router.post("/widget/list", WidgetController.createList);
+router.post("/widget/note", WidgetController.createNote);
 router.put("/widget", WidgetController.updateWidget);
 router.delete("/widget", WidgetController.removeWidget);
 router.put("/widget/list", WidgetController.updateListWidget);

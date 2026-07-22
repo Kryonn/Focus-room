@@ -46,6 +46,10 @@
     display: none;
 }
 
+.grid-delete-button-icon {
+    fill: var(--white-one);
+}
+
 .link:hover .grid-delete-button {
     height: 100%;
     display: block;

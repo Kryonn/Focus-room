@@ -20,7 +20,6 @@
     box-sizing: border-box;
     color: var(--white-one);
     font: inherit;
-    border: 1px solid red;
     cursor: pointer;
 }
 
