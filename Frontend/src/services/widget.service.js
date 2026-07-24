@@ -1,3 +1,4 @@
+import { getHitShapeOnCanvasPointerDown } from "tldraw";
 import { apiFetch } from "./api";
 
 export const WidgetService = {
@@ -143,6 +144,50 @@ export const WidgetService = {
                     gridname: gridname,
                     id: id,
                     newNoteName: newNoteName
+                })
+            })
+
+            return res;
+        } catch(err) {
+            return err;
+        }
+    },
+
+    async postListRequest(username, gridname, id, listName, xPosition, yPosition) {
+        const url = "/widget/list";
+
+        try {
+            const res = await apiFetch(url, {
+                method: "POST",
+                body: JSON.stringify({
+                    username: username,
+                    gridname: gridname,
+                    widgetid: id,
+                    listname: listName,
+                    xposition: xPosition,
+                    yposition: yPosition
+                })
+            })
+
+            return res;
+        } catch(err) {
+            return err;
+        }
+    },
+
+    async postNoteRequest(username, gridname, id, noteName, xPosition, yPosition) {
+        const url = "/widget/note";
+
+        try {
+            const res = await apiFetch(url, {
+                method: "POST",
+                body: JSON.stringify({
+                    username: username,
+                    gridname: gridname,
+                    widgetid: id,
+                    notename: noteName,
+                    xposition: xPosition,
+                    yposition: yPosition
                 })
             })
 

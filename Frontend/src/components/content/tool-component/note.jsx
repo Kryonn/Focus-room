@@ -1,11 +1,13 @@
 import styles from "./note.module.css";
 import Notepopup from "./notepopup.jsx";
+import Popup from "./popup.jsx";
 import { useState } from "react";
 
 const note = ({ username, gridname, id, updateNoteDescriptionDebounce, notename, notedescription }) => {
     const [noteDescription, setNoteDescription] = useState(notedescription);
     const [noteName, setNoteName] = useState(notename);
     const [notePopup, setNotePopup] = useState(false);
+    const [notePopupState, setPopupState] = useState(false);
     
     return (
         <div className={styles.main}>

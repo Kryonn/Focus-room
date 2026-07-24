@@ -1,5 +1,8 @@
 import styles from "./tool.module.css";
+import Popup from "./tool-component/popup.jsx";
+import { WidgetService } from "../../services/widget.service.js";
 import { useState, useEffect } from "react";
+import { utils } from "../../utils/utils.js";
 
 const tool = ({
     setWidget,
@@ -9,9 +12,22 @@ const tool = ({
     gridPositionRef,
 }) => {
     const [settingState, setSettingState] = useState(false);
+    const [popupTitle, setPopupTitle] = useState("");
+    const [listPopupState, setListPopupState] = useState(false);
+    const [notePopupState, setNotePopupState] = useState(false);
+    const [labelList, setLabelList] = useState([]);
+    const [functionList, setFunctionList] = useState([]);
+    const [requestParameter, setRequestParameter] = useState([]);
+    const [widgetState, setWidgetState] = useState(null);
 
     return (
         <div className={styles.main}>
+            {
+                listPopupState && <Popup popupTitle={popupTitle} setPopupState={setListPopupState} labelList={labelList} setWidget={setWidget.listComponent} gridParameter={gridParameter} gridInstance={gridInstanceRef} gridRef={gridRefRef}/>
+            }
+            {
+                notePopupState && <Popup popupTitle={popupTitle} setPopupState={setNotePopupState} labelList={labelList} setWidget={setWidget.noteComponent} gridParameter={gridParameter} gridInstance={gridInstanceRef} gridRef={gridRefRef}/>
+            }
             <div className={styles.tool}>
                 <button
                     onClick={() => {
@@ -36,12 +52,21 @@ const tool = ({
                 </button>
                 <button
                     onClick={() => {
-                        setWidget.listComponent(
-                            gridParameter,
-                            gridInstanceRef.current[gridParameter.index],
-                            gridRefRef.current[gridParameter.index],
-                            gridPositionRef.current[gridParameter.index]
-                        );
+                        if (
+                            !utils.verifyGrid(
+                                gridPositionRef.current[gridParameter.index],
+                                "list",
+                                5,
+                                10,
+                            )
+                        ) {
+                            console.log(gridPositionRef.current[gridParameter.index]);
+                            console.log("ASDASDASD");
+                            return;
+                        }
+                        setLabelList(["Name"]);
+                        setPopupTitle("Create list");
+                        setListPopupState(prev => !prev);
                     }}
                     className={styles["button"]}
                 >
@@ -57,12 +82,13 @@ const tool = ({
                 </button>
                 <button
                     onClick={() => {
-                        setWidget.noteComponent(
-                            gridParameter,
-                            gridInstanceRef.current[gridParameter.index],
-                            gridRefRef.current[gridParameter.index],
-                            gridPositionRef.current[gridParameter.index]
-                        );
+                        if(!utils.verifyGrid(gridPositionRef.current[gridParameter.index], "note", 5, 10)) {
+                            return;
+                        }
+
+                        setLabelList(["Name"]);
+                        setPopupTitle("Create note");
+                        setNotePopupState(prev => !prev);
                     }}
                     className={styles["button"]}
                 >

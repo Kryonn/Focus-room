@@ -18,9 +18,6 @@ export const utils = {
             Array.from({ length: row }, () => false),
         );
 
-        console.log("Occuped: ", occuped);
-        console.log("Nodes: ", nodes);
-
         for (let k = 0; k < nodes.length; k++) {
             const xPos = nodes[k].x;
             const yPos = nodes[k].y;

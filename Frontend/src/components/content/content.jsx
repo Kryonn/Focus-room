@@ -35,6 +35,14 @@ const content = ({
     // Components Root Lists
     const widgetRoot = useRef([]);
 
+    const updateNoteDescriptionDebounce = useRef(
+        utils.debounce(
+            (username, gridname, widgetid, newNoteDescription) => {
+                WidgetService.putNoteDescriptionRequest(username, gridname, widgetid, newNoteDescription);
+            }, 2000
+        )
+    ).current;
+
     // Add Components Function List
     const functionList = {
         pomodoroComponent: async (
@@ -90,20 +98,7 @@ const content = ({
             widgetRoot.current[widgetList.length - 1].render(<Pomodoro />);
         },
 
-        listComponent: (gridParameter, gridInstance, gridRef, gridPosition) => {
-            if (
-                !utils.verifyGrid(
-                    gridPosition,
-                    "list",
-                    rowGridDefault,
-                    columnGridDefault,
-                )
-            ) {
-                console.log("ASDASDASD");
-                return;
-            }
-
-
+        listComponent: (listParameter, gridParameter, gridInstance, gridRef) => {
             const div = document.createElement("div");
             div.classList.add("grid-stack-item");
             const id = "list-" + Date.now();
@@ -120,20 +115,28 @@ const content = ({
             gridRef.appendChild(div);
             gridInstance.makeWidget(div, { w: 3, h: 2, minW: 3, minH: 2 });
 
+            WidgetService.postListRequest(
+                "asd",
+                gridParameter.name,
+                id,
+                ...listParameter,
+                div.gridstackNode.x,
+                div.gridstackNode.y,
+            );
+            console.log("gridParameter", gridParameter)
+            console.log("listParameter", listParameter)
+
             const widgetList = document.querySelectorAll(".widget");
 
             widgetRoot[widgetList.length - 1] = createRoot(widgetList[widgetList.length - 1]);
-            widgetRoot[widgetList.length - 1].render(<List />);
+            widgetRoot[widgetList.length - 1].render(<List username={"asd"} gridname={gridParameter.name} id={id} listname={listParameter[0]}/>);
         },
 
-        noteComponent: (gridParameter, gridInstance, gridRef, gridPosition) => {
-            if(!utils.verifyGrid(gridPosition, "note", rowGridDefault, columnGridDefault)) {
-                return;
-            }
-            
+        noteComponent: (listParameter, gridParameter, gridInstance, gridRef) => {
             const div = document.createElement("div");
             div.classList.add("grid-stack-item");
             const id = "note-" + Date.now();
+
             div.setAttribute("gs-id", id);
             div.innerHTML = `
         <div class="grid-stack-item-content">
@@ -145,10 +148,21 @@ const content = ({
             gridRef.appendChild(div);
             gridInstance.makeWidget(div, { w: 2, h: 2, minH: 2, minW: 2 });
 
+            console.log(listParameter);
+
+            WidgetService.postNoteRequest(
+                "asd",
+                gridParameter.name,
+                id,
+                ...listParameter,
+                div.gridstackNode.x,
+                div.gridstackNode.y,
+            );
+
             const widgetList = document.querySelectorAll(".widget");
 
             widgetRoot[widgetList.length - 1] = createRoot(widgetList[widgetList.length - 1]);
-            widgetRoot[widgetList.length - 1].render(<Note />);
+            widgetRoot[widgetList.length - 1].render(<Note username={"asd"} gridname={gridParameter.name} id={id} updateNoteDescriptionDebounce={updateNoteDescriptionDebounce} notename={listParameter[0]} notedescription={""}/>);
         },
     };
 
