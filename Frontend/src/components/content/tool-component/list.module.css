@@ -12,9 +12,9 @@
 
 .title {
     /* border: 1px solid red; */
-    flex: 1;
+    /* flex: 1; */
     min-height: 0;
-    background-color: rgb(50, 50, 50);
+    background-color: var(--black-three);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -26,7 +26,9 @@
 
 .title p {
     text-align: center;
-    align-items: center;
+    align-items: center;                      
+    font-weight: 700;
+    color: var(--black-one);
 }
 
 .button-div {
@@ -51,8 +53,12 @@
     background-color: rgb(26, 26, 26);
 }
 
+.button-div .title-button svg {
+    fill: var(--black-one);
+}
+
 .button-div .title-button:hover svg {
-    fill: rgb(50, 50, 50);
+    fill: var(--black-three);
 }
 
 .list-nav {
@@ -62,7 +68,7 @@
     /* background-color: rgb(50, 50, 50); */
     /* border-radius: 5px; */
     /* width: 100%; */
-    flex: 3;
+    /* flex: 3; */
 }
 
 .list {
@@ -87,9 +93,13 @@
     align-items: center;
     padding: 3px 3px 3px 10px;
     box-sizing: border-box;
-    color: rgb(50, 50, 50);
+    color: var(--white-four);
     font-size: 17px;
+    cursor: pointer;
+}
 
+.list-element p {
+    font-family: "Poppins", sans-serif;
 }
 
 .list-element-title {
@@ -101,7 +111,8 @@
 }
 
 .list-element:hover {
-    background-color: rgb(35, 35, 35);
+    /* background-color: rgb(35, 35, 35); */
+    background-color: var(--black-two);
 }
 
 .list-element-button-div {
@@ -118,19 +129,22 @@
     border: none;
     background-color: transparent;
     font-size: 20px;
-    color: rgb(50, 50, 50);
     height: 100%;
     aspect-ratio: 1 / 1;
     padding: 3px;
     cursor: pointer;
 }
 
+.list-element-button svg path {
+    fill: var(--white-four);
+}
+
 .list-element-button:hover {
-    background-color: rgb(50, 50, 50);
+    background-color: var(--black-one);
 }
 
 .list-element-button:hover svg path {
-    fill: rgb(35, 35, 35);
+    fill: var(--white-two);
 }
 
 .list-element-deadline {
@@ -139,7 +153,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* border: 1px solid red; */
 }
 
 .big {

@@ -16,9 +16,12 @@
     border-radius: 5px;
     padding: 5px;
     padding-left: 10px;
-    background-color: rgb(50, 50, 50);
-    flex: 1;
+    box-sizing: border-box;
+    background-color: var(--black-three);
+    /* flex: 1; */
     min-height: 0;
+    font-family: "Inter", sans-serif;
+    max-height: 40px;
 }
 
 .title p {
@@ -31,7 +34,8 @@
     min-height: 0;
     display: flex;
     width: 100%;
-    flex: 6;
+    height: 100%;
+    /* flex: 6; */
 }
 
 .text-input {
@@ -40,8 +44,11 @@
     border: 1px solid rgb(50, 50, 50);
     border-radius: 5px;
     resize: none;
-    color: var(--white-two);
-    font-size: 20px;
+    color: var(--white-four);
+    /* font-size: 20px; */
+    font-size: 17px;
+    font-family: "Poppins", sans-serif;
+    padding: 5px;
 }
 
 .text-input:focus {
@@ -64,4 +71,12 @@
     cursor: pointer;
     border-radius: 5px;
     padding: 5px;
+}
+
+.button-div:hover .title-button {
+    background-color: var(--black-one);
+}
+
+.button-div:hover svg {
+    fill: var(--black-three);
 }

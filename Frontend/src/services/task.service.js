@@ -21,7 +21,7 @@ const TaskService = {
         }
     },
 
-    async postRequest(username, gridname, widgetid, taskname, deadline) {
+    async postRequest(taskname, deadline, username, gridname, widgetid) {
         const url = "/task"
         try {
             const res = await apiFetch(url, {

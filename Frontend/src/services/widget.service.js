@@ -93,7 +93,7 @@ export const WidgetService = {
         }
     },
 
-    async putListRequest(username, gridname, id, newListName) {
+    async putListRequest(newListName, username, gridname, id) {
         const url = "/widget/list";
 
         try {
@@ -133,7 +133,7 @@ export const WidgetService = {
         }
     },
 
-    async putNoteNameRequest(username, gridname, id, newNoteName) {
+    async putNoteNameRequest(newNoteName, username, gridname, id) {
         const url = "/widget/note/name";
 
         try {

@@ -47,7 +47,7 @@
 }
 
 .grid-delete-button-icon {
-    fill: var(--white-one);
+    fill: var(--white-four);
 }
 
 .link:hover .grid-delete-button {
@@ -55,9 +55,17 @@
     display: block;
     border-radius: 3px;
     border: none;
-    background-color: var(--black-one);
+    background-color: transparent;
     color: var(--white-one);
     cursor: pointer;
+}
+
+.link:hover .grid-delete-button:hover {
+    background-color: var(--black-one);
+}
+
+.grid-delete-button:hover svg {
+    fill: var(--white-two);   
 }
 
 .hidden {

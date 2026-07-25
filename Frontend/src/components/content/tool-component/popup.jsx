@@ -1,25 +1,30 @@
 import styles from "./popup.module.css"
 import { useRef, useState } from "react";
 
-const popup = ({ popupTitle, setPopupState, labelList, buttonFunctions, gridParameter, gridInstance, gridRef }) => {
+const popup = ({ popupTitle, setPopupState, labelList, inputTypeList, setList, buttonFunction, buttonFunctionParameter}) => {
     
     const taskNameRef = useRef([]); 
     const inputListRef = useRef([]);   
     const [listParameter, setListParameter] = useState([]);
-    console.log("gridRef: ", gridRef);
 
 
-    const buttonFunction = async () => {
+    const sendButton = async () => {
         setPopupState((prev) => !prev);
 
         const values = inputListRef.current.map((input) => input.value);
 
+        if(setList) {
+            setList.forEach((setFunction, index) => {
+                setFunction(values[index]);
+            })
+        }
+
         console.log(values);
-        setWidget(
-            values,
-            gridParameter,
-            gridInstance.current[gridParameter.index],
-            gridRef.current[gridParameter.index],
+        
+
+        buttonFunction(
+            ...values,
+            ...buttonFunctionParameter
         );
     }
 
@@ -39,14 +44,14 @@ const popup = ({ popupTitle, setPopupState, labelList, buttonFunctions, gridPara
                                 </label>
                                 <input ref={(ref) => inputListRef.current[index] = ref}
                                     className={styles["input"]}
-                                    type=""
+                                    type={inputTypeList[index]}
                                 />
                             </div>
                         )
                     }
                     
                     <button
-                        onClick={() => { buttonFunction() }}
+                        onClick={() => { sendButton() }}
                         className={styles.button}
                         type="button"
                     >

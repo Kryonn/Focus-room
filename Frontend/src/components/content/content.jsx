@@ -119,17 +119,17 @@ const content = ({
                 "asd",
                 gridParameter.name,
                 id,
-                ...listParameter,
+                listParameter,
                 div.gridstackNode.x,
                 div.gridstackNode.y,
             );
-            console.log("gridParameter", gridParameter)
+            console.log("div.gridstackNode", div.gridstackNode);
             console.log("listParameter", listParameter)
 
             const widgetList = document.querySelectorAll(".widget");
 
             widgetRoot[widgetList.length - 1] = createRoot(widgetList[widgetList.length - 1]);
-            widgetRoot[widgetList.length - 1].render(<List username={"asd"} gridname={gridParameter.name} id={id} listname={listParameter[0]}/>);
+            widgetRoot[widgetList.length - 1].render(<List username={"asd"} gridname={gridParameter.name} id={id} listname={listParameter}/>);
         },
 
         noteComponent: (listParameter, gridParameter, gridInstance, gridRef) => {
@@ -154,7 +154,7 @@ const content = ({
                 "asd",
                 gridParameter.name,
                 id,
-                ...listParameter,
+                listParameter,
                 div.gridstackNode.x,
                 div.gridstackNode.y,
             );
@@ -162,7 +162,7 @@ const content = ({
             const widgetList = document.querySelectorAll(".widget");
 
             widgetRoot[widgetList.length - 1] = createRoot(widgetList[widgetList.length - 1]);
-            widgetRoot[widgetList.length - 1].render(<Note username={"asd"} gridname={gridParameter.name} id={id} updateNoteDescriptionDebounce={updateNoteDescriptionDebounce} notename={listParameter[0]} notedescription={""}/>);
+            widgetRoot[widgetList.length - 1].render(<Note username={"asd"} gridname={gridParameter.name} id={id} updateNoteDescriptionDebounce={updateNoteDescriptionDebounce} notename={listParameter} notedescription={""}/>);
         },
     };
 

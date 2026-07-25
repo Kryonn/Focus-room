@@ -1,23 +1,23 @@
 import styles from "./note.module.css";
-import Notepopup from "./notepopup.jsx";
 import Popup from "./popup.jsx";
 import { useState } from "react";
+import { WidgetService } from "../../../services/widget.service.js";
 
 const note = ({ username, gridname, id, updateNoteDescriptionDebounce, notename, notedescription }) => {
     const [noteDescription, setNoteDescription] = useState(notedescription);
     const [noteName, setNoteName] = useState(notename);
-    const [notePopup, setNotePopup] = useState(false);
-    const [notePopupState, setPopupState] = useState(false);
+    const [notePopupState, setNotePopupState] = useState(false);
+    const setList = [setNoteName];
     
     return (
         <div className={styles.main}>
             {
-                notePopup && (<Notepopup username={username} gridname={gridname} id={id} setNoteName={setNoteName} setNotePopup={setNotePopup}/>)
+                notePopupState && (<Popup popupTitle={"Change note name"} setPopupState={setNotePopupState} labelList={["Name"]} inputTypeList={[""]} setList={setList} buttonFunction={WidgetService.putNoteNameRequest} buttonFunctionParameter={[username, gridname, id]} />)
             }
             <div className={styles.title}>
                 <p>{noteName}</p>
                 <div className={styles["button-div"]}>
-                    <button onClick={() => { setNotePopup(prev => !prev) }} className={styles["title-button"]} type="button">
+                    <button onClick={() => { setNotePopupState(prev => !prev) }} className={styles["title-button"]} type="button">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 640 640"
@@ -28,7 +28,7 @@ const note = ({ username, gridname, id, updateNoteDescriptionDebounce, notename,
                 </div>
             </div>
             <div className={styles["text-div"]}>
-                <textarea onChange={(e) => { setNoteDescription(e.target.value); updateNoteDescriptionDebounce(username, gridname, id, e.target.value) }} value={noteDescription} className={styles["text-input"]} name=""></textarea>
+                <textarea onChange={(e) => { setNoteDescription(e.target.value); updateNoteDescriptionDebounce(username, gridname, id, e.target.value) }} value={noteDescription} className={styles["text-input"]} spellCheck="false" name=""></textarea>
             </div>
         </div>
     );

@@ -23,10 +23,10 @@ const tool = ({
     return (
         <div className={styles.main}>
             {
-                listPopupState && <Popup popupTitle={popupTitle} setPopupState={setListPopupState} labelList={labelList} setWidget={setWidget.listComponent} gridParameter={gridParameter} gridInstance={gridInstanceRef} gridRef={gridRefRef}/>
+                listPopupState && <Popup popupTitle={popupTitle} setPopupState={setListPopupState} labelList={labelList} inputTypeList={[""]} buttonFunction={setWidget.listComponent} buttonFunctionParameter={[gridParameter, gridInstanceRef.current[gridParameter.index], gridRefRef.current[gridParameter.index]]}/>
             }
             {
-                notePopupState && <Popup popupTitle={popupTitle} setPopupState={setNotePopupState} labelList={labelList} setWidget={setWidget.noteComponent} gridParameter={gridParameter} gridInstance={gridInstanceRef} gridRef={gridRefRef}/>
+                notePopupState && <Popup popupTitle={popupTitle} setPopupState={setNotePopupState} labelList={labelList} inputTypeList={[""]} buttonFunction={setWidget.noteComponent} buttonFunctionParameter={[gridParameter, gridInstanceRef.current[gridParameter.index], gridRefRef.current[gridParameter.index]]}/>
             }
             <div className={styles.tool}>
                 <button

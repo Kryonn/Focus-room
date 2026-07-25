@@ -8,12 +8,20 @@
 }                                                                           
 
 :root {
-    --black-one: #1a1a1a;
-    --black-two: #272727;
-    --black-three: #323232;
-    --white-one: #c8c8c8;
-    --white-two: #969696;
-    --white-three: #787878;                                                                                                           
+    /* White */
+    --black-one: #1C1C1E;
+    --black-two: #313131;
+    --black-three: #3e3e3e;
+    --black-four: #4f4f4f;
+    --black-five: #57575f;
+
+    /* White */
+    --white-one: #FAFAFA;
+    --white-two: #d5d5d5;
+    --white-three: #afafaf;           
+    --white-four: #959595;     
+    
+    /* Font */
     --title-font: "Poppins", sans-serif;
     --title-font-size: 18px;
     --text-font: "Raleway", sans-serif;

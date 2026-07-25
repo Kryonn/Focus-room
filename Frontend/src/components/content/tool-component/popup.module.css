@@ -24,6 +24,7 @@
 .title {
     font-size: 20px;
     font-weight: 700;
+    font-family: "Inter", sans-serif;
 }
 
 .form {
@@ -42,22 +43,25 @@
     border: none;
     margin-left: 10px;
     padding: 5px;
-    background-color: var(--white-two);
+    background-color: var(--white-three);
     box-sizing: border-box;
     color: var(--black-one);
+    display: flex;
+    align-items: center;
+    font-family: "Poppins", sans-serif;
 }
 
 .input:focus {
     outline: none;
 }
 
-.inputlabel {
+.input-label {
+    font-family: "Popppins", sans-serif;
     font-size: 17px;
     color: var(--white-one);
 }
 
 .input-div {
-    /* border: 1px solid red; */
     width: 270px;
     align-items: center;
     display: flex;
@@ -68,8 +72,12 @@
     border: none;
     color: var(--white-one);
     width: 100px;
-    height: 25px;
+    height: 30px;
     border-radius: 7px;
     background-color: var(--black-three);
     cursor: pointer;
+}
+
+.button:hover {
+    background-color: var(--black-two);
 }

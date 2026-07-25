@@ -1,26 +1,27 @@
 import styles from "./list.module.css";
 import TaskService from "../../../services/task.service.js";
-import Listpopup from "./listpopup.jsx";
+import Popup from "./popup.jsx";
 import { useState, useRef, useEffect, use } from "react";
 import grid from "../grid.jsx";
+import { WidgetService } from "../../../services/widget.service.js";
 
 const list = ({ username, gridname, id, listname }) => {
     const [layoutMode, setLayoutMode] = useState(null);
     const mainRef = useRef(null);
     const listRef = useRef(null);
     const [popupEvent, setPopupEvent] = useState("Add task");
-    const [listAddPopupState, setAddListPopupState] = useState(false);
-    const [listUpdatePopupState, setUpdateListPopupState] = useState(false);
+    const [listAddPopupState, setListAddPopupState] = useState(false);
+    const [listUpdatePopupState, setListUpdatePopupState] = useState(false);
     const [listName, setListName] = useState(listname);
-
     const [taskList, setTaskList] = useState([]);
+    const setList = [setListName];
 
-    const addTask = async (taskName, taskDate) => {
+    const addTask = async (taskName, taskDate, username, gridname, id) => {
         setTaskList((prev) => 
             [...prev, { title: taskName, deadline: taskDate }]
         )
 
-        await TaskService.postRequest(username, gridname, id, taskName, taskDate);
+        await TaskService.postRequest(taskName, taskDate, username, gridname, id);
     }
 
     const removeTask = (indexToRemove) => {
@@ -29,7 +30,7 @@ const list = ({ username, gridname, id, listname }) => {
         )
     }
 
-    const updateTask = (indexToUpdate, taskName, taskDate) => {
+    const updateTask = async (indexToUpdate, taskName, taskDate) => {
         setTaskList((prev) => 
             prev.filter((item, index) => {
                 if(index != indexToUpdate) {
@@ -78,15 +79,15 @@ const list = ({ username, gridname, id, listname }) => {
     return (
         <div ref={mainRef} className={`${styles.main} ${styles[layoutMode]}`}>
             {
-                listAddPopupState && (<Listpopup setAddListPopupState={setAddListPopupState} addTask={addTask} popupEvent={"Add task"}/>)
+                listAddPopupState && (<Popup popupTitle={"Add task"} setPopupState={setListAddPopupState} labelList={["Name", "Deadline"]} inputTypeList={["", "Date"]} buttonFunction={addTask} buttonFunctionParameter={[username, gridname, id]}/>)
             }
             {
-                listUpdatePopupState && (<Listpopup username={username} gridname={gridname} id={id} setUpdateListPopupState={setUpdateListPopupState} popupEvent={"Edit list name"} setListName={setListName}/>)
+                listUpdatePopupState && (<Popup popupTitle={"Edit task"} setPopupState={setListUpdatePopupState} labelList={["Name"]} inputTypeList={[""]} setList={setList} buttonFunction={WidgetService.putListRequest} buttonFunctionParameter={[username, gridname, id]}/>)
             }
             <div className={styles.title}>
                 <p>{listName}</p>
                 <div className={styles["button-div"]}>
-                    <button onClick={() => { setAddListPopupState(prev => !prev) }} id="add-button" className={styles["title-button"]} type="button">
+                    <button onClick={() => { setListAddPopupState(prev => !prev) }} id="add-button" className={styles["title-button"]} type="button">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 640 640"
@@ -94,7 +95,7 @@ const list = ({ username, gridname, id, listname }) => {
                             <path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z" />
                         </svg>
                     </button>
-                    <button onClick={() => { setUpdateListPopupState(prev => !prev) }} className={styles["title-button"]} type="button">
+                    <button onClick={() => { setListUpdatePopupState(prev => !prev) }} className={styles["title-button"]} type="button">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 640 640"
@@ -117,18 +118,6 @@ const list = ({ username, gridname, id, listname }) => {
                                     {element.deadline}
                                 </p>
                                 <div className={styles["list-element-button-div"]}>
-                                    {/* <button className={styles["list-element-button"]}>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 640 640"
-                                        >
-                                            <path
-                                                fill="rgb(50, 50, 50)"
-                                                d="M232.7 69.9C237.1 56.8 249.3 48 263.1 48L377 48C390.8 48 403 56.8 407.4 69.9L416 96L512 96C529.7 96 544 110.3 544 128C544 145.7 529.7 160 512 160L128 160C110.3 160 96 145.7 96 128C96 110.3 110.3 96 128 96L224 96L232.7 69.9zM128 208L512 208L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 208zM216 272C202.7 272 192 282.7 192 296L192 488C192 501.3 202.7 512 216 512C229.3 512 240 501.3 240 488L240 296C240 282.7 229.3 272 216 272zM320 272C306.7 272 296 282.7 296 296L296 488C296 501.3 306.7 512 320 512C333.3 512 344 501.3 344 488L344 296C344 282.7 333.3 272 320 272zM424 272C410.7 272 400 282.7 400 296L400 488C400 501.3 410.7 512 424 512C437.3 512 448 501.3 448 488L448 296C448 282.7 437.3 272 424 272z"
-                                            />
-                                        </svg>
-                                    </button> */}
-
                                     <button onClick={() => { removeTask(index); TaskService.deleteRequest(username, gridname, id, element.title) }} className={styles["list-element-button"]}>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
