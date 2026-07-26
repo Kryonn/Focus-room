@@ -1,31 +1,26 @@
 import styles from "./pomodoro.module.css";
 import { useState, useEffect, useRef } from "react";
 import { POMODORO_PATH } from "../../../assets/svg-path";
-import pomodoroSound from "../../../assets/pomodoro-sound.mp3"
-// import { use } from "react";
+import { use } from "react";
 
 const pomodoro = () => {
-    const [time, setTime] = useState(1);
-
+    const [time, setTime] = useState(20 * 60);
+    const [sound, setSound] = useState(true);
     const [pomodoroState, setPomodoroState] = useState("pause");
     const [pomodoroMode, setPomodoroMode] = useState("work");
-    
     const [resetPath, setResetPath] = useState(POMODORO_PATH.reset);
     const [playPath, setPlayPath] = useState(POMODORO_PATH.play);
+    const [mutedPath, setMutedPath] = useState(POMODORO_PATH.unmuted);
     const [settingPath, setSettingPath] = useState(POMODORO_PATH.setting);
-    
-    const [prevPlayButtonState, setPrevPlayButtonState] = useState(25);
-    const [prevResetButtonState, setPrevResetButtonState] = useState(20);
+    const [resetButton, setResetButton] = useState(false);
+    const [playButton, setPlayButton] = useState(false);
     const [playButtonState, setPlayButtonState] = useState(25);
     const [resetButtonState, setResetButtonState] = useState(20);
-    const [settingButtonState, setSettingButtonState] = useState(false);
-
+    const [soundButton, setSoundButton] = useState(false);
+    const [settingButton, setSettingButton] = useState(false);
     const [layoutMode, setLayoutMode] = useState("small");
-    
     const [workTime, setWorkTime] = useState(25);
     const [breakTime, setBreakTime] = useState(25);
-
-    const soundRef = useRef(null);    
     const mainRef = useRef(null);
 
     function pausePlay() {
@@ -39,6 +34,24 @@ const pomodoro = () => {
         setPlayPath(POMODORO_PATH.play);
     }
 
+    function unmutedMuted() {
+        if (!sound) {
+            setSound(true);
+            setMutedPath(POMODORO_PATH.unmuted);
+            return;
+        }
+
+        setSound(false);
+        setMutedPath(POMODORO_PATH.muted);
+    }
+
+    function toggleSetting() {
+        setSettingButton(!settingButton);
+        setResetButton(!resetButton);
+        setPlayButton(!playButton);
+        setSoundButton(!soundButton);
+    }
+
     function changeResetButtonState() {
         switch (resetButtonState) {
             case 5:
@@ -47,19 +60,16 @@ const pomodoro = () => {
                 break;
 
             case 10:
-                // setPrevResetButtonState(10);
                 setResetButtonState(15);
                 setBreakTime(15 * 60);
                 break;
 
             case 15:
-                // setPrevResetButtonState(15);
                 setResetButtonState(20);
                 setBreakTime(20 * 60);
                 break;
 
             case 20:
-                // setPrevResetButtonState(20);
                 setResetButtonState(5);
                 setBreakTime(5 * 60);
                 break;
@@ -111,125 +121,91 @@ const pomodoro = () => {
     }
 
     function handleReset() {
-        setPomodoroState("pause");
+        setPlayButtonState("pause");
         setPlayPath(POMODORO_PATH.play);
-        setTime(pomodoroMode === "break" ? resetButtonState * 60 : playButtonState * 60);
+        setTime(pomodoroMode === "break" ? breakTime : workTime);
     }
 
     useEffect(() => {
-        if (pomodoroState === "pause") {
+        if (pomodoroState === "pause" || pomodoroState === "interval") {
             return;
         }
 
-        if (pomodoroState === "interval") {
-            const timeout = setTimeout(() => {
-                setPomodoroState("running");
+        const interval = setInterval(() => {
+            setTime((prevTime) => {
+                if (prevTime === 0) {
+                    clearInterval(interval);
 
-                if(pomodoroMode === "work") {
-                    setTime(playButtonState * 60);
-                } else {
-                    setTime(resetButtonState * 60);
-                }
-            }, 4000);
+                    setPomodoroState("interval");
 
+                    setPomodoroMode((prevWork) => {
+                        if (prevWork === "work") {
+                            return "break";
+                        } else {
+                            return "work";
+                        }
+                    });
 
-
-            return () => {
-                clearTimeout(timeout);
-            }
-        }
-
-        if (pomodoroState === "running") {
-            const interval = setInterval(() => {
-                setTime((prevTime) => {
-                    if (prevTime === 0) {
-                        soundRef.current.play();
-
-                        clearInterval(interval);                                                                                                                                     
-    
-                        setPomodoroState("interval");   
-                        
-                        const nextMode = pomodoroMode === "work" ? "break" : "work";
-                        const newTime = nextMode === "work" ? playButtonState * 60 : resetButtonState * 60; 
-                        
-                        setPomodoroMode(nextMode);
-    
-                        return newTime;
+                    if (pomodoroMode === "work") {
+                        return breakTime;
+                    } else {
+                        return workTime;
                     }
-    
-                    return prevTime - 1;
-                });
-            }, 1000);
-    
-            return () => {
-                clearInterval(interval);
-            };
-        }
+                }
 
+                return prevTime - 1;
+            });
+        }, 1000);
+
+        return () => {
+            clearInterval(interval);
+        };
     }, [pomodoroState]);
+
+    useEffect(() => {
+        if (settingButton) {
+            setPlayPath(POMODORO_PATH.unmuted);
+            setResetPath(POMODORO_PATH.unmuted);
+            setMutedPath(POMODORO_PATH.muted);
+            setSettingPath(POMODORO_PATH.unmuted);
+        } else {
+            setPlayPath(POMODORO_PATH.play);
+            setResetPath(POMODORO_PATH.reset);
+            setMutedPath(POMODORO_PATH.unmuted);
+            setSettingPath(POMODORO_PATH.setting);
+        }
+    }, [settingButton]);
 
     useEffect(() => {
         const resizeObserver = new ResizeObserver((entries) => {
             const entry = entries[0];
             const { width, height } = entry.contentRect;
-
             const widget = entry.target.closest(".grid-stack-item");
-            const cellWidth = Number(widget.getAttribute("gs-w"));
-            const cellHeight = Number(widget.getAttribute("gs-h"));
-
+            const cellWidth = widget.getAttribute("gs-w");
+            const cellHeight = widget.getAttribute("gs-h");
             let mode = "big";
 
-            if (cellWidth > cellHeight && cellWidth && cellHeight) {
-                mode = "wide"
-            }
-            
-            if (cellHeight == 0) {
-                mode = "one-wide";
+            if (cellHeight == null) {
+                mode = "wide";
             }
 
-            if (cellWidth == 0) {
+            if (cellWidth == null) {
                 mode = "tall";
             }
 
-            if (cellWidth == 0 && cellHeight == 0) {
-                setSettingButtonState(false);
+            if (cellWidth == null && cellHeight == null) {
+                setSettingButton(false);
                 mode = "small";
             }
 
-            console.log("Mode: ", mode);
-            console.log("CellWidth: ", cellWidth);
-            console.log("CellHeight: ", cellHeight);
             setLayoutMode(mode);
         });
 
         resizeObserver.observe(mainRef.current);
     }, []);
 
-    function verifyPomodoroTime() {
-        setSettingButtonState(prev => !prev);
-
-        if(settingButtonState) {
-            if(settingButtonState && (pomodoroMode === "work" && prevPlayButtonState * 60 === time || pomodoroMode === "break" && prevResetButtonState * 60 === time)) {
-                if(pomodoroMode === "work") {
-                    setTime(playButtonState * 60);
-                } else {
-                    setTime(resetButtonState * 60);
-                }
-            }
-        } else {
-            setPrevPlayButtonState(playButtonState);
-            setPrevResetButtonState(resetButtonState);
-            console.log("prevPlay: ", prevPlayButtonState);
-            console.log("prevReset: ", prevResetButtonState);
-        }
-
-        console.log("pomodoroMode: ", pomodoroMode);
-        
-    }
-
     return (
         <div ref={mainRef} className={`${styles.main} ${styles[layoutMode]}`}>
-            <audio ref={soundRef} src={pomodoroSound} preload="auto"></audio>
             <div className={styles.timeDiv}>
                 <p>{String(Math.floor(time / 3600)).padStart(2, "0")}</p>
                 <p className={styles.doubleDot}>:</p>
@@ -242,8 +218,7 @@ const pomodoro = () => {
                 </p>
             </div>
             <div className={styles.buttonDiv}>
-
-                {(layoutMode === "small" || !settingButtonState) && (
+                {(layoutMode === "small" || !settingButton) && (
                     <button onClick={handleReset} className={styles.button}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -253,7 +228,7 @@ const pomodoro = () => {
                         </svg>
                     </button>
                 )}
-                {layoutMode !== "small" && layoutMode !== "tall" && settingButtonState && (
+                {layoutMode !== "small" && settingButton && (
                     <button
                         onClick={changeResetButtonState}
                         className={styles.button}
@@ -262,7 +237,7 @@ const pomodoro = () => {
                         <span>{resetButtonState}</span>
                     </button>
                 )}
-                {(layoutMode === "small" || !settingButtonState) && (
+                {(layoutMode === "small" || !settingButton) && (
                     <button
                         onClick={(e) => {
                             pausePlay();
@@ -277,7 +252,7 @@ const pomodoro = () => {
                         </svg>
                     </button>
                 )}
-                {layoutMode !== "small" && layoutMode !== "tall" && settingButtonState && (
+                {layoutMode !== "small" && settingButton && (
                     <button
                         onClick={changePlayButtonState}
                         className={`${styles.button} play-button`}
@@ -286,8 +261,16 @@ const pomodoro = () => {
                         <span>{playButtonState}</span>
                     </button>
                 )}
+                <button onClick={unmutedMuted} className={styles.button}>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 640 640"
+                    >
+                        <path className="sound-path" d={mutedPath} />
+                    </svg>
+                </button>
                 <button
-                    onClick={() => { verifyPomodoroTime() }}
+                    onClick={toggleSetting}
                     className={`${styles.button} ${styles.settings}`}
                 >
                     <svg

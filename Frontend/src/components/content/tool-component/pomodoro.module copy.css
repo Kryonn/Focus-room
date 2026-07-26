@@ -1,5 +1,5 @@
 .main {
-    color: var(--black-one);
+    color: rgb(50, 50, 50);
     display: flex;
     flex-direction: column;
     padding: 10px;
@@ -22,8 +22,6 @@
     /* border: 1px solid red; */
     align-items: center;
     width: 100%;
-    /* color: var(--black-three); */
-    color: var(--white-four);
 }
 
 .buttonDiv {
@@ -38,7 +36,10 @@
     gap: 3px;
 }
 
-
+.big .buttonDiv {
+    /* flex: 3; */
+    height: 10px;
+}
 
 .button svg {
     height: 100%;
@@ -46,7 +47,7 @@
 }
 
 .button {
-    background-color: var(--black-three);
+    background-color: rgb(50, 50, 50);
     border: none;
     gap: 5px;
     height: 100%;
@@ -61,26 +62,13 @@
 }
 
 span {
-    /* border: 1px solid red; */
-    font-family: "Inter", sans-serif;
-    font-weight: 700;
-    color: var(--black-one);
+    border: 1px solid red;
 }
 
-.button:hover {
-    cursor: pointer;
-}
-
-.hidden {
-    display: none;
-}
-
-/* Small */
 .small .settings {
     display: none;
 }
 
-/* Tall */
 .tall {
     container-type: size;
 }
@@ -90,14 +78,14 @@ span {
     font-size: clamp(30px, 15cqh, 50px);
     flex-direction: column;
     letter-spacing: 3px;
+    /* border: 1px solid red; */
     flex: 5;
 }
 
 .tall .buttonDiv {
-    /* font-size: clamp(45px, 20cqmax, 140px); */
     display: flex;
-    height: 10px;
     flex: 1;
+    /* border: 1px solid red; */
 }
 
 .tall .doubleDot {
@@ -108,7 +96,12 @@ span {
     display: none;
 }
 
-/* Big */
+.big {
+    display: flex;
+    /* container-type: inline-size; */
+    flex-direction: column;
+}
+
 .big .timeDiv {
     display: flex;
     container-type: size;
@@ -138,59 +131,19 @@ span {
 }
 
 .big .button {
-    /* font-size: clamp(15px, 2cqw, 100px); */
-    font-size: clamp(15px, 5cqmin, 60px);
+    font-size: clamp(15px, 2cqw, 100px);
     /* height: 100%; */
     /* border: 1px solid red; */
 }
 
-.big .buttonDiv {
-    /* flex: 3; */
-    height: 10px;
-}
-
-/* One wide */
-.one-wide .button {
-    font-size: clamp(20px, 4cqmax, 25px);
-    flex-direction: row;
-}
-
-.one-wide .timeDiv p {
-    font-size: clamp(40px, 5cqmax, 60px);
-}
-
-/* Wide */
-.wide .timeDiv {
-    container-type: size;
-    flex: 4;
+.button:hover {
+    cursor: pointer;
 }
 
 .wide .button {
     flex-direction: row;
 }
 
-.wide .timeDiv p {
-    font-size: clamp(50px, 20cqmax, 140px);
+.hidden {
+    display: none;
 }
-
-.wide .buttonDiv {
-    flex: 1;
-}
-
-.wide .buttonDiv svg {
-    display: flex;
-    max-height: 80%;
-    flex-grow: 0;
-}
-
-.wide .button {
-    font-size: clamp(22px, 6cqmin, 40px);
-}
-
-.wide .buttonDiv {
-    height: 10px;
-}
-
-
-
-
