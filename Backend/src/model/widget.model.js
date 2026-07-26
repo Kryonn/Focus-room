@@ -31,7 +31,7 @@ export const WidgetModel = {
         }
     },
 
-    async insertPomodoro(id, username, gridName, xposition, yposition) {
+    async insertPomodoro(username, gridName, widgetId, xPosition, yPosition) {
         try {
             const res = await db.query(
                 `
@@ -41,20 +41,20 @@ export const WidgetModel = {
                     gridname,
                     width,
                     height,
-                    xposition,
-                    yposition,
+                    xPosition,
+                    yPosition,
                     pomodoro_work_time,
                     pomodoro_break_time
                 )
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
                 [
-                    id,
+                    widgetId,
                     username,
                     gridName,
                     default_pomodoro_width,
                     default_pomodoro_height,
-                    xposition,
-                    yposition,
+                    xPosition,
+                    yPosition,
                     default_pomodoro_work_time,
                     default_pomodoro_break_time,
                 ],
@@ -67,13 +67,13 @@ export const WidgetModel = {
     },
 
     async putWidget(
-        id,
         username,
         gridName,
+        widgetId,
         width,
         height,
-        xposition,
-        yposition,
+        xPosition,
+        yPosition,
     ) {
         try {
             const res = await db.query(
@@ -82,7 +82,7 @@ export const WidgetModel = {
                 SET width=$1, height=$2, xposition=$3, yposition=$4
                 WHERE id=$5 AND username=$6 AND gridName=$7
                 `,
-                [width, height, xposition, yposition, id, username, gridName],
+                [width, height, xPosition, yPosition, widgetId, username, gridName],
             );
 
             // console.log(res);
@@ -93,14 +93,14 @@ export const WidgetModel = {
         }
     },
 
-    async deleteWidget(id, username, gridName) {
+    async deleteWidget(username, gridName, widgetId) {
         try {
             const res = await db.query(
                 `
                 DELETE FROM widget
                 WHERE id=$1 AND username=$2 AND gridName=$3
                 `,
-                [id, username, gridName],
+                [widgetId, username, gridName],
             );
 
             return res;
@@ -109,14 +109,14 @@ export const WidgetModel = {
         }
     },
 
-    async updateListWidget(username, gridname, widgetid, newListName) {
+    async updateListWidget(username, gridname, widgetId, newListName) {
         try {
             const res = await db.query(
                 `
                 UPDATE widget
                 SET listname = $1
                 WHERE username = $2 AND gridname = $3 AND id = $4
-                `, [newListName, username, gridname, widgetid]
+                `, [newListName, username, gridname, widgetId]
             )
 
             return res;
@@ -125,14 +125,14 @@ export const WidgetModel = {
         }
     },
 
-    async updateNoteNameWidget(username, gridname, widgetid, newNoteName) {
+    async updateNoteNameWidget(username, gridname, widgetId, newNoteName) {
         try {
             const res = await db.query(
                 `
                 UPDATE widget
                 SET notename = $1
                 WHERE username = $2 AND gridname = $3 AND id = $4
-                `, [newNoteName, username, gridname, widgetid]
+                `, [newNoteName, username, gridname, widgetId]
             )
 
             return res;
@@ -141,14 +141,14 @@ export const WidgetModel = {
         }
     },
 
-    async updateNoteDescriptionWidget(username, gridname, widgetid, newNameDescription) {
+    async updateNoteDescriptionWidget(username, gridname, widgetId, newNameDescription) {
         try {
             const res = await db.query(
                 `
                 UPDATE widget
                 SET notedescription = $1
                 WHERE username = $2 AND gridname = $3 AND id = $4
-                `, [newNameDescription, username, gridname, widgetid]
+                `, [newNameDescription, username, gridname, widgetId]
             )
 
             return res;
@@ -157,13 +157,13 @@ export const WidgetModel = {
         }
     },
 
-    async insertList(username, gridname, id, listName, xposition, yposition) {
+    async insertList(username, gridname, widgetId, listName, xPosition, yPosition) {
         try {
             const res = await db.query(
                 `
                 INSERT INTO widget (username, gridname, id, listname, xposition, yposition, width, height)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-                `, [username, gridname, id, listName, xposition, yposition, default_list_width, default_list_height]
+                `, [username, gridname, widgetId, listName, xPosition, yPosition, default_list_width, default_list_height]
             )
 
             return res;
@@ -172,13 +172,13 @@ export const WidgetModel = {
         }
     },
 
-    async insertNote(username, gridname, id, noteName, xPosition, yPosition) {
+    async insertNote(username, gridname, widgetId, noteName, xPosition, yPosition) {
         try {
             const res = await db.query(
                 `
                 INSERT INTO widget (username, gridname, id, notename, xposition, yposition, width, height)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-                `, [username, gridname, id, noteName, xPosition, yPosition, default_note_width, default_note_height]
+                `, [username, gridname, widgetId, noteName, xPosition, yPosition, default_note_width, default_note_height]
             )
 
             return res;

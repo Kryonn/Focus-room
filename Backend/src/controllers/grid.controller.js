@@ -1,7 +1,7 @@
 import GridModel from "../model/grid.model.js";
 
 const GridController = {
-    async getUserGrid(req, res) {
+    async getGrid(req, res) {
         const username = req.query.username;
 
         try {
@@ -17,7 +17,7 @@ const GridController = {
         }
     },
 
-    async createUserGrid(req, res) {
+    async createGrid(req, res) {
         const body = req.body;
         const username = body.username;
         const gridName = body.gridName;
@@ -50,6 +50,21 @@ const GridController = {
             res.status(400).json({ error: err.message });
         }
     },
+
+    async updateGrid(req, res) {
+        const body = req.body;
+        const username = body.username;
+        const gridName = body.gridName;
+        const gridStatic = body.gridStatic;
+
+        try {
+            const putResponse = await GridModel.updateGrid(username, gridName, gridStatic);
+
+            res.status(200).json({ error: false, data: putResponse });
+        } catch(err) {
+            res.status(400).json({ error: err.message });
+        }
+    }
 };
 
 export default GridController;

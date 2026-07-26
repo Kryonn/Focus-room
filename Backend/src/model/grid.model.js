@@ -49,6 +49,22 @@ const GridModel = {
             throw err;
         }
     },
+
+    async updateGrid(username, gridName, gridStatic) {
+        try {
+            const res = await db.query(
+                `
+                UPDATE grid
+                SET static = $1
+                WHERE username = $2 AND name = $3`,
+                [gridStatic, username, gridName]
+            )
+
+            return res;
+        } catch(err) {
+            throw err;
+        } 
+    }
 };
 
 export default GridModel;

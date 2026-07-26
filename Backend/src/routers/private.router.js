@@ -6,13 +6,14 @@ import TaskController from "../controllers/task.controller.js";
 const router = express.Router();
 
 // Grid
-router.get("/grid", GridController.getUserGrid);
-router.post("/grid", GridController.createUserGrid);
+router.get("/grid", GridController.getGrid);
+router.post("/grid", GridController.createGrid);
 router.delete("/grid", GridController.removeGrid);
+router.put("/grid", GridController.updateGrid);
 
 // Widget
 router.get("/widget", WidgetController.getWidgetAll);
-router.post("/widget", WidgetController.createWidget);
+router.post("/widget", WidgetController.createPomodoro);
 router.post("/widget/list", WidgetController.createList);
 router.post("/widget/note", WidgetController.createNote);
 router.put("/widget", WidgetController.updateWidget);

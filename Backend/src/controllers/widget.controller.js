@@ -17,66 +17,42 @@ export const WidgetController = {
         }
     },
 
-    async createWidget(req, res) {
+    async createPomodoro(req, res) {
         const body = req.body;
-        const id = body.id;
+        const widgetId = body.widgetId;
         const username = body.username;
         const gridName = body.gridName;
-        const xposition = body.xposition;
-        const yposition = body.yposition;
-        const type = body.type;
-        let insertResponse = "";
+        const xPosition = body.xPosition;
+        const yPosition = body.yPosition;
 
         try {
-            switch (type) {
-                case "pomodoro":
-                    insertResponse = await WidgetModel.insertPomodoro(
-                        id,
-                        username,
-                        gridName,
-                        xposition,
-                        yposition,
-                    );
-                    break;
-
-                case "list":
-                    insertResponse = await WidgetModel.insertPomodoro(
-                        id,
-                        username,
-                        gridName,
-                        xposition,
-                        yposition,
-                    );
-                    break;
-            }
+            const insertResponse = await WidgetModel.insertPomodoro(username, gridName, widgetId, xPosition, yPosition);
 
             return res.status(201).json({ error: false, data: insertResponse });
-        } catch (err) {
+        } catch(err) {
             return res.status(400).json({ error: err.message });
         }
     },
 
     async updateWidget(req, res) {
         const body = req.body;
-        const id = body.id;
+        const widgetId = body.widgetId;
         const username = body.username;
         const gridName = body.gridName;
         const width = body.width;
         const height = body.height;
-        const xposition = body.xposition;
-        const yposition = body.yposition;
-
-        console.log(body);
+        const xPosition = body.xPosition;
+        const yPosition = body.yPosition;
 
         try {
             const updateResponse = await WidgetModel.putWidget(
-                id,
                 username,
                 gridName,
+                widgetId,
                 width,
                 height,
-                xposition,
-                yposition,
+                xPosition,
+                yPosition,
             );
 
             res.status(201).json({ error: false, data: updateResponse });
@@ -87,15 +63,15 @@ export const WidgetController = {
 
     async removeWidget(req, res) {
         const body = req.body;
-        const id = body.id;
+        const widgetId = body.widgetId;
         const username = body.username;
         const gridName = body.gridName;
 
         try {
             const removeResponse = await WidgetModel.deleteWidget(
-                id,
                 username,
                 gridName,
+                widgetId
             );
 
             res.status(200).json({ error: false, data: removeResponse });
@@ -108,11 +84,11 @@ export const WidgetController = {
         const body = req.body;
         const username = body.username;
         const gridname = body.gridname;
-        const id = body.id;
+        const widgetId = body.widgetId;
         const newListName = body.newListName;
 
         try {
-            const updateResponse = await WidgetModel.updateListWidget(username, gridname, id, newListName);
+            const updateResponse = await WidgetModel.updateListWidget(username, gridname, widgetId, newListName);
 
             res.status(200).json({ error: false, data: updateResponse });
         } catch(err) {
@@ -124,11 +100,11 @@ export const WidgetController = {
         const body = req.body;
         const username = body.username;
         const gridname = body.gridname;
-        const id = body.id;
+        const widgetId = body.widgetId;
         const newNoteName = body.newNoteName;
 
         try {
-            const updateResponse = await WidgetModel.updateNoteNameWidget(username, gridname, id, newNoteName);
+            const updateResponse = await WidgetModel.updateNoteNameWidget(username, gridname, widgetId, newNoteName);
 
             res.status(200).json({ error: false, data: updateResponse });
         } catch(err) {
@@ -140,11 +116,11 @@ export const WidgetController = {
         const body = req.body;
         const username = body.username;
         const gridname = body.gridname;
-        const id = body.id;
+        const widgetId = body.widgetId;
         const newNoteDescription = body.newNoteDescription;
 
         try {
-            const updateResponse = await WidgetModel.updateNoteDescriptionWidget(username, gridname, id, newNoteDescription);
+            const updateResponse = await WidgetModel.updateNoteDescriptionWidget(username, gridname, widgetId, newNoteDescription);
 
             res.status(200).json({ error: false, data: updateResponse });
         } catch(err) {
@@ -155,14 +131,14 @@ export const WidgetController = {
     async createList(req, res) {
         const body = req.body;
         const username = body.username;
-        const gridname = body.gridname;
-        const widgetid = body.widgetid;
-        const listname = body.listname;
-        const xposition = body.xposition;
-        const yposition = body.yposition;
+        const gridName = body.gridName;
+        const widgetId = body.widgetId;
+        const listName = body.listName;
+        const xPosition = body.xPosition;
+        const yPosition = body.yPosition;
 
         try {
-            const insertResponse = await WidgetModel.insertList(username, gridname, widgetid, listname, xposition, yposition);
+            const insertResponse = await WidgetModel.insertList(username, gridName, widgetId, listName, xPosition, yPosition);
 
             res.status(201).json({ error: false, data: insertResponse });
         } catch(err) {
@@ -173,14 +149,14 @@ export const WidgetController = {
     async createNote(req, res) {
         const body = req.body;
         const username = body.username;
-        const gridname = body.gridname;
-        const widgetid = body.widgetid;
-        const notename = body.notename;
-        const xposition = body.xposition;
-        const yposition = body.yposition;
+        const gridName = body.gridName;
+        const widgetId = body.widgetId;
+        const noteName = body.noteName;
+        const xPosition = body.xPosition;
+        const yPosition = body.yPosition;
 
         try {
-            const insertResponse = await WidgetModel.insertNote(username, gridname, widgetid, notename, xposition, yposition);
+            const insertResponse = await WidgetModel.insertNote(username, gridName, widgetId, noteName, xPosition, yPosition);
 
             res.status(201).json({ error: false, data: insertResponse });
         } catch(err) {

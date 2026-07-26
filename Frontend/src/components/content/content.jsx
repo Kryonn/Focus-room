@@ -83,13 +83,12 @@ const content = ({
 
             const widgetList = document.querySelectorAll(".widget");
 
-            await WidgetService.postRequest(
+            await WidgetService.postPomodoroRequest(
                 id,
                 "asd",
                 gridParameter.name,
                 div.gridstackNode.x,
-                div.gridstackNode.y,
-                "pomodoro",
+                div.gridstackNode.y
             );
 
             widgetRoot.current[widgetList.length - 1] = createRoot(

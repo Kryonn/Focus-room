@@ -3,13 +3,13 @@ import { apiFetch } from "./api";
 
 export const WidgetService = {
     async putRequest(
-        id,
+        widgetId,
         username,
         gridName,
         width,
         height,
-        xposition,
-        yposition,
+        xPosition,
+        yPosition,
     ) {
         const endpoint = "/widget";
 
@@ -17,13 +17,13 @@ export const WidgetService = {
             const res = await apiFetch(endpoint, {
                 method: "PUT",
                 body: JSON.stringify({
-                    id: id,
+                    widgetId: widgetId,
                     username: username,
                     gridName: gridName,
                     width: width,
                     height: height,
-                    xposition: xposition,
-                    yposition: yposition,
+                    xPosition: xPosition,
+                    yPosition: yPosition,
                 }),
             });
 
@@ -52,19 +52,18 @@ export const WidgetService = {
         }
     },
 
-    async postRequest(id, username, gridName, xposition, yposition, type) {
+    async postPomodoroRequest(widgetId, username, gridName, xPosition, yPosition) {
         const url = "/widget";
 
         try {
             const res = await apiFetch(url, {
                 method: "POST",
                 body: JSON.stringify({
-                    id: id,
+                    widgetId: widgetId,
                     username: username,
                     gridName: gridName,
-                    xposition: xposition,
-                    yposition: yposition,
-                    type: type,
+                    xPosition: xPosition,
+                    yPosition: yPosition
                 }),
             });
 
@@ -74,14 +73,14 @@ export const WidgetService = {
         }
     },
 
-    async deleteRequest(id, username, gridName) {
+    async deleteRequest(widgetId, username, gridName) {
         const url = "/widget";
 
         try {
             const res = await apiFetch(url, {
                 method: "DELETE",
                 body: JSON.stringify({
-                    id: id,
+                    widgetId: widgetId,
                     username: username,
                     gridName: gridName,
                 }),
@@ -93,7 +92,7 @@ export const WidgetService = {
         }
     },
 
-    async putListRequest(newListName, username, gridname, id) {
+    async putListRequest(newListName, username, gridName, widgetId) {
         const url = "/widget/list";
 
         try {
@@ -101,8 +100,8 @@ export const WidgetService = {
                 method: "PUT",
                 body: JSON.stringify({
                     username: username,
-                    gridname: gridname,
-                    id: id,
+                    gridName: gridName,
+                    widgetId: widgetId,
                     newListName: newListName
                 })
             })
@@ -113,7 +112,7 @@ export const WidgetService = {
         }
     },
 
-    async putNoteDescriptionRequest(username, gridname, id, newNoteDescription) {
+    async putNoteDescriptionRequest(username, gridName, widgetId, newNoteDescription) {
         const url = "/widget/note/description"
 
         try {
@@ -121,8 +120,8 @@ export const WidgetService = {
                 method: "PUT",
                 body: JSON.stringify({
                     username: username,
-                    gridname: gridname,
-                    id: id,
+                    gridName: gridName,
+                    widgetId: widgetId,
                     newNoteDescription
                 })
             });
@@ -133,7 +132,7 @@ export const WidgetService = {
         }
     },
 
-    async putNoteNameRequest(newNoteName, username, gridname, id) {
+    async putNoteNameRequest(newNoteName, username, gridName, widgetId) {
         const url = "/widget/note/name";
 
         try {
@@ -141,8 +140,8 @@ export const WidgetService = {
                 method: "PUT",
                 body: JSON.stringify({
                     username: username,
-                    gridname: gridname,
-                    id: id,
+                    gridName: gridName,
+                    widgetId: widgetId,
                     newNoteName: newNoteName
                 })
             })
@@ -153,7 +152,7 @@ export const WidgetService = {
         }
     },
 
-    async postListRequest(username, gridname, id, listName, xPosition, yPosition) {
+    async postListRequest(username, gridName, widgetId, listName, xPosition, yPosition) {
         const url = "/widget/list";
 
         try {
@@ -161,11 +160,11 @@ export const WidgetService = {
                 method: "POST",
                 body: JSON.stringify({
                     username: username,
-                    gridname: gridname,
-                    widgetid: id,
+                    gridName: gridName,
+                    widgetid: widgetId,
                     listname: listName,
-                    xposition: xPosition,
-                    yposition: yPosition
+                    xPosition: xPosition,
+                    yPosition: yPosition
                 })
             })
 
@@ -175,7 +174,7 @@ export const WidgetService = {
         }
     },
 
-    async postNoteRequest(username, gridname, id, noteName, xPosition, yPosition) {
+    async postNoteRequest(username, gridName, widgetId, noteName, xPosition, yPosition) {
         const url = "/widget/note";
 
         try {
@@ -183,11 +182,11 @@ export const WidgetService = {
                 method: "POST",
                 body: JSON.stringify({
                     username: username,
-                    gridname: gridname,
-                    widgetid: id,
+                    gridName: gridName,
+                    widgetid: widgetId,
                     notename: noteName,
-                    xposition: xPosition,
-                    yposition: yPosition
+                    xPosition: xPosition,
+                    yPosition: yPosition
                 })
             })
 
