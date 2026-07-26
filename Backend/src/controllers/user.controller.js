@@ -1,6 +1,6 @@
 import UserModel from "../model/user.model.js";
 
-export default {
+export const UserController = {
     async registerUser(req, res) {
         const body = req.body;
         const username = body.username;

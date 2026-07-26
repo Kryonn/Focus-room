@@ -116,6 +116,23 @@ export const WidgetController = {
         }
     },
 
+    async removeWidgetAll(req, res) {
+        const body = req.body;
+        const username = body.username;
+        const gridName = body.gridName;
+
+        try {
+            const removeResponse = await WidgetModel.deleteWidgetAll(
+                username,
+                gridName,
+            );
+
+            res.status(200).json({ error: false, data: removeResponse });
+        } catch (err) {
+            res.status(400).json({ error: err.message });
+        }
+    },
+
     async updateListNameWidget(req, res) {
         const body = req.body;
         const username = body.username;
@@ -162,5 +179,5 @@ export const WidgetController = {
         } catch(err) {
             res.status(400).json({ error: err.message });
         }
-    }
+    },
 };

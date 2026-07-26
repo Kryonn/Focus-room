@@ -109,6 +109,22 @@ export const WidgetModel = {
         }
     },
 
+    async deleteWidgetAll(username, gridName) {
+        try {
+            const res = await db.query(
+                `
+                DELETE FROM widget
+                WHERE username=$1 AND gridname=$2
+                `,
+                [username, gridName],
+            );
+
+            return res;
+        } catch (err) {
+            throw error;
+        }
+    },
+
     async updateListWidget(username, gridname, widgetId, newListName) {
         try {
             const res = await db.query(

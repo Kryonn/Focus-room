@@ -1,7 +1,8 @@
 import styles from "./tool.module.css";
 import Popup from "./tool-component/popup.jsx";
 import { WidgetService } from "../../services/widget.service.js";
-import { useState, useEffect } from "react";
+import { GridService } from "../../services/grid.service.js";
+import { useState, useEffect, useRef } from "react";
 import { utils } from "../../utils/utils.js";
 
 const tool = ({
@@ -19,6 +20,11 @@ const tool = ({
     const [functionList, setFunctionList] = useState([]);
     const [requestParameter, setRequestParameter] = useState([]);
     const [widgetState, setWidgetState] = useState(null);
+    const updateFunction = useRef(
+        utils.debounce((username, gridName, gridStatic) => {
+            GridService.putRequest(username, gridName, gridStatic);
+        }, 1000)
+    ).current;
 
     return (
         <div className={styles.main}>
@@ -105,7 +111,9 @@ const tool = ({
                         className={styles["settings-button"]}
                         onClick={(e) => {
                             e.preventDefault();
-                            gridRef.setStatic(!gridRef.opts.staticGrid);
+                            
+                            updateFunction("asd", gridParameter.name, !gridInstanceRef.current[gridParameter.index].opts.gridStatic);
+                            gridInstanceRef.current[gridParameter.index].setStatic(!gridInstanceRef.current[gridParameter.index].opts.staticGrid);
                         }}
                     >
                         Lock grid
@@ -114,7 +122,8 @@ const tool = ({
                         className={styles["settings-button"]}
                         onClick={(e) => {
                             e.preventDefault();
-                            gridRef.removeAll();
+                            WidgetService.deleteAllRequest("asd", gridParameter.name);
+                            gridInstanceRef.current[gridParameter.index].removeAll();
                         }}
                     >
                         Clear grid

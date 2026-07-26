@@ -4,11 +4,11 @@ const TaskController = {
     async getTaskAll(req, res) {
         const params = req.query;
         const username = params.username;
-        const gridname = params.gridname;
-        const widgetid = params.widgetid;
+        const gridName = params.gridName;
+        const widgetId = params.widgetId;
 
         try {
-            const getResponse = await TaskModel.selectTaskAll(username, gridname, widgetid);
+            const getResponse = await TaskModel.selectTaskAll(username, gridName, widgetId);
 
             res.status(200).json({ error: false, data: getResponse });
         } catch(err) {
@@ -19,13 +19,13 @@ const TaskController = {
     async createTask(req, res) {
         const body = req.body;
         const username = body.username;
-        const gridname = body.gridname;
-        const widgetid = body.widgetid;
-        const taskname = body.taskname;
-        const deadline = body.deadline;
+        const gridName = body.gridName;
+        const widgetId = body.widgetId;
+        const taskName = body.taskName;
+        const deadLine = body.deadLine;
 
         try {
-            const insertResponse = await TaskModel.insertTask(username, gridname, widgetid, taskname, deadline);
+            const insertResponse = await TaskModel.insertTask(username, gridName, widgetId, taskName, deadLine);
 
             res.status(201).json({ error: false, data: insertResponse });
         } catch(err) {
@@ -36,12 +36,12 @@ const TaskController = {
     async removeTask(req, res) {
         const body = req.body;
         const username = body.username;
-        const gridname = body.gridname;
-        const widgetid = body.widgetid;
-        const taskname = body.taskname;
+        const gridName = body.gridName;
+        const widgetId = body.widgetId;
+        const taskName = body.taskName;
 
         try {
-            const deleteInsert = await TaskModel.deleteTask(username, gridname, widgetid, taskname);
+            const deleteInsert = await TaskModel.deleteTask(username, gridName, widgetId, taskName);
 
             res.status(200).json({ error: false, data: deleteInsert });
         } catch(err) {

@@ -1,11 +1,11 @@
 import { apiFetch } from "./api.js"
 
 const TaskService = {
-    async getRequest(username, gridname, widgetid) {
+    async getRequest(username, gridname, widgetId) {
         const params = new URLSearchParams({
             username: username,
-            gridname: gridname,
-            widgetid: widgetid
+            gridName: gridName,
+            widgetId: widgetId
         })
 
         const url = "/task?" + params;
@@ -21,17 +21,17 @@ const TaskService = {
         }
     },
 
-    async postRequest(taskname, deadline, username, gridname, widgetid) {
+    async postRequest(taskName, deadLine, username, gridName, widgetId) {
         const url = "/task"
         try {
             const res = await apiFetch(url, {
                 method: "POST",
                 body: JSON.stringify({
                     username: username,
-                    gridname: gridname,
-                    widgetid: widgetid,
-                    taskname: taskname,
-                    deadline: deadline  
+                    gridName: gridName,
+                    widgetId: widgetId,
+                    taskName: taskName,
+                    deadLine: deadLine  
                 })
             })
     
@@ -41,16 +41,16 @@ const TaskService = {
         }
     },
 
-    async deleteRequest(username, gridname, widgetid, taskname) {
+    async deleteRequest(username, gridName, widgetId, taskName) {
         const url = "/task";
         try {
             const res = await apiFetch(url, {
                 method: "DELETE",
                 body: JSON.stringify({
                     username: username,
-                    gridname: gridname,
-                    widgetid: widgetid,
-                    taskname: taskname
+                    gridName: gridName,
+                    widgetId: widgetId,
+                    taskName: taskName
                 })
             })
 

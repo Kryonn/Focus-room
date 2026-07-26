@@ -53,7 +53,7 @@ export const WidgetService = {
     },
 
     async postPomodoroRequest(widgetId, username, gridName, xPosition, yPosition) {
-        const url = "/widget";
+        const url = "/widget/pomodoro";
 
         try {
             const res = await apiFetch(url, {
@@ -89,6 +89,24 @@ export const WidgetService = {
             return res;
         } catch (err) {
             console.log("deu ruim");
+        }
+    },
+
+    async deleteAllRequest(username, gridName) {
+        const url = "/widget/all";
+
+        try {
+            const res = await apiFetch(url, {
+                method: "DELETE",
+                body: JSON.stringify({
+                    username: username,
+                    gridName: gridName,
+                }),
+            });
+
+            return res;
+        } catch (err) {
+            console.log(err);
         }
     },
 
