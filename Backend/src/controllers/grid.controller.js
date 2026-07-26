@@ -1,7 +1,7 @@
 import GridModel from "../model/grid.model.js";
 
 const GridController = {
-    async getGrid(req, res) {
+    async getGridAll(req, res) {
         const username = req.query.username;
 
         try {

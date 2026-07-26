@@ -34,6 +34,42 @@ export const WidgetController = {
         }
     },
 
+    async createList(req, res) {
+        const body = req.body;
+        const username = body.username;
+        const gridName = body.gridName;
+        const widgetId = body.widgetId;
+        const listName = body.listName;
+        const xPosition = body.xPosition;
+        const yPosition = body.yPosition;
+
+        try {
+            const insertResponse = await WidgetModel.insertList(username, gridName, widgetId, listName, xPosition, yPosition);
+
+            res.status(201).json({ error: false, data: insertResponse });
+        } catch(err) {
+            res.status(400).json({ error: err.message });
+        }
+    },
+
+    async createNote(req, res) {
+        const body = req.body;
+        const username = body.username;
+        const gridName = body.gridName;
+        const widgetId = body.widgetId;
+        const noteName = body.noteName;
+        const xPosition = body.xPosition;
+        const yPosition = body.yPosition;
+
+        try {
+            const insertResponse = await WidgetModel.insertNote(username, gridName, widgetId, noteName, xPosition, yPosition);
+
+            res.status(201).json({ error: false, data: insertResponse });
+        } catch(err) {
+            res.status(400).json({ error: err.message });
+        }
+    },
+
     async updateWidget(req, res) {
         const body = req.body;
         const widgetId = body.widgetId;
@@ -80,7 +116,7 @@ export const WidgetController = {
         }
     },
 
-    async updateListWidget(req, res) {
+    async updateListNameWidget(req, res) {
         const body = req.body;
         const username = body.username;
         const gridname = body.gridname;
@@ -123,42 +159,6 @@ export const WidgetController = {
             const updateResponse = await WidgetModel.updateNoteDescriptionWidget(username, gridname, widgetId, newNoteDescription);
 
             res.status(200).json({ error: false, data: updateResponse });
-        } catch(err) {
-            res.status(400).json({ error: err.message });
-        }
-    },
-
-    async createList(req, res) {
-        const body = req.body;
-        const username = body.username;
-        const gridName = body.gridName;
-        const widgetId = body.widgetId;
-        const listName = body.listName;
-        const xPosition = body.xPosition;
-        const yPosition = body.yPosition;
-
-        try {
-            const insertResponse = await WidgetModel.insertList(username, gridName, widgetId, listName, xPosition, yPosition);
-
-            res.status(201).json({ error: false, data: insertResponse });
-        } catch(err) {
-            res.status(400).json({ error: err.message });
-        }
-    },
-
-    async createNote(req, res) {
-        const body = req.body;
-        const username = body.username;
-        const gridName = body.gridName;
-        const widgetId = body.widgetId;
-        const noteName = body.noteName;
-        const xPosition = body.xPosition;
-        const yPosition = body.yPosition;
-
-        try {
-            const insertResponse = await WidgetModel.insertNote(username, gridName, widgetId, noteName, xPosition, yPosition);
-
-            res.status(201).json({ error: false, data: insertResponse });
         } catch(err) {
             res.status(400).json({ error: err.message });
         }

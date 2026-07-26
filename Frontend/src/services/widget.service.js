@@ -93,7 +93,7 @@ export const WidgetService = {
     },
 
     async putListRequest(newListName, username, gridName, widgetId) {
-        const url = "/widget/list";
+        const url = "/widget/list/name";
 
         try {
             const res = await apiFetch(url, {
