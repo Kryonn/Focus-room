@@ -31,7 +31,7 @@ export const WidgetModel = {
         }
     },
 
-    async insertPomodoro(username, gridName, widgetId, xPosition, yPosition) {
+    async insertPomodoro(username, gridName, widgetId, pomodoroWorkTime, pomodoroBreakTime, xPosition, yPosition) {
         try {
             const res = await db.query(
                 `
@@ -43,8 +43,8 @@ export const WidgetModel = {
                     height,
                     xPosition,
                     yPosition,
-                    pomodoro_work_time,
-                    pomodoro_break_time
+                    pomodoroworktime,
+                    pomodorobreaktime
                 )
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
                 [
@@ -55,8 +55,8 @@ export const WidgetModel = {
                     default_pomodoro_height,
                     xPosition,
                     yPosition,
-                    default_pomodoro_work_time,
-                    default_pomodoro_break_time,
+                    pomodoroWorkTime,
+                    pomodoroBreakTime,
                 ],
             );
 
@@ -125,14 +125,30 @@ export const WidgetModel = {
         }
     },
 
-    async updateListWidget(username, gridname, widgetId, newListName) {
+    async updatePomodoroWidget(username, gridName, widgetId, newPomodoroWorkTime, newPomodoroBreakTime) {
+        try {
+            const res = await db.query(
+                `
+                UPDATE widget
+                SET pomodoroworktime = $1, pomodorobreaktime = $2
+                WHERE username = $3 AND gridname = $4 AND id = $5
+                `, [newPomodoroWorkTime, newPomodoroBreakTime, username, gridName, widgetId]
+            )
+
+            return res;
+        } catch(err) {
+            throw err;
+        }
+    },
+
+    async updateListWidget(username, gridName, widgetId, newListName) {
         try {
             const res = await db.query(
                 `
                 UPDATE widget
                 SET listname = $1
                 WHERE username = $2 AND gridname = $3 AND id = $4
-                `, [newListName, username, gridname, widgetId]
+                `, [newListName, username, gridName, widgetId]
             )
 
             return res;

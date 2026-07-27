@@ -1,7 +1,7 @@
 import { apiFetch } from "./api.js"
 
-const TaskService = {
-    async getRequest(username, gridname, widgetId) {
+export const TaskService = {
+    async getRequest(username, gridName, widgetId) {
         const params = new URLSearchParams({
             username: username,
             gridName: gridName,
@@ -60,5 +60,3 @@ const TaskService = {
         }
     }
 }
-
-export default TaskService

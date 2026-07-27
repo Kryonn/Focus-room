@@ -1,27 +1,34 @@
+// CSS
 import styles from "./list.module.css";
-import TaskService from "../../../services/task.service.js";
+
+// Components
 import Popup from "./popup.jsx";
+import Grid from "../grid.jsx";
+
+// React
 import { useState, useRef, useEffect, use } from "react";
-import grid from "../grid.jsx";
+
+// Services
+import { TaskService } from "../../../services/task.service.js";
 import { WidgetService } from "../../../services/widget.service.js";
 
 const list = ({ username, gridname, id, listname }) => {
-    const [layoutMode, setLayoutMode] = useState(null);
-    const mainRef = useRef(null);
-    const listRef = useRef(null);
-    const [popupEvent, setPopupEvent] = useState("Add task");
+    // States
     const [listAddPopupState, setListAddPopupState] = useState(false);
     const [listUpdatePopupState, setListUpdatePopupState] = useState(false);
     const [listName, setListName] = useState(listname);
     const [taskList, setTaskList] = useState([]);
+
+    // List
     const setList = [setListName];
 
-    const addTask = async (taskName, taskDate, username, gridname, id) => {
+    // Component Functions
+    const addTask = async (taskName, deadLine, username, gridname, id) => {
         setTaskList((prev) => 
-            [...prev, { title: taskName, deadline: taskDate }]
+            [...prev, { taskName: taskName, deadLine: deadLine }]
         )
 
-        await TaskService.postRequest(taskName, taskDate, username, gridname, id);
+        await TaskService.postRequest(taskName, deadLine, username, gridname, id);
     }
 
     const removeTask = (indexToRemove) => {
@@ -30,20 +37,6 @@ const list = ({ username, gridname, id, listname }) => {
         )
     }
 
-    const updateTask = async (indexToUpdate, taskName, taskDate) => {
-        setTaskList((prev) => 
-            prev.filter((item, index) => {
-                if(index != indexToUpdate) {
-                    return item;
-                } else {
-                    return { title: taskName, deadline: taskDate }
-                }
-            })
-        )
-    }
-
-    
-
     useEffect(() => {
         TaskService.getRequest(username, gridname, id).then((list) => {
             list.map((item) => { 
@@ -51,33 +44,13 @@ const list = ({ username, gridname, id, listname }) => {
                     [...prev, { title: item.taskname, deadline: item.deadline }]
                 )
             })
-            
         })
-
-
-        const resizeObserver = new ResizeObserver((entries) => {
-            const entry = entries[0];
-            const { width, height } = entry.contentRect;
-            const widget = entry.target.closest(".grid-stack-item");
-            const cellWidth = widget.getAttribute("gs-w");
-            const cellHeight = widget.getAttribute("gs-h");
-
-            let mode = "big";
-
-            if (cellHeight == null) {
-                mode = "wide";
-            }
-
-            console.log(mode);
-            setLayoutMode(mode);
-        });
-        resizeObserver.observe(mainRef.current);
     }, []);
 
 
 
     return (
-        <div ref={mainRef} className={`${styles.main} ${styles[layoutMode]}`}>
+        <div className={`${styles.main}`}>
             {
                 listAddPopupState && (<Popup popupTitle={"Add task"} setPopupState={setListAddPopupState} labelList={["Name", "Deadline"]} inputTypeList={["", "Date"]} buttonFunction={addTask} buttonFunctionParameter={[username, gridname, id]}/>)
             }
@@ -87,7 +60,7 @@ const list = ({ username, gridname, id, listname }) => {
             <div className={styles.title}>
                 <p>{listName}</p>
                 <div className={styles["button-div"]}>
-                    <button onClick={() => { setListAddPopupState(prev => !prev) }} id="add-button" className={styles["title-button"]} type="button">
+                    <button onClick={() => { setListAddPopupState(prev => !prev) }} className={styles["title-button"]} type="button">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 640 640"
@@ -106,19 +79,19 @@ const list = ({ username, gridname, id, listname }) => {
                 </div>
             </div>
             <nav className={styles["list-nav"]}>
-                <ul ref={listRef} className={styles["list"]}>
+                <ul className={styles["list"]}>
                     {
                         taskList && taskList.map((element, index) => (
                             <li key={index} className={styles["list-element"]}>
                                 
                                 <p className={styles["list-element-title"]}>
-                                    {element.title}
+                                    {element.taskName}
                                 </p>
                                 <p className={styles["list-element-deadline"]}>
-                                    {element.deadline}
+                                    {element.deadLine}
                                 </p>
                                 <div className={styles["list-element-button-div"]}>
-                                    <button onClick={() => { removeTask(index); TaskService.deleteRequest(username, gridname, id, element.title) }} className={styles["list-element-button"]}>
+                                    <button onClick={() => { removeTask(index); TaskService.deleteRequest(username, gridname, id, element.taskName) }} className={styles["list-element-button"]}>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 640 640"

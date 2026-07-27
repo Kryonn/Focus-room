@@ -22,11 +22,13 @@ export const WidgetController = {
         const widgetId = body.widgetId;
         const username = body.username;
         const gridName = body.gridName;
+        const pomodoroWorkTime = body.pomodoroWorkTime;
+        const pomodoroBreakTime = body.pomodoroBreakTime;
         const xPosition = body.xPosition;
         const yPosition = body.yPosition;
 
         try {
-            const insertResponse = await WidgetModel.insertPomodoro(username, gridName, widgetId, xPosition, yPosition);
+            const insertResponse = await WidgetModel.insertPomodoro(username, gridName, widgetId, pomodoroWorkTime, pomodoroBreakTime, xPosition, yPosition);
 
             return res.status(201).json({ error: false, data: insertResponse });
         } catch(err) {
@@ -133,15 +135,32 @@ export const WidgetController = {
         }
     },
 
+    async updatePomodoroWidget(req, res) {
+        const body = req.body;
+        const username = body.username;
+        const gridName = body.gridName;
+        const widgetId = body.widgetId;
+        const newPomodoroWorkTime = body.newPomodoroWorkTime;
+        const newPomodoroBreakTime = body.newPomodoroBreakTime;
+
+        try {
+            const updateResponse = await WidgetModel.updatePomodoroWidget(username, gridName, widgetId, newPomodoroWorkTime, newPomodoroBreakTime);
+
+            res.status(200).json({ error: false, data: updateResponse });
+        } catch(err) {
+            res.status(400).json({ error: err.message });
+        }
+    },
+
     async updateListNameWidget(req, res) {
         const body = req.body;
         const username = body.username;
-        const gridname = body.gridname;
+        const gridName = body.gridName;
         const widgetId = body.widgetId;
         const newListName = body.newListName;
 
         try {
-            const updateResponse = await WidgetModel.updateListWidget(username, gridname, widgetId, newListName);
+            const updateResponse = await WidgetModel.updateListWidget(username, gridName, widgetId, newListName);
 
             res.status(200).json({ error: false, data: updateResponse });
         } catch(err) {
@@ -152,12 +171,12 @@ export const WidgetController = {
     async updateNoteNameWidget(req, res) {
         const body = req.body;
         const username = body.username;
-        const gridname = body.gridname;
+        const gridName = body.gridName;
         const widgetId = body.widgetId;
         const newNoteName = body.newNoteName;
 
         try {
-            const updateResponse = await WidgetModel.updateNoteNameWidget(username, gridname, widgetId, newNoteName);
+            const updateResponse = await WidgetModel.updateNoteNameWidget(username, gridName, widgetId, newNoteName);
 
             res.status(200).json({ error: false, data: updateResponse });
         } catch(err) {
@@ -168,12 +187,12 @@ export const WidgetController = {
     async updateNoteDescriptionWidget(req, res) {
         const body = req.body;
         const username = body.username;
-        const gridname = body.gridname;
+        const gridName = body.gridName;
         const widgetId = body.widgetId;
         const newNoteDescription = body.newNoteDescription;
 
         try {
-            const updateResponse = await WidgetModel.updateNoteDescriptionWidget(username, gridname, widgetId, newNoteDescription);
+            const updateResponse = await WidgetModel.updateNoteDescriptionWidget(username, gridName, widgetId, newNoteDescription);
 
             res.status(200).json({ error: false, data: updateResponse });
         } catch(err) {

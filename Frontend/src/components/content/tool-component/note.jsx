@@ -1,19 +1,44 @@
+// CSS
 import styles from "./note.module.css";
+
+// Components
 import Popup from "./popup.jsx";
-import { useState } from "react";
+
+// React
+import { useState, useRef } from "react";
+
+// Services
 import { WidgetService } from "../../../services/widget.service.js";
 
-const note = ({ username, gridname, id, updateNoteDescriptionDebounce, notename, notedescription }) => {
-    const [noteDescription, setNoteDescription] = useState(notedescription);
+// Utils
+import { utils } from "../../../utils/utils.js";
+
+const note = ({ username, gridname, id, notename, notedescription }) => {
+    // States
     const [noteName, setNoteName] = useState(notename);
+    const [noteDescription, setNoteDescription] = useState(notedescription);
     const [notePopupState, setNotePopupState] = useState(false);
+    
+    // List
     const setList = [setNoteName];
+
+    // This function call the update description function with delay
+    const updateNoteDescriptionDebounce = useRef(
+        utils.debounce(
+            (username, gridname, widgetid, newNoteDescription) => {
+                WidgetService.putNoteDescriptionRequest(username, gridname, widgetid, newNoteDescription);
+            }, 2000
+        )
+    ).current;
     
     return (
         <div className={styles.main}>
+            {/* Update popup */}
             {
                 notePopupState && (<Popup popupTitle={"Change note name"} setPopupState={setNotePopupState} labelList={["Name"]} inputTypeList={[""]} setList={setList} buttonFunction={WidgetService.putNoteNameRequest} buttonFunctionParameter={[username, gridname, id]} />)
             }
+
+            {/* Title div */}
             <div className={styles.title}>
                 <p>{noteName}</p>
                 <div className={styles["button-div"]}>
@@ -27,6 +52,8 @@ const note = ({ username, gridname, id, updateNoteDescriptionDebounce, notename,
                     </button>
                 </div>
             </div>
+
+            {/* Text div */}
             <div className={styles["text-div"]}>
                 <textarea onChange={(e) => { setNoteDescription(e.target.value); updateNoteDescriptionDebounce(username, gridname, id, e.target.value) }} value={noteDescription} className={styles["text-input"]} spellCheck="false" name=""></textarea>
             </div>

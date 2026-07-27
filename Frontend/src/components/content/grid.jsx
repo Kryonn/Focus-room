@@ -5,7 +5,7 @@ import styles from "./grid.module.css";
 import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 
-// Grid
+// GridStack
 import { GridStack } from "gridstack";
 import "gridstack/dist/gridstack.min.css";
 
@@ -14,14 +14,15 @@ import Pomodoro from "./tool-component/pomodoro.jsx";
 import List from "./tool-component/list.jsx";
 import Note from "./tool-component/note.jsx";
 
-// Utils
-import { utils } from "../../utils/utils.js";
-
 // Services
 import { WidgetService } from "../../services/widget.service.js";
 
-const default_list_min_width = 3;
-const default_list_min_height = 2;
+// Utils
+import { utils } from "../../utils/utils.js";
+
+// Constants
+import { DEFAULT_WIDGET_SIZE } from "../../constants/constant.js"
+import { DEFAULT_GRID_SETTINGS } from "../../constants/constant.js"
 
 const grid = ({
     widgetRoot,
@@ -30,16 +31,10 @@ const grid = ({
     gridRefRef,
     gridPositionRef,
 }) => {
+
     // Refs
     const gridRef = useRef(null);
     const gridInstance = useRef(null);
-
-    // Default grid settings
-    const columnHeight = 100;
-    const column = 10;
-    const row = 5;
-    const margin = 2;
-    const gridHeight = row * columnHeight;
 
     // Update widget with debounce
     const updateDebounce = useRef(
@@ -59,6 +54,7 @@ const grid = ({
         ),
     ).current;
 
+    // Update note widget description with debounce
     const updateNoteDescriptionDebounce = useRef(
         utils.debounce(
             (username, gridname, widgetid, newNoteDescription) => {
@@ -66,6 +62,15 @@ const grid = ({
             }, 2000
         )
     ).current;
+
+    // Calculate and set grid height
+    function fixGridHeight() {
+        if(gridInstanceRef.current[gridParameter.index] && gridRefRef.current[gridParameter.index]) {
+            const currentGridHeight = gridRefRef.current[gridParameter.index].clientHeight;
+            const calculatedCellHeight = currentGridHeight / DEFAULT_GRID_SETTINGS.ROW;
+            gridInstanceRef.current[gridParameter.index].cellHeight(calculatedCellHeight); 
+        }
+    }
 
     useEffect(() => {
         let isMounted = true;
@@ -79,16 +84,17 @@ const grid = ({
             // Initialize Grid
             gridInstance.current = GridStack.init(
                 {
-                    float: gridParameter.float,
-                    resizable: { handles: "se" },
-                    column: column,
-                    cellHeight: "auto",
-                    row: row,
-                    margin: margin,
+                    float: DEFAULT_GRID_SETTINGS.FLOAT,
+                    resizable: DEFAULT_GRID_SETTINGS.RESIZABLE,
+                    column: DEFAULT_GRID_SETTINGS.COLUMN,
+                    cellHeight: DEFAULT_GRID_SETTINGS.CELL_HEIGHT,
+                    row: DEFAULT_GRID_SETTINGS.ROW,
+                    margin: DEFAULT_GRID_SETTINGS.MARGIN,
                     staticGrid: gridParameter.static,
                 },
                 gridRef.current,
             );
+
 
             cleanupGrid = gridInstance.current;
 
@@ -116,11 +122,22 @@ const grid = ({
                         case "list":
                             newWidget.setAttribute(
                                 "minW",
-                                default_list_min_width,
+                                DEFAULT_WIDGET_SIZE.LIST_WIDTH,
                             );
                             newWidget.setAttribute(
                                 "minH",
-                                default_list_min_height,
+                                DEFAULT_WIDGET_SIZE.LIST_HEIGHT,
+                            );
+                            break;
+
+                        case "note":
+                            newWidget.setAttribute(
+                                "minW",
+                                DEFAULT_WIDGET_SIZE.NOTE_WIDTH,
+                            );
+                            newWidget.setAttribute(
+                                "minH",
+                                DEFAULT_WIDGET_SIZE.NOTE_HEIGHT,
                             );
                             break;
                     }
@@ -185,7 +202,7 @@ const grid = ({
                     // Render correct widget according type
                     switch (type) {
                         case "pomodoro":
-                            widgetRoot.current[index].render(<Pomodoro />);
+                            widgetRoot.current[index].render(<Pomodoro username={"asd"} gridName={gridParameter.name} id={widget.id} pomodoroWorkTime={widget.pomodoroworktime} pomodoroBreakTime={widget.pomodorobreaktime}/>);
                             break;
 
                         case "list":
@@ -221,16 +238,19 @@ const grid = ({
             gridInstanceRef.current[gridParameter.index] = gridInstance.current;
             gridRefRef.current[gridParameter.index] = gridRef.current;
             gridPositionRef.current[gridParameter.index] =
-                utils.updateElementPosition(gridInstance, column, row);
+                utils.updateElementPosition(gridInstance, DEFAULT_GRID_SETTINGS.COLUMN, DEFAULT_GRID_SETTINGS.ROW);
 
             // Add listeners
             gridInstance.current.on("dragstop resizestop", updateWidget);
             gridInstance.current.on("added removed change", () => {
                 if (gridInstance.current) {
                     gridPositionRef.current[gridParameter.index] =
-                        utils.updateElementPosition(gridInstance, column, row);
+                        utils.updateElementPosition(gridInstance, DEFAULT_GRID_SETTINGS.COLUMN, DEFAULT_GRID_SETTINGS.ROW);
                 }
             });
+
+            fixGridHeight();
+
         }, 0);
 
         return () => {
@@ -254,7 +274,6 @@ const grid = ({
     return (
         <div
             className={`main ${styles.main}`}
-            style={{ height: gridHeight + "px" }}
         >
             <div className={`grid-stack ${styles.grid}`} ref={gridRef}></div>
         </div>

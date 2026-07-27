@@ -18,6 +18,7 @@ router.post("/widget/pomodoro", WidgetController.createPomodoro);
 router.post("/widget/list", WidgetController.createList);
 router.post("/widget/note", WidgetController.createNote);
 router.put("/widget", WidgetController.updateWidget);
+router.put("/widget/pomodoro/time", WidgetController.updatePomodoroWidget);
 router.put("/widget/list/name", WidgetController.updateListNameWidget);
 router.put("/widget/note/name", WidgetController.updateNoteNameWidget);
 router.put("/widget/note/description", WidgetController.updateNoteDescriptionWidget);

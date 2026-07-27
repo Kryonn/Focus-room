@@ -52,7 +52,7 @@ export const WidgetService = {
         }
     },
 
-    async postPomodoroRequest(widgetId, username, gridName, xPosition, yPosition) {
+    async postPomodoroRequest(widgetId, username, gridName, pomodoroWorkTime, pomodoroBreakTime, xPosition, yPosition) {
         const url = "/widget/pomodoro";
 
         try {
@@ -62,6 +62,9 @@ export const WidgetService = {
                     widgetId: widgetId,
                     username: username,
                     gridName: gridName,
+                    gridName: gridName,
+                    pomodoroWorkTime: pomodoroWorkTime,
+                    pomodoroBreakTime: pomodoroBreakTime,
                     xPosition: xPosition,
                     yPosition: yPosition
                 }),
@@ -110,6 +113,27 @@ export const WidgetService = {
         }
     },
 
+    async putPomodoroRequest(newPomodoroWorkTime, newPomodoroBreakTime, username, gridName, widgetId) {
+        const url = "/widget/pomodoro/time";
+
+        try {
+            const res = await apiFetch(url, {
+                method: "PUT",
+                body: JSON.stringify({
+                    username: username,
+                    gridName: gridName,
+                    widgetId: widgetId,
+                    newPomodoroWorkTime: newPomodoroWorkTime,
+                    newPomodoroBreakTime: newPomodoroBreakTime
+                })
+            })
+
+            return res;
+        } catch(err) {
+            return err;
+        }
+    },
+
     async putListRequest(newListName, username, gridName, widgetId) {
         const url = "/widget/list/name";
 
@@ -140,7 +164,7 @@ export const WidgetService = {
                     username: username,
                     gridName: gridName,
                     widgetId: widgetId,
-                    newNoteDescription
+                    newNoteDescription: newNoteDescription
                 })
             });
 
@@ -179,8 +203,8 @@ export const WidgetService = {
                 body: JSON.stringify({
                     username: username,
                     gridName: gridName,
-                    widgetid: widgetId,
-                    listname: listName,
+                    widgetId: widgetId,
+                    listName: listName,
                     xPosition: xPosition,
                     yPosition: yPosition
                 })
@@ -201,8 +225,8 @@ export const WidgetService = {
                 body: JSON.stringify({
                     username: username,
                     gridName: gridName,
-                    widgetid: widgetId,
-                    notename: noteName,
+                    widgetId: widgetId,
+                    noteName: noteName,
                     xPosition: xPosition,
                     yPosition: yPosition
                 })

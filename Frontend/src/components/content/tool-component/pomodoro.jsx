@@ -1,44 +1,52 @@
+// CSS
 import styles from "./pomodoro.module.css";
+
+// React
 import { useState, useEffect, useRef } from "react";
-import { POMODORO_PATH } from "../../../assets/svg-path";
+
+// Services
+import { WidgetService } from "../../../services/widget.service";
+
+// Assets
 import pomodoroSound from "../../../assets/pomodoro-sound.mp3"
-// import { use } from "react";
 
-const pomodoro = () => {
-    const [time, setTime] = useState(1);
+// Contants
+import { POMODORO_PATH } from "../../../constants/constant.js";
 
+const pomodoro = ({ username, gridName, id, pomodoroWorkTime, pomodoroBreakTime}) => {
+    // States
+    const [time, setTime] = useState(pomodoroWorkTime * 60);
     const [pomodoroState, setPomodoroState] = useState("pause");
     const [pomodoroMode, setPomodoroMode] = useState("work");
-    
     const [resetPath, setResetPath] = useState(POMODORO_PATH.reset);
     const [playPath, setPlayPath] = useState(POMODORO_PATH.play);
     const [settingPath, setSettingPath] = useState(POMODORO_PATH.setting);
-    
-    const [prevPlayButtonState, setPrevPlayButtonState] = useState(25);
-    const [prevResetButtonState, setPrevResetButtonState] = useState(20);
-    const [playButtonState, setPlayButtonState] = useState(25);
-    const [resetButtonState, setResetButtonState] = useState(20);
+    const [prevPlayButtonState, setPrevPlayButtonState] = useState(pomodoroWorkTime);
+    const [prevResetButtonState, setPrevResetButtonState] = useState(pomodoroBreakTime);
+    const [playButtonState, setPlayButtonState] = useState(pomodoroWorkTime);
+    const [resetButtonState, setResetButtonState] = useState(pomodoroBreakTime);
     const [settingButtonState, setSettingButtonState] = useState(false);
-
     const [layoutMode, setLayoutMode] = useState("small");
-    
     const [workTime, setWorkTime] = useState(25);
     const [breakTime, setBreakTime] = useState(25);
 
-    const soundRef = useRef(null);    
+    // Refs
+    const soundRef = useRef(null);   
     const mainRef = useRef(null);
 
+    // Component Functions
+    // Toggle pomodoro state e svg play button
     function pausePlay() {
         if (pomodoroState === "pause") {
             setPomodoroState("running");
             setPlayPath(POMODORO_PATH.pause);
-            return;
+        } else {
+            setPomodoroState("pause");
+            setPlayPath(POMODORO_PATH.play);
         }
-
-        setPomodoroState("pause");
-        setPlayPath(POMODORO_PATH.play);
     }
-
+    
+    // Change to next reset button state (Break time)
     function changeResetButtonState() {
         switch (resetButtonState) {
             case 5:
@@ -47,25 +55,23 @@ const pomodoro = () => {
                 break;
 
             case 10:
-                // setPrevResetButtonState(10);
                 setResetButtonState(15);
                 setBreakTime(15 * 60);
                 break;
 
             case 15:
-                // setPrevResetButtonState(15);
                 setResetButtonState(20);
                 setBreakTime(20 * 60);
                 break;
 
             case 20:
-                // setPrevResetButtonState(20);
                 setResetButtonState(5);
                 setBreakTime(5 * 60);
                 break;
         }
     }
 
+    // Change to next play button state (Work time)
     function changePlayButtonState() {
         switch (playButtonState) {
             case 25:
@@ -110,10 +116,33 @@ const pomodoro = () => {
         }
     }
 
+    // Change pomodoro state, svg play button and time when reset button is clicked
     function handleReset() {
         setPomodoroState("pause");
         setPlayPath(POMODORO_PATH.play);
         setTime(pomodoroMode === "break" ? resetButtonState * 60 : playButtonState * 60);
+    }
+
+    // Change setting button state and time when setting button is clicked
+    async function verifyPomodoroTime() {
+        setSettingButtonState(prev => !prev);
+
+        // If the setting button is being toggled off and the time value hasn't changed,
+        // update the time to the new value
+        if(settingButtonState) {
+            if(settingButtonState && (pomodoroMode === "work" && prevPlayButtonState * 60 === time || pomodoroMode === "break" && prevResetButtonState * 60 === time)) {
+                if(pomodoroMode === "work") {
+                    setTime(playButtonState * 60);
+                } else {
+                    setTime(resetButtonState * 60);
+                }
+            }
+
+            await WidgetService.putPomodoroRequest(playButtonState, resetButtonState, username, gridName, id);
+        } else {
+            setPrevPlayButtonState(playButtonState);
+            setPrevResetButtonState(resetButtonState);
+        }        
     }
 
     useEffect(() => {
@@ -121,6 +150,7 @@ const pomodoro = () => {
             return;
         }
 
+        // If pomodoroState is in "interval" state, wait 4 seconds to change to "running" state
         if (pomodoroState === "interval") {
             const timeout = setTimeout(() => {
                 setPomodoroState("running");
@@ -132,13 +162,12 @@ const pomodoro = () => {
                 }
             }, 4000);
 
-
-
             return () => {
                 clearTimeout(timeout);
             }
         }
 
+        // If pomodoroState is in "running" state, if time is 0 change to "interval" state else decrease 1 of time
         if (pomodoroState === "running") {
             const interval = setInterval(() => {
                 setTime((prevTime) => {
@@ -165,18 +194,20 @@ const pomodoro = () => {
                 clearInterval(interval);
             };
         }
-
     }, [pomodoroState]);
 
     useEffect(() => {
+        // Create an observer to verify widget size
         const resizeObserver = new ResizeObserver((entries) => {
             const entry = entries[0];
             const { width, height } = entry.contentRect;
 
+            // Get widget attributes
             const widget = entry.target.closest(".grid-stack-item");
             const cellWidth = Number(widget.getAttribute("gs-w"));
             const cellHeight = Number(widget.getAttribute("gs-h"));
 
+            // Determine widget mode: small, tall, one-wide or wide
             let mode = "big";
 
             if (cellWidth > cellHeight && cellWidth && cellHeight) {
@@ -192,40 +223,16 @@ const pomodoro = () => {
             }
 
             if (cellWidth == 0 && cellHeight == 0) {
-                setSettingButtonState(false);
                 mode = "small";
             }
 
-            console.log("Mode: ", mode);
-            console.log("CellWidth: ", cellWidth);
-            console.log("CellHeight: ", cellHeight);
             setLayoutMode(mode);
         });
 
         resizeObserver.observe(mainRef.current);
     }, []);
 
-    function verifyPomodoroTime() {
-        setSettingButtonState(prev => !prev);
-
-        if(settingButtonState) {
-            if(settingButtonState && (pomodoroMode === "work" && prevPlayButtonState * 60 === time || pomodoroMode === "break" && prevResetButtonState * 60 === time)) {
-                if(pomodoroMode === "work") {
-                    setTime(playButtonState * 60);
-                } else {
-                    setTime(resetButtonState * 60);
-                }
-            }
-        } else {
-            setPrevPlayButtonState(playButtonState);
-            setPrevResetButtonState(resetButtonState);
-            console.log("prevPlay: ", prevPlayButtonState);
-            console.log("prevReset: ", prevResetButtonState);
-        }
-
-        console.log("pomodoroMode: ", pomodoroMode);
-        
-    }
+    
 
     return (
         <div ref={mainRef} className={`${styles.main} ${styles[layoutMode]}`}>

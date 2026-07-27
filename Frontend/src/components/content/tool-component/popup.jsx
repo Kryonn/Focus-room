@@ -1,27 +1,28 @@
+// CSS
 import styles from "./popup.module.css"
-import { useRef, useState } from "react";
+
+// React
+import { useRef } from "react";
 
 const popup = ({ popupTitle, setPopupState, labelList, inputTypeList, setList, buttonFunction, buttonFunctionParameter}) => {
-    
-    const taskNameRef = useRef([]); 
+    // Refs
     const inputListRef = useRef([]);   
-    const [listParameter, setListParameter] = useState([]);
 
-
+    // Change the popup state, set input values and run parameter function when send button is clicked
     const sendButton = async () => {
+        // Toggle popup state
         setPopupState((prev) => !prev);
 
         const values = inputListRef.current.map((input) => input.value);
 
+        // Set input values
         if(setList) {
             setList.forEach((setFunction, index) => {
                 setFunction(values[index]);
             })
         }
 
-        console.log(values);
-        
-
+        // Run parameter function
         buttonFunction(
             ...values,
             ...buttonFunctionParameter
