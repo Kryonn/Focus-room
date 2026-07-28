@@ -68,6 +68,10 @@
     fill: var(--white-two);   
 }
 
+.selected .link {
+    background-color: var(--black-two);
+}
+
 .hidden {
     opacity: 0;
 }

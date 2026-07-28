@@ -8,6 +8,7 @@ import { useRef, useState } from "react";
 const sidebar = ({
     setGridObserver,
     setGridState,
+    gridState,
     listGridParameter,
     setListGridParameter,
 }) => {
@@ -43,6 +44,7 @@ const sidebar = ({
                 <List
                     setGridObserver={setGridObserver}
                     setGridState={setGridState}
+                    gridState={gridState}
                     mode={sidebarMode}
                     listRef={listRef}
                     listGridParameter={listGridParameter}

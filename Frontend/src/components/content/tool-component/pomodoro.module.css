@@ -75,11 +75,6 @@ span {
     display: none;
 }
 
-/* Small */
-.small .settings {
-    display: none;
-}
-
 /* Tall */
 .tall {
     container-type: size;
@@ -101,10 +96,6 @@ span {
 }
 
 .tall .doubleDot {
-    display: none;
-}
-
-.tall .settings {
     display: none;
 }
 

@@ -25,6 +25,7 @@ import { DEFAULT_WIDGET_SIZE } from "../../constants/constant.js"
 import { DEFAULT_GRID_SETTINGS } from "../../constants/constant.js"
 
 const grid = ({
+    gridCache,
     widgetRoot,
     gridParameter,
     gridInstanceRef,
@@ -72,11 +73,153 @@ const grid = ({
         }
     }
 
+    // Build widget html and append to gridRef and gridInstance
+    async function buildWidgets(widgetBuildList, gridRef, gridInstance, widgetRoot) {
+        if(!gridRef.current) {
+            return;
+        }
+
+        widgetBuildList.forEach((widget) => {
+            // Global setup
+            const newWidget = document.createElement("div");
+            newWidget.classList.add("grid-stack-item");
+            newWidget.setAttribute("gs-id", widget.id);
+            newWidget.setAttribute("gs-w", widget.width);
+            newWidget.setAttribute("gs-h", widget.height);
+            newWidget.setAttribute("gs-x", widget.xposition);
+            newWidget.setAttribute("gs-y", widget.yposition);
+            const widgetType = widget.id.split("-")[0];
+
+            // Specify setup
+            switch (widgetType) {
+                case "list":
+                    newWidget.setAttribute(
+                        "minW",
+                        DEFAULT_WIDGET_SIZE.LIST_WIDTH,
+                    );
+                    newWidget.setAttribute(
+                        "minH",
+                        DEFAULT_WIDGET_SIZE.LIST_HEIGHT,
+                    );
+                    break;
+
+                case "note":
+                    newWidget.setAttribute(
+                        "minW",
+                        DEFAULT_WIDGET_SIZE.NOTE_WIDTH,
+                    );
+                    newWidget.setAttribute(
+                        "minH",
+                        DEFAULT_WIDGET_SIZE.NOTE_HEIGHT,
+                    );
+                    break;
+            }
+
+            newWidget.innerHTML = `
+                <div class="grid-stack-item-content ">
+                    <button class="${styles["remove-button"]} delete-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                            <path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z"/>
+                        </svg>
+                    </button>
+                    <div class="${styles[widgetType]} alvo-${widgetType} widget" style="height:100%; width: 100%; display: flex"></div>
+                </div>
+            `;
+
+            // Append html element and widget
+            gridRef.current.append(newWidget);
+            gridInstance.current.makeWidget(newWidget);
+
+            const buttonList =
+                gridRef.current.querySelectorAll(".delete-button");
+
+            buttonList[buttonList.length - 1].addEventListener(
+                "click",
+                async () => {
+                    if (gridInstance.current) {
+                        gridInstance.current.removeWidget(
+                            newWidget,
+                            true,
+                        );
+                    }
+
+                    if (widgetRoot.current[buttonList.length - 1]) {
+                        widgetRoot.current[
+                            buttonList.length - 1
+                        ].unmount();
+                        delete widgetRoot.current[buttonList - 1];
+                    }
+
+                    await WidgetService.deleteRequest(
+                        widget.id,
+                        "asd",
+                        gridParameter.name,
+                    );
+                },
+            );
+        });
+    }
+
+    // Render widgets
+    function renderWidgets(widgetRenderList, gridRef, widgetRoot) {
+        if(!gridRef.current) {
+            return;
+        }
+
+        const widgetList = gridRef.current.querySelectorAll(".widget");
+
+        // Render widgets
+        widgetRenderList.forEach((widget, index) => {
+            if (widgetRoot.current[index]) {
+                widgetRoot.current[index].unmount();
+            }
+
+            widgetRoot.current[index] = createRoot(widgetList[index]);
+
+            // Set widget type
+            const type = widget.id.split("-")[0];
+
+            // Render correct widget according type
+            switch (type) {
+                case "pomodoro":
+                    widgetRoot.current[index].render(<Pomodoro username={"asd"} gridName={gridParameter.name} id={widget.id} pomodoroWorkTime={widget.pomodoroworktime} pomodoroBreakTime={widget.pomodorobreaktime}/>);
+                    break;
+
+                case "list":
+                    widgetRoot.current[index].render(<List username={"asd"} gridname={gridParameter.name} id={widget.id} listname={widget.listname} />);
+                    break;
+
+                case "note":
+                    widgetRoot.current[index].render(<Note username={"asd"} gridname={gridParameter.name} id={widget.id} updateNoteDescriptionDebounce={updateNoteDescriptionDebounce} notename={widget.notename} notedescription={widget.notedescription} />);
+                    break;
+            }
+        });
+    }
+
+    // Update size and position of widget into data base
+    function updateWidget(event, el) {
+        if (!el.gridstackNode) {
+            return;
+        }
+
+        const node = el.gridstackNode;
+
+        updateDebounce(
+            node.id.split("_")[0],
+            "asd",
+            gridParameter.name,
+            node.w,
+            node.h,
+            node.x,
+            node.y,
+        );
+    }
+
     useEffect(() => {
         let isMounted = true;
         let cleanupGrid = null;
 
-        const initTimeout = setTimeout(() => {
+        const initTimeout = setTimeout(async () => {
             if (!gridRef.current) {
                 return;
             }
@@ -98,141 +241,26 @@ const grid = ({
 
             cleanupGrid = gridInstance.current;
 
-            // Get grid widgets
-            WidgetService.getRequest("asd", gridParameter.name).then((list) => {
-                if (!isMounted || !gridRef.current) {
+            let widgetRequestList;
+
+            // If the grid data was requested previously no need to request again
+            if(!gridCache.current[gridParameter.index]) {
+                widgetRequestList = await WidgetService.getRequest("asd", gridParameter.name);
+                if(!isMounted || !gridRef.current) {
                     return;
                 }
-
-                gridRef.current.innerHTML = "";
-
-                list.forEach((widget) => {
-                    // Global setup
-                    const newWidget = document.createElement("div");
-                    newWidget.classList.add("grid-stack-item");
-                    newWidget.setAttribute("gs-id", widget.id);
-                    newWidget.setAttribute("gs-w", widget.width);
-                    newWidget.setAttribute("gs-h", widget.height);
-                    newWidget.setAttribute("gs-x", widget.xposition);
-                    newWidget.setAttribute("gs-y", widget.yposition);
-                    const widgetType = widget.id.split("-")[0];
-
-                    // Specify setup
-                    switch (widgetType) {
-                        case "list":
-                            newWidget.setAttribute(
-                                "minW",
-                                DEFAULT_WIDGET_SIZE.LIST_WIDTH,
-                            );
-                            newWidget.setAttribute(
-                                "minH",
-                                DEFAULT_WIDGET_SIZE.LIST_HEIGHT,
-                            );
-                            break;
-
-                        case "note":
-                            newWidget.setAttribute(
-                                "minW",
-                                DEFAULT_WIDGET_SIZE.NOTE_WIDTH,
-                            );
-                            newWidget.setAttribute(
-                                "minH",
-                                DEFAULT_WIDGET_SIZE.NOTE_HEIGHT,
-                            );
-                            break;
-                    }
-
-                    newWidget.innerHTML = `
-                        <div class="grid-stack-item-content ">
-                            <button class="${styles["remove-button"]} delete-button">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
-                                    <path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z"/>
-                                </svg>
-                            </button>
-                            <div class="${styles[widgetType]} alvo-${widgetType} widget" style="height:100%; width: 100%; display: flex"></div>
-                        </div>
-                    `;
-
-                    // Append html element and widget
-                    gridRef.current.append(newWidget);
-                    gridInstance.current.makeWidget(newWidget);
-
-                    const buttonList =
-                        gridRef.current.querySelectorAll(".delete-button");
-
-                    buttonList[buttonList.length - 1].addEventListener(
-                        "click",
-                        async () => {
-                            if (gridInstance.current) {
-                                gridInstance.current.removeWidget(
-                                    newWidget,
-                                    true,
-                                );
-                            }
-
-                            if (widgetRoot.current[buttonList.length - 1]) {
-                                widgetRoot.current[
-                                    buttonList.length - 1
-                                ].unmount();
-                                delete widgetRoot.current[buttonList - 1];
-                            }
-
-                            await WidgetService.deleteRequest(
-                                widget.id,
-                                "asd",
-                                gridParameter.name,
-                            );
-                        },
-                    );
-                });
-
-                const widgetList = gridRef.current.querySelectorAll(".widget");
-
-                // Render widgets
-                list.forEach((widget, index) => {
-                    if (widgetRoot.current[index]) {
-                        widgetRoot.current[index].unmount();
-                    }
-
-                    widgetRoot.current[index] = createRoot(widgetList[index]);
-
-                    // Set widget type
-                    const type = widget.id.split("-")[0];
-
-                    // Render correct widget according type
-                    switch (type) {
-                        case "pomodoro":
-                            widgetRoot.current[index].render(<Pomodoro username={"asd"} gridName={gridParameter.name} id={widget.id} pomodoroWorkTime={widget.pomodoroworktime} pomodoroBreakTime={widget.pomodorobreaktime}/>);
-                            break;
-
-                        case "list":
-                            widgetRoot.current[index].render(<List username={"asd"} gridname={gridParameter.name} id={widget.id} listname={widget.listname} />);
-                            break;
-
-                        case "note":
-                            widgetRoot.current[index].render(<Note username={"asd"} gridname={gridParameter.name} id={widget.id} updateNoteDescriptionDebounce={updateNoteDescriptionDebounce} notename={widget.notename} notedescription={widget.notedescription} />);
-                            break;
-                    }
-                });
-            });
-
-            function updateWidget(event, el) {
-                if (!el.gridstackNode) {
-                    return;
-                }
-
-                const node = el.gridstackNode;
-
-                updateDebounce(
-                    node.id.split("_")[0],
-                    "asd",
-                    gridParameter.name,
-                    node.w,
-                    node.h,
-                    node.x,
-                    node.y,
-                );
+                gridCache.current[gridParameter.index] = widgetRequestList;
+            } else {
+                widgetRequestList = gridCache.current[gridParameter.index];
             }
+
+            gridRef.current.innerHTML = "";
+
+            // Building widgets
+            buildWidgets(widgetRequestList, gridRef, gridInstance, widgetRoot);
+
+            // Render widgets
+            renderWidgets(widgetRequestList, gridRef, widgetRoot);
 
             // Attribute refs array
             gridInstanceRef.current[gridParameter.index] = gridInstance.current;
@@ -250,7 +278,6 @@ const grid = ({
             });
 
             fixGridHeight();
-
         }, 0);
 
         return () => {

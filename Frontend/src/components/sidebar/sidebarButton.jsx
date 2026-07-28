@@ -1,7 +1,8 @@
 import styles from "./sidebarButton.module.css";
 import searchIcon from "../../assets/search-icon.svg";
 import addIcon from "../../assets/add-icon.svg";
-import Popup from "./popup.jsx";
+import Popup2 from "./popup.jsx";
+import Popup from "../content/tool-component/popup.jsx";
 import { useRef, useEffect, useState } from "react";
 
 const sidebarButton = ({ setGridObserver, mode, functions }) => {
@@ -10,20 +11,10 @@ const sidebarButton = ({ setGridObserver, mode, functions }) => {
     const searchRef = useRef(null);
     const addRef = useRef(null);
 
-    useEffect(() => {
-        const search = searchRef.current;
-        const add = addRef.current;
-
-        add.addEventListener("transitionend", () => {
-            add.style.display = "none";
-            add.style.justifyContent = "center";
-        });
-    }, []);
-
     return (
         <div className={styles.main}>
             {popupState && (
-                <Popup
+                <Popup2
                     setGridObserver={setGridObserver}
                     setPopupState={setPopupState}
                 />

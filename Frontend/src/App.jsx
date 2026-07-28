@@ -47,6 +47,7 @@ function App() {
                     <Sidebar
                         setGridObserver={setGridObserver}
                         setGridState={setGridState}
+                        gridState={gridState}
                         listGridParameter={listGridParameter}
                         setListGridParameter={setListGridParameter}
                     />

@@ -33,6 +33,8 @@ const content = ({
     // Components Root List
     const widgetRoot = useRef([]);
 
+    const gridCache = useRef([]);
+
     // Add Components Function List
     const functionList = {
         // Create pomodoro widget function
@@ -178,6 +180,7 @@ const content = ({
             {listGridParameter[gridState] && (
                 <Grid
                     key={listGridParameter[gridState].name}
+                    gridCache={gridCache}
                     widgetRoot={widgetRoot}
                     gridParameter={listGridParameter[gridState]}
                     gridInstanceRef={listGridInstance}

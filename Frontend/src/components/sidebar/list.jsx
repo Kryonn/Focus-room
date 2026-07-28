@@ -1,29 +1,24 @@
+// CSS
 import styles from "./list.module.css";
+
+// React
 import { useEffect, useRef } from "react";
+
+// Services
 import { GridService } from "../../services/grid.service";
 
 const list = ({
     setGridObserver,
     setGridState,
+    gridState,
     mode,
     listRef,
     listGridParameter,
     setListGridParameter,
 }) => {
-    const navRef = useRef(null);
-
-    useEffect(() => {
-        const list = navRef.current;
-
-        list.addEventListener("transitioned", () => {
-            list.style.display = "none";
-        });
-
-    }, []);
 
     return (
         <nav
-            ref={navRef}
             className={`${styles.main} ${mode === "hide" ? styles["hidden"] : ""}`}
         >
             <ul ref={listRef} className={styles.list}>
@@ -31,7 +26,7 @@ const list = ({
                     <li
                         onClick={() => setGridState(index)}
                         key={listElement.name}
-                        className={`${styles.element} element`}
+                        className={`${styles.element} element ${index === gridState ? styles.selected : ""}`}
                     >
                         <a className={styles.link}>
                             <p>{listElement.name}</p>

@@ -236,7 +236,10 @@ const pomodoro = ({ username, gridName, id, pomodoroWorkTime, pomodoroBreakTime}
 
     return (
         <div ref={mainRef} className={`${styles.main} ${styles[layoutMode]}`}>
+            {/* Change pomodoro state sound */}
             <audio ref={soundRef} src={pomodoroSound} preload="auto"></audio>
+
+            {/* Time div */}
             <div className={styles.timeDiv}>
                 <p>{String(Math.floor(time / 3600)).padStart(2, "0")}</p>
                 <p className={styles.doubleDot}>:</p>
@@ -248,62 +251,81 @@ const pomodoro = ({ username, gridName, id, pomodoroWorkTime, pomodoroBreakTime}
                         .padStart(2, "0")}
                 </p>
             </div>
-            <div className={styles.buttonDiv}>
 
-                {(layoutMode === "small" || !settingButtonState) && (
-                    <button onClick={handleReset} className={styles.button}>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 640 640"
+            {/* Button div */}
+            <div className={styles.buttonDiv}>
+                {
+                    // Reset button
+                    (layoutMode === "small" || !settingButtonState) && (
+                        <button onClick={handleReset} className={styles.button}>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 640 640"
+                            >
+                                <path d={resetPath} />
+                            </svg>
+                        </button>
+                    )
+                }
+                {
+                    // Break time settings button
+                    layoutMode !== "small" && layoutMode !== "tall" && settingButtonState && (
+                        <button
+                            onClick={changeResetButtonState}
+                            className={styles.button}
                         >
-                            <path d={resetPath} />
-                        </svg>
-                    </button>
-                )}
-                {layoutMode !== "small" && layoutMode !== "tall" && settingButtonState && (
-                    <button
-                        onClick={changeResetButtonState}
-                        className={styles.button}
-                    >
-                        <span>Break</span>
-                        <span>{resetButtonState}</span>
-                    </button>
-                )}
-                {(layoutMode === "small" || !settingButtonState) && (
-                    <button
-                        onClick={(e) => {
-                            pausePlay();
-                        }}
-                        className={`${styles.button} play-button`}
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 640 640"
+                            <span>Break</span>
+                            <span>{resetButtonState}</span>
+                        </button>
+                    )
+                }
+                {
+                    // Play button
+                    (layoutMode === "small" || !settingButtonState) && (
+                        <button
+                            onClick={(e) => {
+                                pausePlay();
+                            }}
+                            className={`${styles.button} play-button`}
                         >
-                            <path className="play-path" d={playPath} />
-                        </svg>
-                    </button>
-                )}
-                {layoutMode !== "small" && layoutMode !== "tall" && settingButtonState && (
-                    <button
-                        onClick={changePlayButtonState}
-                        className={`${styles.button} play-button`}
-                    >
-                        <span>Work</span>
-                        <span>{playButtonState}</span>
-                    </button>
-                )}
-                <button
-                    onClick={() => { verifyPomodoroTime() }}
-                    className={`${styles.button} ${styles.settings}`}
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 640 640"
-                    >
-                        <path d={settingPath} />
-                    </svg>
-                </button>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 640 640"
+                            >
+                                <path className="play-path" d={playPath} />
+                            </svg>
+                        </button>
+                    )
+                }
+                {
+                    // Work time settings button
+                    layoutMode !== "small" && layoutMode !== "tall" && settingButtonState && (
+                        <button
+                            onClick={changePlayButtonState}
+                            className={`${styles.button} play-button`}
+                        >
+                            <span>Work</span>
+                            <span>{playButtonState}</span>
+                        </button>
+                    )
+                }
+
+                {
+                    // Settings button
+                    layoutMode !== "small" && layoutMode !== "tall" && (
+                        <button
+                            onClick={() => { verifyPomodoroTime() }}
+                            className={`${styles.button} ${styles.settings}`}
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 640 640"
+                            >
+                                <path d={settingPath} />
+                            </svg>
+                        </button>
+                    )
+                }
             </div>
         </div>
     );
