@@ -140,7 +140,7 @@ const tool = ({
                         onClick={(e) => {
                             e.preventDefault();
                             
-                            updateFunction("asd", gridParameter.name, !gridInstanceRef.current[gridParameter.name].opts.gridStatic);
+                            updateFunction("asd", gridParameter.name, !gridInstanceRef.current[gridParameter.name].opts.staticGrid);
                             gridInstanceRef.current[gridParameter.name].setStatic(!gridInstanceRef.current[gridParameter.name].opts.staticGrid);
                         }}
                     >

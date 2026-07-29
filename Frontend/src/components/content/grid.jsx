@@ -28,6 +28,7 @@ const grid = ({
     gridState,
     setGridState,
     gridCache,
+    taskCache,
     widgetRoot,
     gridParameter,
     gridInstanceRef,
@@ -75,8 +76,27 @@ const grid = ({
         }
     }
 
+    // Update size and position of widget into data base
+    function updateWidget(event, el) {
+        if (!el.gridstackNode) {
+            return;
+        }
+
+        const node = el.gridstackNode;
+
+        updateDebounce(
+            node.id.split("_")[0],
+            "asd",
+            gridParameter.name,
+            node.w,
+            node.h,
+            node.x,
+            node.y,
+        );
+    }
+
     // Build widget html and append to gridRef and gridInstance
-    async function buildWidgets(widgetBuildList, gridRef, gridInstance, widgetRoot) {
+    async function buildWidgets(widgetBuildList, gridRef, gridInstance, widgetRoot, taskCache) {
         if(!gridRef.current) {
             return;
         }
@@ -188,7 +208,7 @@ const grid = ({
                     break;
 
                 case "list":
-                    widgetRoot.current[index].render(<List username={"asd"} gridname={gridParameter.name} id={widget.id} listname={widget.listname} />);
+                    widgetRoot.current[index].render(<List username={"asd"} gridname={gridParameter.name} id={widget.id} listname={widget.listname} taskCache={taskCache}/>);
                     break;
 
                 case "note":
@@ -198,24 +218,7 @@ const grid = ({
         });
     }
 
-    // Update size and position of widget into data base
-    function updateWidget(event, el) {
-        if (!el.gridstackNode) {
-            return;
-        }
-
-        const node = el.gridstackNode;
-
-        updateDebounce(
-            node.id.split("_")[0],
-            "asd",
-            gridParameter.name,
-            node.w,
-            node.h,
-            node.x,
-            node.y,
-        );
-    }
+    
 
     useEffect(() => {
         let isMounted = true;

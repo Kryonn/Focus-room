@@ -12,7 +12,7 @@ import { useState, useRef, useEffect, use } from "react";
 import { TaskService } from "../../../services/task.service.js";
 import { WidgetService } from "../../../services/widget.service.js";
 
-const list = ({ username, gridname, id, listname }) => {
+const list = ({ username, gridname, id, listname, taskCache }) => {
     // States
     const [listAddPopupState, setListAddPopupState] = useState(false);
     const [listUpdatePopupState, setListUpdatePopupState] = useState(false);
@@ -21,8 +21,6 @@ const list = ({ username, gridname, id, listname }) => {
 
     // List
     const setList = [setListName];
-
-    const widgetCache = useRef([]);
 
     // Component Functions
     const addTask = async (taskName, deadLine, username, gridname, id) => {
@@ -40,18 +38,17 @@ const list = ({ username, gridname, id, listname }) => {
     }
 
     useEffect(() => {
-        if(widgetCache.current.length === 0) {
+        if(!taskCache.current[id]) {
             TaskService.getRequest(username, gridname, id).then((list) => {
-                list.map((item) => { 
-                    setTaskList((prev) =>
-                        [...prev, { taskName: item.taskname, deadLine: item.deadline }]
-                    )
-                    console.log(item);
-                    widgetCache.current = [...widgetCache.current, { taskName: item.taskname, deadLine: item.deadline }];
-                })
+                const taskList = list.map((item) => (
+                    { taskName: item.taskname, deadLine: item.deadline })
+                )
+
+                setTaskList(taskList);
+                taskCache.current[id] = taskList;
             })
         } else {
-            setTaskList(widgetCache.current);
+            setTaskList(taskCache.current[id]);
         }
     }, []);
 
