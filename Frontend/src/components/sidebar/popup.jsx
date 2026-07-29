@@ -1,4 +1,5 @@
 import styles from "./popup.module.css";
+import { GridService } from "../../services/grid.service";
 import { useRef } from "react";
 import { DEFAULT_GRID_SETTINGS } from "../../constants/constant";
 
@@ -8,18 +9,20 @@ const popup = ({ setListGridParameter, setPopupState }) => {
     const addSubject = async () => {
         const gridName = subjectNameRef.current.value;
 
-        const url = `${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}/grid`;
+        // const url = `${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}/grid`;
 
-        const postRes = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username: "asd",
-                gridName: gridName,
-            }),
-        });
+        // const postRes = await fetch(url, {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({
+        //         username: "asd",
+        //         gridName: gridName,
+        //     }),
+        // });
+
+        await GridService.postRequest("asd", gridName);
 
 
         setListGridParameter((prevList) => 

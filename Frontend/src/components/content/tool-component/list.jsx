@@ -22,6 +22,8 @@ const list = ({ username, gridname, id, listname }) => {
     // List
     const setList = [setListName];
 
+    const widgetCache = useRef([]);
+
     // Component Functions
     const addTask = async (taskName, deadLine, username, gridname, id) => {
         setTaskList((prev) => 
@@ -38,13 +40,19 @@ const list = ({ username, gridname, id, listname }) => {
     }
 
     useEffect(() => {
-        TaskService.getRequest(username, gridname, id).then((list) => {
-            list.map((item) => { 
-                setTaskList((prev) =>
-                    [...prev, { title: item.taskname, deadline: item.deadline }]
-                )
+        if(widgetCache.current.length === 0) {
+            TaskService.getRequest(username, gridname, id).then((list) => {
+                list.map((item) => { 
+                    setTaskList((prev) =>
+                        [...prev, { taskName: item.taskname, deadLine: item.deadline }]
+                    )
+                    console.log(item);
+                    widgetCache.current = [...widgetCache.current, { taskName: item.taskname, deadLine: item.deadline }];
+                })
             })
-        })
+        } else {
+            setTaskList(widgetCache.current);
+        }
     }, []);
 
 
@@ -83,7 +91,6 @@ const list = ({ username, gridname, id, listname }) => {
                     {
                         taskList && taskList.map((element, index) => (
                             <li key={index} className={styles["list-element"]}>
-                                
                                 <p className={styles["list-element-title"]}>
                                     {element.taskName}
                                 </p>

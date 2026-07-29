@@ -27,8 +27,6 @@ export const utils = {
                 for (let j = yPos; j < yPos + height; j++) {
                     if (i >= 0 && i < column && j >= 0 && j < row) {
                         occuped[i][j] = true;
-                        console.log("width, height: ", width, height);
-                        console.log("i, j: ", i, j);
                     }
                 }
             }
