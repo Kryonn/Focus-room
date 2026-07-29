@@ -24,7 +24,7 @@ export const DEFAULT_POMODORO_TIME = {
 }
 
 export const DEFAULT_GRID_SETTINGS = {
-    FLOAT: true,
+    STATIC: true,
     RESIZABLE: { handles: "se" },
     COLUMN: 10,
     ROW: 5,

@@ -1,51 +1,56 @@
+// CSS
 import "./App.css";
+
+// React
+import { useState, useEffect, useRef } from "react";
+
+// Components
 import Sidebar from "./components/sidebar/sidebar.jsx";
 import Content from "./components/content/content.jsx";
 import Auth from "./components/auth/auth.jsx";
-import { useState, useEffect, useRef } from "react";
+
+// Services
+import { GridService } from "./services/grid.service.js";
 
 function App() {
+    // States
     const [screen, setScreen] = useState("app");
 
+    // Auth 
     if (screen === "auth") {
         return <Auth setScreen={setScreen} />;
     }
 
+    // App
     if (screen === "app") {
+        
+        // States
+        const [gridState, setGridState] = useState(0);
+        
+        // Refs
         const listGridInstance = useRef([]);
         const listGridRef = useRef([]);
         const listGridPosition = useRef([]);
-        const [gridState, setGridState] = useState(0);
         const [listGridParameter, setListGridParameter] = useState([]);
-        const [gridObserver, setGridObserver] = useState(false);
 
         useEffect(() => {
             const user = "asd";
 
-            const getUserGrid = async () => {
-                const url = `${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}/grid?username=${user}`;
-                const getRes = await fetch(url, { method: "GET" });
-                const data = await getRes.json();
-                return data.data;
-            };
-
-            getUserGrid().then((list) => {
+            GridService.getRequest(user).then((list) => {
                 const parameterList = list.map((listElement, index) => ({
                     name: listElement.name,
                     static: listElement.static,
-                    float: listElement.float,
-                    index: index,
+                    index: listElement.name
                 }));
 
                 setListGridParameter(parameterList);
             });
-        }, [gridObserver]);
+        }, []);
 
         return (
             <div className="main">
                 {listGridParameter && (
                     <Sidebar
-                        setGridObserver={setGridObserver}
                         setGridState={setGridState}
                         gridState={gridState}
                         listGridParameter={listGridParameter}
@@ -55,6 +60,7 @@ function App() {
                 {listGridParameter && (
                     <Content
                         gridState={gridState}
+                        setGridState={setGridState}
                         listGridParameter={listGridParameter}
                         setListGridParameter={setListGridParameter}
                         listGridInstance={listGridInstance}

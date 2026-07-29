@@ -1,11 +1,11 @@
 import styles from "./sidebarButton.module.css";
 import searchIcon from "../../assets/search-icon.svg";
 import addIcon from "../../assets/add-icon.svg";
-import Popup2 from "./popup.jsx";
-import Popup from "../content/tool-component/popup.jsx";
+import Popup from "./popup.jsx";
+// import Popup from "../content/tool-component/popup.jsx";
 import { useRef, useEffect, useState } from "react";
 
-const sidebarButton = ({ setGridObserver, mode, functions }) => {
+const sidebarButton = ({ mode, setListGridParameter, functions }) => {
     const [popupState, setPopupState] = useState(false);
     const [searchButtonState, setSearchButtonState] = useState(true);
     const searchRef = useRef(null);
@@ -14,11 +14,12 @@ const sidebarButton = ({ setGridObserver, mode, functions }) => {
     return (
         <div className={styles.main}>
             {popupState && (
-                <Popup2
-                    setGridObserver={setGridObserver}
+                <Popup
+                    setListGridParameter={setListGridParameter}
                     setPopupState={setPopupState}
                 />
             )}
+            {/* <Popup popupTitle={"Add subject"} setPopupState={setPopupState} labelList={["Name"]} inputTypeList={[""]} /> */}
             <button
                 onClick={(e) => {
                     if (e.target === e.currentTarget) {

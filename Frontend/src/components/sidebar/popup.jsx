@@ -1,11 +1,15 @@
 import styles from "./popup.module.css";
 import { useRef } from "react";
+import { DEFAULT_GRID_SETTINGS } from "../../constants/constant";
 
-const popup = ({ setGridObserver, setPopupState }) => {
+const popup = ({ setListGridParameter, setPopupState }) => {
     const subjectNameRef = useRef(null);
 
     const addSubject = async () => {
+        const gridName = subjectNameRef.current.value;
+
         const url = `${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}/grid`;
+
         const postRes = await fetch(url, {
             method: "POST",
             headers: {
@@ -13,11 +17,14 @@ const popup = ({ setGridObserver, setPopupState }) => {
             },
             body: JSON.stringify({
                 username: "asd",
-                gridName: subjectNameRef.current.value,
+                gridName: gridName,
             }),
         });
 
-        setGridObserver((prev) => !prev);
+
+        setListGridParameter((prevList) => 
+            [...prevList, { name: gridName, static: DEFAULT_GRID_SETTINGS.STATIC, index: gridName }]
+        )
     };
 
     return (

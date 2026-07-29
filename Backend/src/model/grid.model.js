@@ -1,7 +1,5 @@
 import db from "../database/db.js";
-
-const default_grid_float = true;
-const default_grid_static = false;
+import { DEFAULT_GRID_SETTINGS } from "../../../Frontend/src/constants/constant.js";
 
 const GridModel = {
     async selectUserGrid(username) {
@@ -24,9 +22,9 @@ const GridModel = {
         try {
             const res = await db.query(
                 `
-                INSERT INTO grid (name, username, float, static)
-                VALUES ($1, $2, $3, $4)`,
-                [gridName, username, default_grid_float, default_grid_static],
+                INSERT INTO grid (name, username, static)
+                VALUES ($1, $2, $3)`,
+                [gridName, username, DEFAULT_GRID_SETTINGS.STATIC],
             );
 
             return res;

@@ -15,6 +15,8 @@ import { GridService } from "../../services/grid.service.js";
 import { utils } from "../../utils/utils.js";
 
 const tool = ({
+    gridCache,
+    gridState,
     setWidget,
     gridParameter,
     gridInstanceRef,
@@ -41,10 +43,10 @@ const tool = ({
         <div className={styles.main}>
             {/* Create popup */}
             {
-                listPopupState && <Popup popupTitle={popupTitle} setPopupState={setListPopupState} labelList={labelList} inputTypeList={[""]} buttonFunction={setWidget.listComponent} buttonFunctionParameter={[gridParameter, gridInstanceRef.current[gridParameter.index], gridRefRef.current[gridParameter.index]]}/>
+                listPopupState && <Popup popupTitle={popupTitle} setPopupState={setListPopupState} labelList={labelList} inputTypeList={[""]} buttonFunction={setWidget.listComponent} buttonFunctionParameter={[gridParameter, gridInstanceRef.current[gridParameter.name], gridRefRef.current[gridParameter.name], gridCache.current[gridParameter.name]]}/>
             }
             {
-                notePopupState && <Popup popupTitle={popupTitle} setPopupState={setNotePopupState} labelList={labelList} inputTypeList={[""]} buttonFunction={setWidget.noteComponent} buttonFunctionParameter={[gridParameter, gridInstanceRef.current[gridParameter.index], gridRefRef.current[gridParameter.index]]}/>
+                notePopupState && <Popup popupTitle={popupTitle} setPopupState={setNotePopupState} labelList={labelList} inputTypeList={[""]} buttonFunction={setWidget.noteComponent} buttonFunctionParameter={[gridParameter, gridInstanceRef.current[gridParameter.name], gridRefRef.current[gridParameter.name], gridCache.current[gridParameter.name]]}/>
             }
 
             {/* Tool div */}
@@ -54,10 +56,11 @@ const tool = ({
                 <button
                     onClick={() => {
                         setWidget.pomodoroComponent(
+                            gridCache,
                             gridParameter,
-                            gridInstanceRef.current[gridParameter.index],
-                            gridRefRef.current[gridParameter.index],
-                            gridPositionRef.current[gridParameter.index],
+                            gridInstanceRef.current[gridParameter.name],
+                            gridRefRef.current[gridParameter.name],
+                            gridPositionRef.current[gridParameter.name],
                         );
                     }}
                     className={styles["button"]}
@@ -78,7 +81,7 @@ const tool = ({
                     onClick={() => {
                         if (
                             !utils.verifyGrid(
-                                gridPositionRef.current[gridParameter.index],
+                                gridPositionRef.current[gridParameter.name],
                                 "list",
                                 5,
                                 10,
@@ -108,7 +111,7 @@ const tool = ({
                 {/* Create note widget button */}
                 <button
                     onClick={() => {
-                        if(!utils.verifyGrid(gridPositionRef.current[gridParameter.index], "note", 5, 10)) {
+                        if(!utils.verifyGrid(gridPositionRef.current[gridParameter.name], "note", 5, 10)) {
                             return;
                         }
 
@@ -137,8 +140,8 @@ const tool = ({
                         onClick={(e) => {
                             e.preventDefault();
                             
-                            updateFunction("asd", gridParameter.name, !gridInstanceRef.current[gridParameter.index].opts.gridStatic);
-                            gridInstanceRef.current[gridParameter.index].setStatic(!gridInstanceRef.current[gridParameter.index].opts.staticGrid);
+                            updateFunction("asd", gridParameter.name, !gridInstanceRef.current[gridParameter.name].opts.gridStatic);
+                            gridInstanceRef.current[gridParameter.name].setStatic(!gridInstanceRef.current[gridParameter.name].opts.staticGrid);
                         }}
                     >
                         Lock grid
@@ -148,7 +151,7 @@ const tool = ({
                         onClick={(e) => {
                             e.preventDefault();
                             WidgetService.deleteAllRequest("asd", gridParameter.name);
-                            gridInstanceRef.current[gridParameter.index].removeAll();
+                            gridInstanceRef.current[gridParameter.name].removeAll();
                         }}
                     >
                         Clear grid

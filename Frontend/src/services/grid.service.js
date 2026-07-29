@@ -33,7 +33,7 @@ export const GridService = {
 
             const data = res.data;
 
-            return res;
+            return data;
         } catch (err) {
             throw err;
         }

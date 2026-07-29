@@ -8,7 +8,6 @@ import { useEffect, useRef } from "react";
 import { GridService } from "../../services/grid.service";
 
 const list = ({
-    setGridObserver,
     setGridState,
     gridState,
     mode,
@@ -47,7 +46,7 @@ const list = ({
                                                     item.name !== gridName,
                                             ),
                                         );
-                                        setGridObserver((prev) => !prev);
+                                        setGridState(prev => prev - 1);
                                     } catch (err) {
                                         console.log(err.message);
                                     }

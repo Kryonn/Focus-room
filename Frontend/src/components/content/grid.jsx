@@ -25,6 +25,8 @@ import { DEFAULT_WIDGET_SIZE } from "../../constants/constant.js"
 import { DEFAULT_GRID_SETTINGS } from "../../constants/constant.js"
 
 const grid = ({
+    gridState,
+    setGridState,
     gridCache,
     widgetRoot,
     gridParameter,
@@ -66,10 +68,10 @@ const grid = ({
 
     // Calculate and set grid height
     function fixGridHeight() {
-        if(gridInstanceRef.current[gridParameter.index] && gridRefRef.current[gridParameter.index]) {
-            const currentGridHeight = gridRefRef.current[gridParameter.index].clientHeight;
+        if(gridInstanceRef.current[gridParameter.name] && gridRefRef.current[gridParameter.name]) {
+            const currentGridHeight = gridRefRef.current[gridParameter.name].clientHeight;
             const calculatedCellHeight = currentGridHeight / DEFAULT_GRID_SETTINGS.ROW;
-            gridInstanceRef.current[gridParameter.index].cellHeight(calculatedCellHeight); 
+            gridInstanceRef.current[gridParameter.name].cellHeight(calculatedCellHeight); 
         }
     }
 
@@ -135,7 +137,7 @@ const grid = ({
 
             buttonList[buttonList.length - 1].addEventListener(
                 "click",
-                async () => {
+                async () => {                  
                     if (gridInstance.current) {
                         gridInstance.current.removeWidget(
                             newWidget,
@@ -224,6 +226,8 @@ const grid = ({
                 return;
             }
 
+            console.log("gridParameter.id: ", gridParameter.name);
+
             // Initialize Grid
             gridInstance.current = GridStack.init(
                 {
@@ -244,15 +248,17 @@ const grid = ({
             let widgetRequestList;
 
             // If the grid data was requested previously no need to request again
-            if(!gridCache.current[gridParameter.index]) {
+            if(!gridCache.current[gridParameter.name]) {
                 widgetRequestList = await WidgetService.getRequest("asd", gridParameter.name);
                 if(!isMounted || !gridRef.current) {
                     return;
                 }
-                gridCache.current[gridParameter.index] = widgetRequestList;
+                gridCache.current[gridParameter.name] = widgetRequestList;
             } else {
-                widgetRequestList = gridCache.current[gridParameter.index];
+                widgetRequestList = gridCache.current[gridParameter.name];
             }
+
+            console.log("widgetRequestList: ", widgetRequestList);
 
             gridRef.current.innerHTML = "";
 
@@ -263,16 +269,16 @@ const grid = ({
             renderWidgets(widgetRequestList, gridRef, widgetRoot);
 
             // Attribute refs array
-            gridInstanceRef.current[gridParameter.index] = gridInstance.current;
-            gridRefRef.current[gridParameter.index] = gridRef.current;
-            gridPositionRef.current[gridParameter.index] =
+            gridInstanceRef.current[gridParameter.name] = gridInstance.current;
+            gridRefRef.current[gridParameter.name] = gridRef.current;
+            gridPositionRef.current[gridParameter.name] =
                 utils.updateElementPosition(gridInstance, DEFAULT_GRID_SETTINGS.COLUMN, DEFAULT_GRID_SETTINGS.ROW);
 
             // Add listeners
             gridInstance.current.on("dragstop resizestop", updateWidget);
             gridInstance.current.on("added removed change", () => {
                 if (gridInstance.current) {
-                    gridPositionRef.current[gridParameter.index] =
+                    gridPositionRef.current[gridParameter.name] =
                         utils.updateElementPosition(gridInstance, DEFAULT_GRID_SETTINGS.COLUMN, DEFAULT_GRID_SETTINGS.ROW);
                 }
             });
