@@ -1,4 +1,4 @@
-const BASE_URL = `${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}`;
+const BASE_URL = `${import.meta.env.VITE_API_URL}`;
 
 let setAccessTokenFunction = null;
 let setScreenFunction = null;

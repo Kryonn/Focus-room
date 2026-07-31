@@ -9,19 +9,6 @@ const popup = ({ accessToken, setListGridParameter, setPopupState }) => {
     const addSubject = async () => {
         const gridName = subjectNameRef.current.value;
 
-        // const url = `${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}/grid`;
-
-        // const postRes = await fetch(url, {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         username: "asd",
-        //         gridName: gridName,
-        //     }),
-        // });
-
         await GridService.postRequest(gridName, accessToken);
 
 
