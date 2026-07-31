@@ -9,6 +9,5 @@ router.put("/user/refresh", UserController.updateRefreshTokenUser);
 router.post("/auth/register", AuthController.registerAuth);
 router.post("/auth/login", AuthController.loginAuth);
 router.post("/auth/refresh", AuthController.refreshTokenAuth);
-router.post("/auth/logout", AuthController.logoutAuth);
 
 export default router;

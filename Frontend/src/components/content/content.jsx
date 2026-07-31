@@ -47,6 +47,7 @@ const content = ({
             gridInstance,
             gridRef,
             gridPosition,
+
         ) => {
 
             // Check free spaces on grid
@@ -94,6 +95,34 @@ const content = ({
                 xposition: div.gridstackNode.x,
                 yposition: div.gridstackNode.y,
             }];
+
+            const buttonList =
+                gridRef.querySelectorAll(".delete-button");
+
+            buttonList[buttonList.length - 1].addEventListener(
+                "click",
+                async () => {                  
+                    if (gridInstance) {
+                        gridInstance.removeWidget(
+                            div,
+                            true,
+                        );
+                    }
+
+                    if (widgetRoot.current[buttonList.length - 1]) {
+                        widgetRoot.current[
+                            buttonList.length - 1
+                        ].unmount();
+                        delete widgetRoot.current[buttonList - 1];
+                    }
+
+                    await WidgetService.deleteRequest(
+                        id,
+                        gridParameter.name,
+                        accessToken
+                    );
+                },
+            );
 
             // Create and rendering the widget root
             const widgetList = document.querySelectorAll(".widget");
@@ -151,6 +180,34 @@ const content = ({
                 yposition: div.gridstackNode.y,
             }];
 
+            const buttonList =
+                gridRef.querySelectorAll(".delete-button");
+
+            buttonList[buttonList.length - 1].addEventListener(
+                "click",
+                async () => {                  
+                    if (gridInstance) {
+                        gridInstance.removeWidget(
+                            div,
+                            true,
+                        );
+                    }
+
+                    if (widgetRoot.current[buttonList.length - 1]) {
+                        widgetRoot.current[
+                            buttonList.length - 1
+                        ].unmount();
+                        delete widgetRoot.current[buttonList - 1];
+                    }
+
+                    await WidgetService.deleteRequest(
+                        id,
+                        gridParameter.name,
+                        accessToken
+                    );
+                },
+            );
+
             // Create and rendering the widget root
             const widgetList = document.querySelectorAll(".widget");
             widgetRoot.current[widgetList.length - 1] = createRoot(widgetList[widgetList.length - 1]);
@@ -203,6 +260,34 @@ const content = ({
                 xposition: div.gridstackNode.x,
                 yposition: div.gridstackNode.y,
             }];
+
+            const buttonList =
+                gridRef.querySelectorAll(".delete-button");
+
+            buttonList[buttonList.length - 1].addEventListener(
+                "click",
+                async () => {                  
+                    if (gridInstance) {
+                        gridInstance.removeWidget(
+                            div,
+                            true,
+                        );
+                    }
+
+                    if (widgetRoot.current[buttonList.length - 1]) {
+                        widgetRoot.current[
+                            buttonList.length - 1
+                        ].unmount();
+                        delete widgetRoot.current[buttonList - 1];
+                    }
+
+                    await WidgetService.deleteRequest(
+                        div,
+                        gridParameter.name,
+                        accessToken
+                    );
+                },
+            );
 
             // Create and rendering the widget root
             const widgetList = document.querySelectorAll(".widget");

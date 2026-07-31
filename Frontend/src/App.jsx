@@ -82,6 +82,7 @@ function App() {
             <div className="main">
                 {listGridParameter && (
                     <Sidebar
+                        setScreen={setScreen}
                         accessToken={accessToken}
                         setGridState={setGridState}
                         gridState={gridState}

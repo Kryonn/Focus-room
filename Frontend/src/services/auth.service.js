@@ -35,5 +35,16 @@ export const AuthService = {
             method: "POST",
             credentials: "include"
         })         
-    }
+    },
+
+    async logoutPostRequest(accessToken) {
+        const url = "/auth/logout";
+
+        return await apiFetch(url, {
+            method: "POST",
+            accessToken: accessToken,
+            credentials: "include"
+        })         
+    },
+
 }

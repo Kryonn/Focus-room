@@ -3,6 +3,7 @@ import GridController from "../controllers/grid.controller.js";
 import { WidgetController } from "../controllers/widget.controller.js";
 import TaskController from "../controllers/task.controller.js";
 import { AuthMiddleware } from "../middlewares/auth.middleware.js";
+import { AuthController } from "../controllers/auth.controller.js";
 
 const router = express.Router();
 
@@ -31,6 +32,9 @@ router.delete("/widget/all", AuthMiddleware.jwtCheck, WidgetController.removeWid
 router.get("/task", AuthMiddleware.jwtCheck, TaskController.getTaskAll);
 router.post("/task", AuthMiddleware.jwtCheck, TaskController.createTask);
 router.delete("/task", AuthMiddleware.jwtCheck, TaskController.removeTask);
+
+router.post("/auth/logout", AuthMiddleware.jwtCheck, AuthController.logoutAuth);
+
 
 
 

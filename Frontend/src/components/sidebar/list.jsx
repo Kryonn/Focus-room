@@ -47,7 +47,9 @@ const list = ({
                                                     item.name !== gridName,
                                             ),
                                         );
-                                        setGridState(prev => prev - 1);
+                                        if(gridState === index) {
+                                            setGridState(prev => prev - 1);
+                                        }
                                     } catch (err) {
                                         console.log(err.message);
                                     }

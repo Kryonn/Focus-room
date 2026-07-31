@@ -128,7 +128,7 @@ export const AuthController = {
     },
 
     async logoutAuth(req, res) {
-        const username = req.body.username;
+        const username = req.user.username;
 
         try {
             await UserModel.clearRefreshTokenUser(username);

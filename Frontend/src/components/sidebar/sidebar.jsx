@@ -4,8 +4,10 @@ import Profile from "./profile";
 import List from "./list";
 import SidebarButton from "./sidebarButton";
 import { useRef, useState } from "react";
+import { AuthService } from "../../services/auth.service";
 
 const sidebar = ({
+    setScreen,
     accessToken,
     setGridState,
     gridState,
@@ -52,6 +54,7 @@ const sidebar = ({
                     setListGridParameter={setListGridParameter}
                 />
             )}
+            <button onClick={() => { setScreen("auth"); AuthService.logoutPostRequest(accessToken); }} className={styles.button}>Logout</button>
         </nav>
     );
 };

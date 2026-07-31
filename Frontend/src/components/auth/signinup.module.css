@@ -7,13 +7,13 @@
     box-sizing: border-box;
     color: var(--white-one);
     font-family: var(--text-font);
-    font-size: var(--text-font-size);
+    font-size: 18px;
     /* border: 1px solid green; */
 }
 
 .title {
     font-family: var(--title-font);
-    font-size: 30px;
+    font-size: 40px;
     /* padding: 5px; */
     display: flex;
     align-items: center;
@@ -96,12 +96,11 @@
 
 .register-message {
     color: var(--white-two);
-    font-size: 11px;
+    font-size: 15px;
     display: flex;
     gap: 3px;
     /* margin: 10px; */
     justify-content: center;
-    /* border: 1px solid red; */
 }
 
 .link {
@@ -114,7 +113,7 @@
 .password-message {
     /* border: 1px solid red; */
     color: var(--white-two);
-    font-size: 11px;
+    font-size: 15px;
 }
 
 .button-div {
@@ -128,10 +127,11 @@
     background: transparent;
     cursor: pointer;
     color: var(--white-two);
-    height: 30px;
+    height: 40px;
     border: 2px solid var(--white-two);
     border-radius: 12px;
     transition: 0.5s;
+    font-size: 18px;
 }
 
 .button-div .button:hover {
