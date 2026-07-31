@@ -7,7 +7,7 @@ export const TaskService = {
             widgetId: widgetId
         })
 
-        const url = "/task?" + params;
+        const url = "/task/all?" + params;
 
         return await apiFetch(url, {
             accessToken: accessToken

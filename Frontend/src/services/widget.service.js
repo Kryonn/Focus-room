@@ -32,7 +32,7 @@ export const WidgetService = {
             gridName: gridName,
         });
 
-        const url = "/widget?" + params;
+        const url = "/widget/all?" + params;
 
         return await apiFetch(url, { 
             accessToken: accessToken

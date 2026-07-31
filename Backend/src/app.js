@@ -6,13 +6,32 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 const app = express();
-const port = "3000";
+const port = process.env.PORT || "3000";
+
+const allowedOrigins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    process.env.CLIENT_URL
+].filter(Boolean);
 
 app.use(express.json());
 app.use(cookieParser());
+
 app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true
+    origin: (origin, callback) => {
+        if(!origin) {
+            return callback(null, true);
+        }
+
+        if(allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error("Blocked by CORS"));
+        }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 
@@ -20,7 +39,7 @@ app.use(PublicRouter);
 app.use(PrivateRouter);
 
 app.listen(port, () => {
-    console.log("Servidor da api ligada na porta: ", port);
+    console.log("Server online at port: ", port);
 });
 
 export default app;

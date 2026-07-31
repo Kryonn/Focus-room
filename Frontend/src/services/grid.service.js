@@ -15,7 +15,7 @@ export const GridService = {
     },
 
     async getRequest(accessToken) {
-        const url = "/grid";
+        const url = "/grid/all";
 
         return await apiFetch(url, {
             accessToken: accessToken
