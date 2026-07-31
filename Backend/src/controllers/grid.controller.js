@@ -2,7 +2,7 @@ import GridModel from "../model/grid.model.js";
 
 const GridController = {
     async getGridAll(req, res) {
-        const username = req.query.username;
+        const username = req.user.username;
 
         try {
             const selectReponse = await GridModel.selectUserGrid(username);
@@ -13,13 +13,13 @@ const GridController = {
                 data: selectReponse,
             });
         } catch (error) {
-            res.status(400).json({ error: false, msg: error.message });
+            res.status(401).json({ error: false, msg: error.message });
         }
     },
 
     async createGrid(req, res) {
         const body = req.body;
-        const username = body.username;
+        const username = req.user.username;
         const gridName = body.gridName;
 
         try {
@@ -36,7 +36,7 @@ const GridController = {
 
     async removeGrid(req, res) {
         const body = req.body;
-        const username = body.username;
+        const username = req.user.username;
         const gridName = body.gridName;
 
         try {
@@ -53,7 +53,7 @@ const GridController = {
 
     async updateGrid(req, res) {
         const body = req.body;
-        const username = body.username;
+        const username = req.user.username;
         const gridName = body.gridName;
         const gridStatic = body.gridStatic;
 

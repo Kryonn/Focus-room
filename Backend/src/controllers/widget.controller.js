@@ -2,7 +2,7 @@ import { WidgetModel } from "../model/widget.model.js";
 
 export const WidgetController = {
     async getWidgetAll(req, res) {
-        const username = req.query.username;
+        const username = req.user.username;
         const gridName = req.query.gridName;
 
         try {
@@ -19,8 +19,8 @@ export const WidgetController = {
 
     async createPomodoro(req, res) {
         const body = req.body;
+        const username = req.user.username;
         const widgetId = body.widgetId;
-        const username = body.username;
         const gridName = body.gridName;
         const pomodoroWorkTime = body.pomodoroWorkTime;
         const pomodoroBreakTime = body.pomodoroBreakTime;
@@ -38,7 +38,7 @@ export const WidgetController = {
 
     async createList(req, res) {
         const body = req.body;
-        const username = body.username;
+        const username = req.user.username;
         const gridName = body.gridName;
         const widgetId = body.widgetId;
         const listName = body.listName;
@@ -56,7 +56,7 @@ export const WidgetController = {
 
     async createNote(req, res) {
         const body = req.body;
-        const username = body.username;
+        const username = req.user.username;
         const gridName = body.gridName;
         const widgetId = body.widgetId;
         const noteName = body.noteName;
@@ -74,8 +74,8 @@ export const WidgetController = {
 
     async updateWidget(req, res) {
         const body = req.body;
+        const username = req.user.username;
         const widgetId = body.widgetId;
-        const username = body.username;
         const gridName = body.gridName;
         const width = body.width;
         const height = body.height;
@@ -101,8 +101,8 @@ export const WidgetController = {
 
     async removeWidget(req, res) {
         const body = req.body;
+        const username = req.user.username;
         const widgetId = body.widgetId;
-        const username = body.username;
         const gridName = body.gridName;
 
         try {
@@ -120,7 +120,7 @@ export const WidgetController = {
 
     async removeWidgetAll(req, res) {
         const body = req.body;
-        const username = body.username;
+        const username = req.user.username;
         const gridName = body.gridName;
 
         try {
@@ -137,7 +137,7 @@ export const WidgetController = {
 
     async updatePomodoroWidget(req, res) {
         const body = req.body;
-        const username = body.username;
+        const username = req.user.username;
         const gridName = body.gridName;
         const widgetId = body.widgetId;
         const newPomodoroWorkTime = body.newPomodoroWorkTime;
@@ -154,7 +154,7 @@ export const WidgetController = {
 
     async updateListNameWidget(req, res) {
         const body = req.body;
-        const username = body.username;
+        const username = req.user.username;
         const gridName = body.gridName;
         const widgetId = body.widgetId;
         const newListName = body.newListName;
@@ -170,7 +170,7 @@ export const WidgetController = {
 
     async updateNoteNameWidget(req, res) {
         const body = req.body;
-        const username = body.username;
+        const username = req.user.username;
         const gridName = body.gridName;
         const widgetId = body.widgetId;
         const newNoteName = body.newNoteName;
@@ -186,7 +186,7 @@ export const WidgetController = {
 
     async updateNoteDescriptionWidget(req, res) {
         const body = req.body;
-        const username = body.username;
+        const username = req.user.username;
         const gridName = body.gridName;
         const widgetId = body.widgetId;
         const newNoteDescription = body.newNoteDescription;

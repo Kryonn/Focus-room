@@ -13,7 +13,7 @@ import pomodoroSound from "../../../assets/pomodoro-sound.mp3"
 // Contants
 import { POMODORO_PATH } from "../../../constants/constant.js";
 
-const pomodoro = ({ username, gridName, id, pomodoroWorkTime, pomodoroBreakTime}) => {
+const pomodoro = ({ gridName, id, pomodoroWorkTime, pomodoroBreakTime, accessToken}) => {
     // States
     const [time, setTime] = useState(pomodoroWorkTime * 60);
     const [pomodoroState, setPomodoroState] = useState("pause");
@@ -138,7 +138,7 @@ const pomodoro = ({ username, gridName, id, pomodoroWorkTime, pomodoroBreakTime}
                 }
             }
 
-            await WidgetService.putPomodoroRequest(playButtonState, resetButtonState, username, gridName, id);
+            await WidgetService.putPomodoroRequest(playButtonState, resetButtonState, accessToken, gridName, id);
         } else {
             setPrevPlayButtonState(playButtonState);
             setPrevResetButtonState(resetButtonState);

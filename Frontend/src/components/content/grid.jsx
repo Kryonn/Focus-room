@@ -25,6 +25,7 @@ import { DEFAULT_WIDGET_SIZE } from "../../constants/constant.js"
 import { DEFAULT_GRID_SETTINGS } from "../../constants/constant.js"
 
 const grid = ({
+    accessToken,
     gridState,
     setGridState,
     gridCache,
@@ -43,10 +44,10 @@ const grid = ({
     // Update widget with debounce
     const updateDebounce = useRef(
         utils.debounce(
-            (id, username, gridName, width, height, xposition, yposition) => {
+            (id, accessToken, gridName, width, height, xposition, yposition) => {
                 WidgetService.putRequest(
                     id,
-                    username,
+                    accessToken,
                     gridName,
                     width,
                     height,
@@ -56,15 +57,6 @@ const grid = ({
             },
             500,
         ),
-    ).current;
-
-    // Update note widget description with debounce
-    const updateNoteDescriptionDebounce = useRef(
-        utils.debounce(
-            (username, gridname, widgetid, newNoteDescription) => {
-                WidgetService.putNoteDescriptionRequest(username, gridname, widgetid, newNoteDescription);
-            }, 2000
-        )
     ).current;
 
     // Calculate and set grid height
@@ -86,7 +78,7 @@ const grid = ({
 
         updateDebounce(
             node.id.split("_")[0],
-            "asd",
+            accessToken,
             gridParameter.name,
             node.w,
             node.h,
@@ -97,7 +89,7 @@ const grid = ({
 
     // Build widget html and append to gridRef and gridInstance
     async function buildWidgets(widgetBuildList, gridRef, gridInstance, widgetRoot, taskCache) {
-        if(!gridRef.current) {
+        if(!gridRef.current || widgetBuildList.length === 0) {
             return;
         }
 
@@ -174,8 +166,8 @@ const grid = ({
 
                     await WidgetService.deleteRequest(
                         widget.id,
-                        "asd",
                         gridParameter.name,
+                        accessToken
                     );
                 },
             );
@@ -184,7 +176,7 @@ const grid = ({
 
     // Render widgets
     function renderWidgets(widgetRenderList, gridRef, widgetRoot) {
-        if(!gridRef.current) {
+        if(!gridRef.current || widgetRenderList.length === 0) {
             return;
         }
 
@@ -204,15 +196,15 @@ const grid = ({
             // Render correct widget according type
             switch (type) {
                 case "pomodoro":
-                    widgetRoot.current[index].render(<Pomodoro username={"asd"} gridName={gridParameter.name} id={widget.id} pomodoroWorkTime={widget.pomodoroworktime} pomodoroBreakTime={widget.pomodorobreaktime}/>);
+                    widgetRoot.current[index].render(<Pomodoro gridName={gridParameter.name} id={widget.id} pomodoroWorkTime={widget.pomodoroworktime} pomodoroBreakTime={widget.pomodorobreaktime} accessToken={accessToken}/>);
                     break;
 
                 case "list":
-                    widgetRoot.current[index].render(<List username={"asd"} gridname={gridParameter.name} id={widget.id} listname={widget.listname} taskCache={taskCache}/>);
+                    widgetRoot.current[index].render(<List gridname={gridParameter.name} id={widget.id} listname={widget.listname} taskCache={taskCache} accessToken={accessToken}/>);
                     break;
 
                 case "note":
-                    widgetRoot.current[index].render(<Note username={"asd"} gridname={gridParameter.name} id={widget.id} updateNoteDescriptionDebounce={updateNoteDescriptionDebounce} notename={widget.notename} notedescription={widget.notedescription} />);
+                    widgetRoot.current[index].render(<Note gridname={gridParameter.name} id={widget.id} notename={widget.notename} notedescription={widget.notedescription} accessToken={accessToken}/>);
                     break;
             }
         });
@@ -252,7 +244,8 @@ const grid = ({
 
             // If the grid data was requested previously no need to request again
             if(!gridCache.current[gridParameter.name]) {
-                widgetRequestList = await WidgetService.getRequest("asd", gridParameter.name);
+                const getResponse = await WidgetService.getRequest(gridParameter.name, accessToken);
+                widgetRequestList = getResponse.data;
                 if(!isMounted || !gridRef.current) {
                     return;
                 }
@@ -260,8 +253,6 @@ const grid = ({
             } else {
                 widgetRequestList = gridCache.current[gridParameter.name];
             }
-
-            console.log("widgetRequestList: ", widgetRequestList);
 
             gridRef.current.innerHTML = "";
 

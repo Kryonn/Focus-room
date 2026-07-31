@@ -4,7 +4,7 @@ import { apiFetch } from "./api";
 export const WidgetService = {
     async putRequest(
         widgetId,
-        username,
+        accessToken,
         gridName,
         width,
         height,
@@ -13,228 +13,162 @@ export const WidgetService = {
     ) {
         const endpoint = "/widget";
 
-        try {
-            const res = await apiFetch(endpoint, {
-                method: "PUT",
-                body: JSON.stringify({
-                    widgetId: widgetId,
-                    username: username,
-                    gridName: gridName,
-                    width: width,
-                    height: height,
-                    xPosition: xPosition,
-                    yPosition: yPosition,
-                }),
-            });
-
-            return res;
-        } catch (err) {
-            console.log("deu ruim");
-        }
+        return await apiFetch(endpoint, {
+            method: "PUT",
+            accessToken: accessToken,
+            body: {
+                widgetId: widgetId,
+                gridName: gridName,
+                width: width,
+                height: height,
+                xPosition: xPosition,
+                yPosition: yPosition,
+            }
+        });
     },
 
-    async getRequest(username, gridName) {
+    async getRequest(gridName, accessToken) {
         const params = new URLSearchParams({
-            username: username,
             gridName: gridName,
         });
 
         const url = "/widget?" + params;
 
-        try {
-            const res = await apiFetch(url, { method: "GET" });
-
-            // const jsResponse = await res.json();
-
-            return res.data;
-        } catch (err) {
-            console.log("deu ruimm");
-        }
+        return await apiFetch(url, { 
+            accessToken: accessToken
+        });
     },
 
-    async postPomodoroRequest(widgetId, username, gridName, pomodoroWorkTime, pomodoroBreakTime, xPosition, yPosition) {
+    async postPomodoroRequest(widgetId, gridName, pomodoroWorkTime, pomodoroBreakTime, xPosition, yPosition, accessToken) {
         const url = "/widget/pomodoro";
 
-        try {
-            const res = await apiFetch(url, {
-                method: "POST",
-                body: JSON.stringify({
-                    widgetId: widgetId,
-                    username: username,
-                    gridName: gridName,
-                    gridName: gridName,
-                    pomodoroWorkTime: pomodoroWorkTime,
-                    pomodoroBreakTime: pomodoroBreakTime,
-                    xPosition: xPosition,
-                    yPosition: yPosition
-                }),
-            });
-
-            return res;
-        } catch (err) {
-            console.log("deu ruim");
-        }
+        return await apiFetch(url, {
+            method: "POST",
+            accessToken: accessToken,
+            body: {
+                widgetId: widgetId,
+                gridName: gridName,
+                pomodoroWorkTime: pomodoroWorkTime,
+                pomodoroBreakTime: pomodoroBreakTime,
+                xPosition: xPosition,
+                yPosition: yPosition
+            },
+        });
     },
 
-    async deleteRequest(widgetId, username, gridName) {
+    async deleteRequest(widgetId, gridName, accessToken) {
         const url = "/widget";
 
-        try {
-            const res = await apiFetch(url, {
-                method: "DELETE",
-                body: JSON.stringify({
-                    widgetId: widgetId,
-                    username: username,
-                    gridName: gridName,
-                }),
-            });
+        return await apiFetch(url, {
+            method: "DELETE",
+            accessToken: accessToken,
+            body: {
+                widgetId: widgetId,
+                gridName: gridName,
+            }
+        });
 
-            return res;
-        } catch (err) {
-            console.log("deu ruim");
-        }
     },
 
-    async deleteAllRequest(username, gridName) {
+    async deleteAllRequest(gridName, accessToken) {
         const url = "/widget/all";
 
-        try {
-            const res = await apiFetch(url, {
-                method: "DELETE",
-                body: JSON.stringify({
-                    username: username,
-                    gridName: gridName,
-                }),
-            });
-
-            return res;
-        } catch (err) {
-            console.log(err);
-        }
+        return await apiFetch(url, {
+            method: "DELETE",
+            accessToken: accessToken,
+            body: {
+                gridName: gridName,
+            }
+        });
     },
 
-    async putPomodoroRequest(newPomodoroWorkTime, newPomodoroBreakTime, username, gridName, widgetId) {
+    async putPomodoroRequest(newPomodoroWorkTime, newPomodoroBreakTime, accessToken, gridName, widgetId) {
         const url = "/widget/pomodoro/time";
 
-        try {
-            const res = await apiFetch(url, {
-                method: "PUT",
-                body: JSON.stringify({
-                    username: username,
-                    gridName: gridName,
-                    widgetId: widgetId,
-                    newPomodoroWorkTime: newPomodoroWorkTime,
-                    newPomodoroBreakTime: newPomodoroBreakTime
-                })
-            })
-
-            return res;
-        } catch(err) {
-            return err;
-        }
+        return await apiFetch(url, {
+            method: "PUT",
+            accessToken: accessToken,
+            body: {
+                gridName: gridName,
+                widgetId: widgetId,
+                newPomodoroWorkTime: newPomodoroWorkTime,
+                newPomodoroBreakTime: newPomodoroBreakTime
+            }
+        })
     },
 
-    async putListRequest(newListName, username, gridName, widgetId) {
+    async putListRequest(newListName, accessToken, gridName, widgetId) {
         const url = "/widget/list/name";
 
-        try {
-            const res = await apiFetch(url, {
-                method: "PUT",
-                body: JSON.stringify({
-                    username: username,
-                    gridName: gridName,
-                    widgetId: widgetId,
-                    newListName: newListName
-                })
-            })
-
-            return res;
-        } catch(err) {
-            return err;
-        }
+        return await apiFetch(url, {
+            method: "PUT",
+            accessToken: accessToken,
+            body: {
+                gridName: gridName,
+                widgetId: widgetId,
+                newListName: newListName
+            }
+        })
     },
 
-    async putNoteDescriptionRequest(username, gridName, widgetId, newNoteDescription) {
+    async putNoteDescriptionRequest(gridName, widgetId, newNoteDescription, accessToken) {
         const url = "/widget/note/description"
 
-        try {
-            const res = await apiFetch(url, {
-                method: "PUT",
-                body: JSON.stringify({
-                    username: username,
-                    gridName: gridName,
-                    widgetId: widgetId,
-                    newNoteDescription: newNoteDescription
-                })
-            });
-
-            return res;
-        } catch(err) {
-            return err;
-        }
+        return await apiFetch(url, {
+            method: "PUT",
+            accessToken: accessToken,
+            body: {
+                gridName: gridName,
+                widgetId: widgetId,
+                newNoteDescription: newNoteDescription
+            }
+        });
     },
 
-    async putNoteNameRequest(newNoteName, username, gridName, widgetId) {
+    async putNoteNameRequest(newNoteName, accessToken, gridName, widgetId) {
         const url = "/widget/note/name";
 
-        try {
-            const res = await apiFetch(url, {
-                method: "PUT",
-                body: JSON.stringify({
-                    username: username,
-                    gridName: gridName,
-                    widgetId: widgetId,
-                    newNoteName: newNoteName
-                })
-            })
-
-            return res;
-        } catch(err) {
-            return err;
-        }
+        return await apiFetch(url, {
+            method: "PUT",
+            accessToken: accessToken,
+            body: {
+                gridName: gridName,
+                widgetId: widgetId,
+                newNoteName: newNoteName
+            }
+        })
     },
 
-    async postListRequest(username, gridName, widgetId, listName, xPosition, yPosition) {
+    async postListRequest(gridName, widgetId, listName, xPosition, yPosition, accessToken) {
         const url = "/widget/list";
 
-        try {
-            const res = await apiFetch(url, {
-                method: "POST",
-                body: JSON.stringify({
-                    username: username,
-                    gridName: gridName,
-                    widgetId: widgetId,
-                    listName: listName,
-                    xPosition: xPosition,
-                    yPosition: yPosition
-                })
-            })
+        return await apiFetch(url, {
+            method: "POST",
+            accessToken: accessToken,
+            body: {
+                gridName: gridName,
+                widgetId: widgetId,
+                listName: listName,
+                xPosition: xPosition,
+                yPosition: yPosition
+            }
+        })
 
-            return res;
-        } catch(err) {
-            return err;
-        }
     },
 
-    async postNoteRequest(username, gridName, widgetId, noteName, xPosition, yPosition) {
+    async postNoteRequest(gridName, widgetId, noteName, xPosition, yPosition, accessToken) {
         const url = "/widget/note";
 
-        try {
-            const res = await apiFetch(url, {
-                method: "POST",
-                body: JSON.stringify({
-                    username: username,
-                    gridName: gridName,
-                    widgetId: widgetId,
-                    noteName: noteName,
-                    xPosition: xPosition,
-                    yPosition: yPosition
-                })
-            })
-
-            return res;
-        } catch(err) {
-            return err;
-        }
+        return await apiFetch(url, {
+            method: "POST",
+            accessToken: accessToken,
+            body: {
+                gridName: gridName,
+                widgetId: widgetId,
+                noteName: noteName,
+                xPosition: xPosition,
+                yPosition: yPosition
+            }
+        })
     }
 };

@@ -15,6 +15,7 @@ import { GridService } from "../../services/grid.service.js";
 import { utils } from "../../utils/utils.js";
 
 const tool = ({
+    accessToken,
     gridCache,
     gridState,
     setWidget,
@@ -34,8 +35,8 @@ const tool = ({
 
     // Update grid static with debounce
     const updateFunction = useRef(
-        utils.debounce((username, gridName, gridStatic) => {
-            GridService.putRequest(username, gridName, gridStatic);
+        utils.debounce((gridName, gridStatic, accessToken) => {
+            GridService.putRequest(gridName, gridStatic, accessToken);
         }, 1000)
     ).current;
 
@@ -140,7 +141,7 @@ const tool = ({
                         onClick={(e) => {
                             e.preventDefault();
                             
-                            updateFunction("asd", gridParameter.name, !gridInstanceRef.current[gridParameter.name].opts.staticGrid);
+                            updateFunction(gridParameter.name, !gridInstanceRef.current[gridParameter.name].opts.staticGrid, accessToken);
                             gridInstanceRef.current[gridParameter.name].setStatic(!gridInstanceRef.current[gridParameter.name].opts.staticGrid);
                         }}
                     >
@@ -150,7 +151,7 @@ const tool = ({
                         className={styles["settings-button"]}
                         onClick={(e) => {
                             e.preventDefault();
-                            WidgetService.deleteAllRequest("asd", gridParameter.name);
+                            WidgetService.deleteAllRequest(gridParameter.name, accessToken);
                             gridInstanceRef.current[gridParameter.name].removeAll();
                         }}
                     >

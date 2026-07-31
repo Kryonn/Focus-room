@@ -6,6 +6,7 @@ import SidebarButton from "./sidebarButton";
 import { useRef, useState } from "react";
 
 const sidebar = ({
+    accessToken,
     setGridState,
     gridState,
     listGridParameter,
@@ -35,12 +36,14 @@ const sidebar = ({
         <nav className={`${styles.main} ${styles[sidebarMode]}`}>
             <Profile mode={sidebarMode} toggleMode={toggleSidebarMode} />
             <SidebarButton
+                accessToken={accessToken}
                 mode={sidebarMode}
                 setListGridParameter={setListGridParameter}
                 functions={buttonFunction}
             />
             {listGridParameter && (
                 <List
+                    accessToken={accessToken}
                     setGridState={setGridState}
                     gridState={gridState}
                     mode={sidebarMode}

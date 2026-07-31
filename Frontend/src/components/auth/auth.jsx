@@ -5,7 +5,7 @@ import pomodoroImg from "../../assets/pomodoro.png";
 import { useRef, useEffect } from "react";
 import Spline from "@splinetool/react-spline";
 
-const auth = ({ setScreen }) => {
+const auth = ({ setScreen, setAccessToken, setUsername }) => {
     const splineRef = useRef(null);
 
     const getSplineRef = (spline) => {
@@ -31,7 +31,7 @@ const auth = ({ setScreen }) => {
                 className={styles.spline}
             />
             <div className={styles.content}>
-                <Signinup className={styles.auth} setScreen={setScreen} />
+                <Signinup className={styles.auth} setScreen={setScreen} setAccessToken={setAccessToken} setUsername={setUsername}/>
                 {/* <img className={styles.img} src={pomodoroImg} alt="" /> */}
                 {/* <spline-viewer className={styles.img} url="https://prod.spline.design/H9q8WTUpX4ZTzm35/scene.splinecode"></spline-viewer> */}
             </div>

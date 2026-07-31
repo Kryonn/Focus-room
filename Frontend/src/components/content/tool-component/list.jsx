@@ -12,7 +12,7 @@ import { useState, useRef, useEffect, use } from "react";
 import { TaskService } from "../../../services/task.service.js";
 import { WidgetService } from "../../../services/widget.service.js";
 
-const list = ({ username, gridname, id, listname, taskCache }) => {
+const list = ({ gridname, id, listname, taskCache, accessToken }) => {
     // States
     const [listAddPopupState, setListAddPopupState] = useState(false);
     const [listUpdatePopupState, setListUpdatePopupState] = useState(false);
@@ -23,12 +23,12 @@ const list = ({ username, gridname, id, listname, taskCache }) => {
     const setList = [setListName];
 
     // Component Functions
-    const addTask = async (taskName, deadLine, username, gridname, id) => {
+    const addTask = async (taskName, deadLine, accessToken, gridname, id) => {
         setTaskList((prev) => 
             [...prev, { taskName: taskName, deadLine: deadLine }]
         )
 
-        await TaskService.postRequest(taskName, deadLine, username, gridname, id);
+        await TaskService.postRequest(taskName, deadLine, accessToken, gridname, id);
     }
 
     const removeTask = (indexToRemove) => {
@@ -39,7 +39,8 @@ const list = ({ username, gridname, id, listname, taskCache }) => {
 
     useEffect(() => {
         if(!taskCache.current[id]) {
-            TaskService.getRequest(username, gridname, id).then((list) => {
+            TaskService.getRequest(gridname, id, accessToken).then((res) => {
+                const list = res.data;
                 const taskList = list.map((item) => (
                     { taskName: item.taskname, deadLine: item.deadline })
                 )
@@ -47,7 +48,9 @@ const list = ({ username, gridname, id, listname, taskCache }) => {
                 setTaskList(taskList);
                 taskCache.current[id] = taskList;
             })
+            console.log("taskCache é nulo");
         } else {
+            console.log("taskCache não é nulo");
             setTaskList(taskCache.current[id]);
         }
     }, []);
@@ -57,10 +60,10 @@ const list = ({ username, gridname, id, listname, taskCache }) => {
     return (
         <div className={`${styles.main}`}>
             {
-                listAddPopupState && (<Popup popupTitle={"Add task"} setPopupState={setListAddPopupState} labelList={["Name", "Deadline"]} inputTypeList={["", "Date"]} buttonFunction={addTask} buttonFunctionParameter={[username, gridname, id]}/>)
+                listAddPopupState && (<Popup popupTitle={"Add task"} setPopupState={setListAddPopupState} labelList={["Name", "Deadline"]} inputTypeList={["", "Date"]} buttonFunction={addTask} buttonFunctionParameter={[accessToken, gridname, id]}/>)
             }
             {
-                listUpdatePopupState && (<Popup popupTitle={"Edit task"} setPopupState={setListUpdatePopupState} labelList={["Name"]} inputTypeList={[""]} setList={setList} buttonFunction={WidgetService.putListRequest} buttonFunctionParameter={[username, gridname, id]}/>)
+                listUpdatePopupState && (<Popup popupTitle={"Edit task"} setPopupState={setListUpdatePopupState} labelList={["Name"]} inputTypeList={[""]} setList={setList} buttonFunction={WidgetService.putListRequest} buttonFunctionParameter={[accessToken, gridname, id]}/>)
             }
             <div className={styles.title}>
                 <p>{listName}</p>
@@ -95,7 +98,7 @@ const list = ({ username, gridname, id, listname, taskCache }) => {
                                     {element.deadLine}
                                 </p>
                                 <div className={styles["list-element-button-div"]}>
-                                    <button onClick={() => { removeTask(index); TaskService.deleteRequest(username, gridname, id, element.taskName) }} className={styles["list-element-button"]}>
+                                    <button onClick={() => { removeTask(index); TaskService.deleteRequest(gridname, id, element.taskName, accessToken) }} className={styles["list-element-button"]}>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 640 640"

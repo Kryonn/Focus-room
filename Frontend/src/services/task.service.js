@@ -1,62 +1,44 @@
 import { apiFetch } from "./api.js"
 
 export const TaskService = {
-    async getRequest(username, gridName, widgetId) {
+    async getRequest(gridName, widgetId, accessToken) {
         const params = new URLSearchParams({
-            username: username,
             gridName: gridName,
             widgetId: widgetId
         })
 
         const url = "/task?" + params;
 
-        try {
-            const res = await apiFetch(url);
-
-            const data = res.data;
-
-            return data;
-        } catch(err) {
-            return err;
-        }
+        return await apiFetch(url, {
+            accessToken: accessToken
+        });
     },
 
-    async postRequest(taskName, deadLine, username, gridName, widgetId) {
+    async postRequest(taskName, deadLine, accessToken, gridName, widgetId) {
         const url = "/task"
-        try {
-            const res = await apiFetch(url, {
-                method: "POST",
-                body: JSON.stringify({
-                    username: username,
-                    gridName: gridName,
-                    widgetId: widgetId,
-                    taskName: taskName,
-                    deadLine: deadLine  
-                })
-            })
-    
-            return res;
-        } catch(err) {
-            throw err;
-        }
+        return await apiFetch(url, {
+            method: "POST",
+            accessToken: accessToken,
+            body: {
+                gridName: gridName,
+                widgetId: widgetId,
+                taskName: taskName,
+                deadLine: deadLine  
+            }
+        })
     },
 
-    async deleteRequest(username, gridName, widgetId, taskName) {
+    async deleteRequest(gridName, widgetId, taskName, accessToken) {
         const url = "/task";
-        try {
-            const res = await apiFetch(url, {
-                method: "DELETE",
-                body: JSON.stringify({
-                    username: username,
-                    gridName: gridName,
-                    widgetId: widgetId,
-                    taskName: taskName
-                })
-            })
-
-            return res;
-        } catch(err) {
-            return err;
-        }
+        
+        return await apiFetch(url, {
+            method: "DELETE",
+            accessToken: accessToken,
+            body: {
+                gridName: gridName,
+                widgetId: widgetId,
+                taskName: taskName
+            }
+        })
     }
 }

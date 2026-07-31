@@ -8,6 +8,7 @@ import { useEffect, useRef } from "react";
 import { GridService } from "../../services/grid.service";
 
 const list = ({
+    accessToken,
     setGridState,
     gridState,
     mode,
@@ -37,8 +38,8 @@ const list = ({
 
                                     try {
                                         await GridService.deleteRequest(
-                                            "asd",
                                             gridName,
+                                            accessToken
                                         );
                                         setListGridParameter((prevList) =>
                                             prevList.filter(

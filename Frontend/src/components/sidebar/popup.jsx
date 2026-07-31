@@ -3,7 +3,7 @@ import { GridService } from "../../services/grid.service";
 import { useRef } from "react";
 import { DEFAULT_GRID_SETTINGS } from "../../constants/constant";
 
-const popup = ({ setListGridParameter, setPopupState }) => {
+const popup = ({ accessToken, setListGridParameter, setPopupState }) => {
     const subjectNameRef = useRef(null);
 
     const addSubject = async () => {
@@ -22,7 +22,7 @@ const popup = ({ setListGridParameter, setPopupState }) => {
         //     }),
         // });
 
-        await GridService.postRequest("asd", gridName);
+        await GridService.postRequest(gridName, accessToken);
 
 
         setListGridParameter((prevList) => 

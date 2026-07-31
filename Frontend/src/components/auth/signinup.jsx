@@ -1,14 +1,18 @@
 import styles from "./signinup.module.css";
+import { AuthService } from "../../services/auth.service";
 import { useState, useEffect } from "react";
+import { setToken } from "../../services/api";
 
-const signinup = ({ setScreen }) => {
+const signinup = ({ setScreen, setAccessToken, setUsername}) => {
     const [screenState, setScreenState] = useState("Sign In");
     const [loginHidden, setLoginHidden] = useState("");
     const [registerHidden, setRegisterHidden] = useState("hidden");
 
-    const [username, setUsername] = useState(null);
+    const [usernameInput, setUsernameInput] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
+    const [loginUsername, setLoginUsername] = useState(null);
+    const [loginPassword, setLoginPassword] = useState(null);
 
     useEffect(() => {
         if (screenState === "Sign In") {
@@ -38,19 +42,6 @@ const signinup = ({ setScreen }) => {
                 event.target.classList.toggle(`${styles.text}`);
             }
         }
-    };
-
-    const registerRequest = async () => {
-        const requestUrl = `${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}/cadastro`;
-        const res = await fetch(requestUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, email, password }),
-        });
-
-        console.log(res);
     };
 
     return (
@@ -86,7 +77,7 @@ const signinup = ({ setScreen }) => {
                                 name=""
                                 onChange={(e) => {
                                     verifyInput(e);
-                                    setUsername(e.target.value);
+                                    setUsernameInput(e.target.value);
                                 }}
                             />
                             <label
@@ -141,7 +132,10 @@ const signinup = ({ setScreen }) => {
                                 id="username-login"
                                 type="text"
                                 name=""
-                                onChange={verifyInput}
+                                onChange={(e) => {
+                                    verifyInput(e);
+                                    setLoginUsername(e.target.value);
+                                }}
                             />
                             <label
                                 className={styles.label}
@@ -158,7 +152,10 @@ const signinup = ({ setScreen }) => {
                                 id="password-login"
                                 type="password"
                                 name=""
-                                onChange={verifyInput}
+                                onChange={(e) => {
+                                    verifyInput(e);
+                                    setLoginPassword(e.target.value);
+                                }}
                             />
                             <label
                                 className={styles.label}
@@ -179,8 +176,18 @@ const signinup = ({ setScreen }) => {
                     <button
                         className={`${styles.button} login ${styles[loginHidden]}`}
                         type="button"
-                        onClick={() => {
-                            setScreen("app");
+                        onClick={async () => {
+                            const res = await AuthService.loginPostRequest(loginUsername, loginPassword);
+                            const data = res.data;
+                            if(!res.error) {
+                                // setAccessToken(data.accessToken);
+                                setUsername(data.username);
+                                setToken(data.accessToken);
+                                setScreen("app");
+                            }
+                            // console.log(res);
+                            // setScreen("app");
+                            // AuthService.
                         }}
                     >
                         {screenState}
@@ -191,7 +198,7 @@ const signinup = ({ setScreen }) => {
                         onClick={(e) => {
                             e.preventDefault();
                             console.log("O botão foi clicado");
-                            registerRequest();
+                            AuthService.registerPostRequest(usernameInput, email, password);
                         }}
                     >
                         {screenState}

@@ -3,7 +3,7 @@ import TaskModel from "../model/task.model.js"
 const TaskController = {
     async getTaskAll(req, res) {
         const params = req.query;
-        const username = params.username;
+        const username = req.user.username;
         const gridName = params.gridName;
         const widgetId = params.widgetId;
 
@@ -18,7 +18,7 @@ const TaskController = {
 
     async createTask(req, res) {
         const body = req.body;
-        const username = body.username;
+        const username = req.user.username;
         const gridName = body.gridName;
         const widgetId = body.widgetId;
         const taskName = body.taskName;
@@ -35,7 +35,7 @@ const TaskController = {
 
     async removeTask(req, res) {
         const body = req.body;
-        const username = body.username;
+        const username = req.user.username;
         const gridName = body.gridName;
         const widgetId = body.widgetId;
         const taskName = body.taskName;

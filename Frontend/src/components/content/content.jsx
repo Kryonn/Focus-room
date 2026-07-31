@@ -23,6 +23,7 @@ import { DEFAULT_POMODORO_TIME, DEFAULT_WIDGET_SIZE } from "../../constants/cons
 import { DEFAULT_GRID_SETTINGS } from "../../constants/constant.js";
 
 const content = ({
+    accessToken,
     gridState,
     setGridState,
     listGridParameter,
@@ -99,17 +100,17 @@ const content = ({
             widgetRoot.current[widgetList.length - 1] = createRoot(
                 widgetList[widgetList.length - 1],
             );
-            widgetRoot.current[widgetList.length - 1].render(<Pomodoro username={"asd"} gridName={gridParameter.name} id={id} pomodoroWorkTime={DEFAULT_POMODORO_TIME.WORK_TIME} pomodoroBreakTime={DEFAULT_POMODORO_TIME.BREAK_TIME}/>);
+            widgetRoot.current[widgetList.length - 1].render(<Pomodoro gridName={gridParameter.name} id={id} pomodoroWorkTime={DEFAULT_POMODORO_TIME.WORK_TIME} pomodoroBreakTime={DEFAULT_POMODORO_TIME.BREAK_TIME} accessToken={accessToken}/>);
 
             // Create widget into the database
             await WidgetService.postPomodoroRequest(
                 id,
-                "asd",
                 gridParameter.name,
                 DEFAULT_POMODORO_TIME.WORK_TIME,
                 DEFAULT_POMODORO_TIME.BREAK_TIME,
                 div.gridstackNode.x,
-                div.gridstackNode.y
+                div.gridstackNode.y,
+                accessToken
             );
         },
 
@@ -153,16 +154,16 @@ const content = ({
             // Create and rendering the widget root
             const widgetList = document.querySelectorAll(".widget");
             widgetRoot.current[widgetList.length - 1] = createRoot(widgetList[widgetList.length - 1]);
-            widgetRoot.current[widgetList.length - 1].render(<List username={"asd"} gridname={gridParameter.name} id={id} listname={listParameter}/>);
+            widgetRoot.current[widgetList.length - 1].render(<List gridname={gridParameter.name} id={id} listname={listParameter} taskCache={taskCache} accessToken={accessToken}/>);
 
             // Create widget into the database
             await WidgetService.postListRequest(
-                "asd",
                 gridParameter.name,
                 id,
                 listParameter,
                 div.gridstackNode.x,
                 div.gridstackNode.y,
+                accessToken
             );
         },
 
@@ -206,16 +207,16 @@ const content = ({
             // Create and rendering the widget root
             const widgetList = document.querySelectorAll(".widget");
             widgetRoot.current[widgetList.length - 1] = createRoot(widgetList[widgetList.length - 1]);
-            widgetRoot.current[widgetList.length - 1].render(<Note username={"asd"} gridname={gridParameter.name} id={id} notename={listParameter} notedescription={""}/>);
+            widgetRoot.current[widgetList.length - 1].render(<Note gridname={gridParameter.name} id={id} notename={listParameter} notedescription={""} accessToken={accessToken}/>);
 
             // Create widget into the database
             await WidgetService.postNoteRequest(
-                "asd",
                 gridParameter.name,
                 id,
                 listParameter,
                 div.gridstackNode.x,
                 div.gridstackNode.y,
+                accessToken
             );
         },
     };
@@ -226,6 +227,7 @@ const content = ({
             {listGridParameter[gridState] && (
                 <Grid
                     key={listGridParameter[gridState].name}
+                    accessToken={accessToken}
                     gridState={gridState}
                     setGridState={setGridState}
                     gridCache={gridCache}
@@ -241,6 +243,7 @@ const content = ({
             {/* Tool div */}
             {listGridParameter[gridState] && (
                 <Tool
+                    accessToken={accessToken}
                     gridCache={gridCache}
                     gridState={gridState}
                     setWidget={functionList}

@@ -1,5 +1,9 @@
 {
     "devDependencies": {
         "prettier": "^3.9.5"
+    },
+    "dependencies": {
+        "bcrypt": "^6.0.0",
+        "jsonwebtoken": "^9.0.3"
     }
 }
