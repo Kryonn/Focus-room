@@ -5,6 +5,8 @@ import pomodoroImg from "../../assets/pomodoro.png";
 import { useRef, useEffect } from "react";
 import Spline from "@splinetool/react-spline";
 
+const SCENE_URL = `https://prod.spline.design/H9q8WTUpX4ZTzm35/scene.splinecode?v=${import.meta.env.VITE_SPLINE_VERSION}`;
+
 const auth = ({ setScreen, setAccessToken, setUsername }) => {
     const splineRef = useRef(null);
 
@@ -26,7 +28,7 @@ const auth = ({ setScreen, setAccessToken, setUsername }) => {
             {/* <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.94/build/spline-viewer.js"></script> */}
             {/* <spline-viewer url="https://prod.spline.design/H9q8WTUpX4ZTzm35/scene.splinecode" onLoad={getSplineRef} className={styles.spline}></spline-viewer> */}
             <Spline
-                scene="https://prod.spline.design/H9q8WTUpX4ZTzm35/scene.splinecode"
+                scene={SCENE_URL}
                 onLoad={getSplineRef}
                 className={styles.spline}
             />
