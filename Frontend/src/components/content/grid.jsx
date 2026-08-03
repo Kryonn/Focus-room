@@ -77,7 +77,7 @@ const grid = ({
         const node = el.gridstackNode;
 
         updateDebounce(
-            node.id.split("_")[0],
+            node.id,
             accessToken,
             gridParameter.name,
             node.w,
@@ -104,31 +104,6 @@ const grid = ({
             newWidget.setAttribute("gs-y", widget.yposition);
             const widgetType = widget.id.split("-")[0];
 
-            // Specify setup
-            switch (widgetType) {
-                case "list":
-                    newWidget.setAttribute(
-                        "minW",
-                        DEFAULT_WIDGET_SIZE.LIST_WIDTH,
-                    );
-                    newWidget.setAttribute(
-                        "minH",
-                        DEFAULT_WIDGET_SIZE.LIST_HEIGHT,
-                    );
-                    break;
-
-                case "note":
-                    newWidget.setAttribute(
-                        "minW",
-                        DEFAULT_WIDGET_SIZE.NOTE_WIDTH,
-                    );
-                    newWidget.setAttribute(
-                        "minH",
-                        DEFAULT_WIDGET_SIZE.NOTE_HEIGHT,
-                    );
-                    break;
-            }
-
             newWidget.innerHTML = `
                 <div class="grid-stack-item-content ">
                     <button class="${styles["remove-button"]} delete-button">
@@ -142,7 +117,10 @@ const grid = ({
 
             // Append html element and widget
             gridRef.current.append(newWidget);
-            gridInstance.current.makeWidget(newWidget);
+            gridInstance.current.makeWidget(newWidget, {
+                minW: widgetType === "list" ? DEFAULT_WIDGET_SIZE.LIST_WIDTH : widgetType === "note" ? DEFAULT_WIDGET_SIZE.NOTE_WIDTH : 1,
+                minH: widgetType === "list" ? DEFAULT_WIDGET_SIZE.LIST_HEIGHT : widgetType === "note" ? DEFAULT_WIDGET_SIZE.NOTE_HEIGHT : 1,
+            });
 
             const buttonList =
                 gridRef.current.querySelectorAll(".delete-button");
@@ -189,6 +167,8 @@ const grid = ({
             }
 
             widgetRoot.current[index] = createRoot(widgetList[index]);
+
+            console.log("widget: ",widget);
 
             // Set widget type
             const type = widget.id.split("-")[0];

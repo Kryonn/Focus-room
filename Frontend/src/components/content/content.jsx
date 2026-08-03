@@ -164,7 +164,7 @@ const content = ({
 
             // Append new widget
             gridRef.appendChild(div);
-            gridInstance.makeWidget(div, { w: 3, h: 2, minW: 3, minH: 2 });
+            gridInstance.makeWidget(div, { id: id, w: 3, h: 2, minW: 3, minH: 2 });
             gridCache = [...gridCache, {
                 gridname: gridParameter.name,
                 height: DEFAULT_WIDGET_SIZE.LIST_HEIGHT,
@@ -244,7 +244,7 @@ const content = ({
 
             // Append new widget
             gridRef.appendChild(div);
-            gridInstance.makeWidget(div, { w: 2, h: 2, minH: 2, minW: 2 });
+            gridInstance.makeWidget(div, { id: id, w: 2, h: 2, minH: 2, minW: 2 });
 
             gridCache = [...gridCache, {
                 gridName: gridParameter.name,
