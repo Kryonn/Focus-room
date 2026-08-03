@@ -118,8 +118,13 @@ const grid = ({
             // Append html element and widget
             gridRef.current.append(newWidget);
             gridInstance.current.makeWidget(newWidget, {
+                id: widget.id,
                 minW: widgetType === "list" ? DEFAULT_WIDGET_SIZE.LIST_WIDTH : widgetType === "note" ? DEFAULT_WIDGET_SIZE.NOTE_WIDTH : 1,
                 minH: widgetType === "list" ? DEFAULT_WIDGET_SIZE.LIST_HEIGHT : widgetType === "note" ? DEFAULT_WIDGET_SIZE.NOTE_HEIGHT : 1,
+                w: widgetType === "list" ? DEFAULT_WIDGET_SIZE.LIST_WIDTH : widgetType === "note" ? DEFAULT_WIDGET_SIZE.NOTE_WIDTH : 1,
+                h: widgetType === "list" ? DEFAULT_WIDGET_SIZE.LIST_HEIGHT : widgetType === "note" ? DEFAULT_WIDGET_SIZE.NOTE_HEIGHT : 1,
+                x: widget.xposition,
+                y: widget.yposition
             });
 
             const buttonList =
