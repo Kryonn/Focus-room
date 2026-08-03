@@ -23,10 +23,10 @@ app.use(cors({
             return callback(null, true);
         }
 
-        if(allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
+        if(allowedOrigins.includes(origin) !== -1) {
+            return callback(null, true);
         } else {
-            callback(new Error("Blocked by CORS"));
+            return callback(new Error("Blocked by CORS"));
         }
     },
     credentials: true,
