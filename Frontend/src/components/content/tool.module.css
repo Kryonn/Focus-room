@@ -81,10 +81,10 @@
 
 .dropup .settings-button {
     text-wrap: nowrap;
-    color: rgb(50, 50, 50);
+    color: var(--black-three);
     /* background-color: rgb(62, 62, 62); */
     background-color: transparent;
-    font-size: 15px;
+    font-size: 18px;
     padding: 10px;
     border: none;
     height: 30px;
