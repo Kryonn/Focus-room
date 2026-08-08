@@ -20,15 +20,62 @@
     border: 1px solid var(--black-two);
     height: 40px;
     border-radius: 5px;
+    padding: 10px 17px 10px 17px;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
 }
 
 .button:hover {
     background-color: rgba(255, 0, 0, 0.111);
-    color: rgb(173, 0, 0);
+    /* color: rgb(173, 0, 0); */
     border: 1px solid rgb(173, 0, 0);
+}
+
+.button:hover img {
+    fill: rgb(173, 0, 0);
 }
 
 .main.hide {
     width: 90px;
 }
+
+/* .button.hide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */
+
+.img {
+    height: 100%;
+    /* padding-left: 10px; */
+    /* border: 1px solid red; */
+}
+
+.sidebar-button-p {
+    flex: 1;
+    opacity: 1;
+    max-width: 100px;
+    transition:
+        max-width 0.4s ease 0.3s,
+        opacity 0.1s ease 0.4s;
+    /* border: 1px solid red; */
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.p-hidden {
+    opacity: 0;
+    max-width: 0px;
+    transition:
+        max-width 0.1s ease 0.4s,
+        opacity 0.2s ease 0.1s;
+    cursor: pointer;
+    margin: 0px;
+    padding: 0px;
+    /* border: 1px solid red; */
+    /* display: none; */
+}
+
+

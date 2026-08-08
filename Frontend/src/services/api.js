@@ -18,8 +18,8 @@ export function setSetScreen(newScreenFunction) {
 }
 
 
-export async function apiFetch(enpoint, option = {}) {
-    const url = `${BASE_URL}${enpoint}`;
+export async function apiFetch(endpoint, option = {}) {
+    const url = `${BASE_URL}${endpoint}`;
 
     const headers = {
         "Content-Type": "application/json",
@@ -36,7 +36,7 @@ export async function apiFetch(enpoint, option = {}) {
 
     console.log(res);
 
-    if(res.status === 401) {
+    if(res.status === 401 && endpoint !== "/auth/refresh") {
         const refreshRes = await fetch(BASE_URL + "/auth/refresh", {
             method: "POST",
             credentials: "include"
@@ -65,11 +65,16 @@ export async function apiFetch(enpoint, option = {}) {
             ...(option.credentials && { credentials: option.credentials }),
             ...(option.body && { body: JSON.stringify(option.body) })
         })
-
+                
         console.log(reres);
 
         return reres.json();
     };
+
+    if(res.status === 401 && endpoint === "/auth/refresh" || res.status === 403) {
+        setScreenFunction("auth");
+        return { error: true };
+    }
 
     return res.json();
 }
