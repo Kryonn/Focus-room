@@ -11,7 +11,7 @@ router.post("/auth/login", AuthController.loginAuth);
 router.post("/auth/refresh", AuthController.refreshTokenAuth);
 
 router.get("/health", (req, res) => {
-    res.status(200);
+    res.sendStatus(200);
 })
 
 export default router;
