@@ -10,4 +10,8 @@ router.post("/auth/register", AuthController.registerAuth);
 router.post("/auth/login", AuthController.loginAuth);
 router.post("/auth/refresh", AuthController.refreshTokenAuth);
 
+router.get("/health", (req, res) => {
+    res.status(200);
+})
+
 export default router;
