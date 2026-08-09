@@ -3,14 +3,15 @@ import { AuthService } from "../../services/auth.service";
 import { useState, useEffect } from "react";
 import { setToken } from "../../services/api";
 
-const signinup = ({ setScreen, setAccessToken, setUsername}) => {
+const signinup = ({ setScreen, setAccessToken, setUsername, setLoginWarning, setLoginMessage, setRegisterWarning, setRegisterMessage }) => {
     const [screenState, setScreenState] = useState("Sign In");
     const [loginHidden, setLoginHidden] = useState("");
     const [registerHidden, setRegisterHidden] = useState("hidden");
 
-    const [usernameInput, setUsernameInput] = useState(null);
-    const [email, setEmail] = useState(null);
-    const [password, setPassword] = useState(null);
+    const [registerUsername, setRegisterUsername] = useState(null);
+    const [registerEmail, setRegisterEmail] = useState(null);
+    const [registerPassword, setRegisterPassword] = useState(null);
+    const [registerConfirmPassword, setRegisterConfirmPassword] = useState(null);
     const [loginUsername, setLoginUsername] = useState(null);
     const [loginPassword, setLoginPassword] = useState(null);
 
@@ -44,6 +45,65 @@ const signinup = ({ setScreen, setAccessToken, setUsername}) => {
         }
     };
 
+    const loginFunction = async (loginUsername, loginPassword) => {
+
+        if(!loginUsername || !loginPassword) {
+            if(!loginUsername) {
+                setLoginMessage("Username is required");
+            }
+
+            if(!loginPassword) {
+                setLoginMessage("Password is required");
+            }   
+
+            if(!loginUsername && !loginPassword) {
+                setLoginMessage("Username and password are required");
+            }
+        
+            setLoginWarning(true);
+            return;
+        }
+
+        const res = await AuthService.loginPostRequest(loginUsername, loginPassword);
+
+        console.log("resLogin", res);
+
+        const data = res.data;
+        if(!res.error) {
+            setUsername(data.username);
+            setToken(data.accessToken);
+            setScreen("app");
+        } else {
+            setLoginMessage("Invalid username or password");
+            setLoginWarning(true);
+        }
+    }
+
+    const registerFunction = async (registerUsername, registerEmail, registerPassword, registerConfirmPassword) => {
+        
+        if(!registerUsername || !registerEmail || !registerPassword) {
+            setRegisterMessage("All inputs are required");
+            setRegisterWarning(true);
+            return;
+        }
+        
+        if(registerPassword !== registerConfirmPassword) {
+            setRegisterMessage("Matching passwords required");
+            setRegisterWarning(true);
+            return;
+        }
+
+        const res = await AuthService.registerPostRequest(registerUsername, registerEmail, registerPassword);
+
+        if(!res.error) {
+            setRegisterMessage("Success");
+            setRegisterWarning(true);
+        } else {
+            setRegisterMessage("The register is failed");
+            setRegisterWarning(true);
+        }
+    }
+
     return (
         <div className={styles.main}>
             <form className={styles.login} action="">
@@ -60,7 +120,7 @@ const signinup = ({ setScreen, setAccessToken, setUsername}) => {
                                 name=""
                                 onChange={(e) => {
                                     verifyInput(e);
-                                    setEmail(e.target.value);
+                                    setRegisterEmail(e.target.value);
                                 }}
                             />
                             <label className={styles.label} htmlFor="email">
@@ -77,7 +137,7 @@ const signinup = ({ setScreen, setAccessToken, setUsername}) => {
                                 name=""
                                 onChange={(e) => {
                                     verifyInput(e);
-                                    setUsernameInput(e.target.value);
+                                    setRegisterUsername(e.target.value);
                                 }}
                             />
                             <label
@@ -95,7 +155,10 @@ const signinup = ({ setScreen, setAccessToken, setUsername}) => {
                                 id="password-register"
                                 type="password"
                                 name=""
-                                onChange={verifyInput}
+                                onChange={(e) => {
+                                    verifyInput(e);
+                                    setRegisterConfirmPassword(e.target.value);
+                                }}
                             />
                             <label
                                 className={styles.label}
@@ -114,7 +177,7 @@ const signinup = ({ setScreen, setAccessToken, setUsername}) => {
                                 name=""
                                 onChange={(e) => {
                                     verifyInput(e);
-                                    setPassword(e.target.value);
+                                    setRegisterPassword(e.target.value);
                                 }}
                             />
                             <label
@@ -132,6 +195,7 @@ const signinup = ({ setScreen, setAccessToken, setUsername}) => {
                                 id="username-login"
                                 type="text"
                                 name=""
+                                required
                                 onChange={(e) => {
                                     verifyInput(e);
                                     setLoginUsername(e.target.value);
@@ -152,6 +216,7 @@ const signinup = ({ setScreen, setAccessToken, setUsername}) => {
                                 id="password-login"
                                 type="password"
                                 name=""
+                                required
                                 onChange={(e) => {
                                     verifyInput(e);
                                     setLoginPassword(e.target.value);
@@ -176,30 +241,14 @@ const signinup = ({ setScreen, setAccessToken, setUsername}) => {
                     <button
                         className={`${styles.button} login ${styles[loginHidden]}`}
                         type="button"
-                        onClick={async () => {
-                            const res = await AuthService.loginPostRequest(loginUsername, loginPassword);
-                            const data = res.data;
-                            if(!res.error) {
-                                // setAccessToken(data.accessToken);
-                                setUsername(data.username);
-                                setToken(data.accessToken);
-                                setScreen("app");
-                            }
-                            // console.log(res);
-                            // setScreen("app");
-                            // AuthService.
-                        }}
+                        onClick={() => {loginFunction(loginUsername, loginPassword)}}
                     >
                         {screenState}
                     </button>
                     <button
                         className={`${styles.button} register ${styles[registerHidden]}`}
                         type="button"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            console.log("O botão foi clicado");
-                            AuthService.registerPostRequest(usernameInput, email, password);
-                        }}
+                        onClick={() => { registerFunction(registerUsername, registerEmail, registerPassword, registerConfirmPassword); }}
                     >
                         {screenState}
                     </button>

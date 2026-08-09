@@ -1,13 +1,17 @@
 .main {
-    width: 100%;
-    height: 100%;
+    height: 600px;
+    /* width: 570px; */
     display: flex;
     flex-direction: column;
     padding: 60px;
     box-sizing: border-box;
     color: var(--white-one);
     font-family: var(--text-font);
-    font-size: 18px;
+    /* background-color: aliceblue; */
+    background-color: #1a1a1ab8;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: 500;
     /* border: 1px solid green; */
 }
 
@@ -71,7 +75,7 @@
 .label-input .input.text ~ .label,
 .label-input .input:focus ~ .label {
     color: var(--white-one);
-    top: -10px;
+    top: -15px;
 }
 
 .label-input .input {
@@ -82,7 +86,7 @@
     border-bottom: 2px solid var(--white-two);
     /* background-color: var(--black-two); */
     background-color: transparent;
-    color: var(--white-one);
+    color: var(--white-two);
     font: inherit;
     padding: 7px;
     box-sizing: border-box;

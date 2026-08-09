@@ -1,5 +1,5 @@
 .main {
-    background-color: var(--black-two);
+    /* background-color: var(--black-two); */
     width: 100vw;
     height: 100vh;
     /* display: flex; */
@@ -25,17 +25,11 @@
     left: 200px;
     z-index: 2;
     display: flex;
-    height: 600px;
+    flex-direction: column;
     width: 570px;
-    background-color: #1a1a1ab8;
-    border-radius: 20px;
-}
-
-.auth {
-    /* width: 400px;
-    height: 100px; */
-    /* position: absolute; */
-    /* left: 0; */
+    /* height: 600px;
+    /* background-color: #1a1a1ab8; */
+    /* border: 1px solid red; */
 }
 
 .img {
@@ -50,4 +44,8 @@
     border-radius: 0px 20px 20px 0px;
     /* width: 100%; */
     /* border: 1px solid red; */
+}
+
+.hidden {
+    display: none;
 }
