@@ -1,5 +1,6 @@
 import { Resend } from "resend"
 import UserModel from "../model/user.model.js";
+import crypto from "node:crypto"
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -7,9 +8,12 @@ const EmailController = {
     async sendEmail(req, res) {
         const body = req.body;
         const email = body.email;
-        const activateToken = body.activateToken;
 
         const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+
+        const activateToken = crypto.randomBytes(32).toString("hex");
+
+        const expireIn = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
         const html = `
             <div style="background-color: #f4f4f4; padding: 25px; font-family: 'Inter', Arial, sans-serif;">
@@ -32,8 +36,16 @@ const EmailController = {
         `
 
         try {
+            const updateResponse = await UserModel.updateActivateTokenUser(email, activateToken, expireIn);
+
+            console.log(updateResponse);
+
+            if(!updateResponse.rowCount) {
+                return res.status(400).json({ error: true });
+            }
+
             await resend.emails.send({
-                from: 'Suport <suport@focusroom.com.br>',
+                from: 'Support <support@focusroom.com.br>',
                 to: email,
                 subject: 'Activate your account',
                 html: html

@@ -50,6 +50,16 @@ export default {
         )
     },
 
+    async updateActivateTokenUser(email, activateToken, expireIn) {
+        return await db.query(
+            `
+                UPDATE users
+                SET activetoken = $1, activate_expires_at = $2
+                WHERE email = $3
+            `, [activateToken, expireIn, email]
+        )
+    },
+
     async activateUser(username) {
         return await db.query(
             `

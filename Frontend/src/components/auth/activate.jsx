@@ -6,6 +6,7 @@ const activate = ({ setScreen, activateToken, activateEmail }) => {
 
     const [success, setSuccess] = useState(false);
     const [failed, setFailed] = useState(false);
+    const [failedState, setFailedState] = useState("resend");
 
     useEffect(() => {
         if(!activateToken) {
@@ -28,7 +29,7 @@ const activate = ({ setScreen, activateToken, activateEmail }) => {
                     <div className={styles.content}>
                         <p className={styles.title}>Account Activated Successfully!</p>
                         <p className={styles.text}>Your email has been verified and your Focus Room account is now ready.</p>
-                        <button className="">asd</button>
+                        <button onClick={() => { setScreen("auth") }} className={styles.button}>Return to login screen</button>
                     </div>
                 )
             }
@@ -37,10 +38,20 @@ const activate = ({ setScreen, activateToken, activateEmail }) => {
                     <div className={styles.content}>
                         <p className={styles.title}>Invalid or Expired Link</p>
                         <p className={styles.text}>This activation link is no longer valid because it has expired. Don't worry, we can send you a new one so you can finish setting up your account.</p>
-                        <button onClick={() => {
-                            
-                            // EmailService.postRequest(activateEmail, )
-                        }} className={styles.button}>Resend activation email</button>
+                        {
+                            failedState === "success" && (
+                                <p className={styles.message}>A new activation link has been sent to your email</p>
+                            )
+                        }
+                        {
+                            failedState === "resend" && (
+                                <button onClick={async () => {
+                                    await EmailService.postRequest(activateEmail);
+                                    setFailedState("success");
+                                }} className={styles.button}>Resend activation email</button>
+                            )
+                        }
+                        
                     </div>
                 )
             }

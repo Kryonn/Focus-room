@@ -98,7 +98,6 @@ const signinup = ({ setScreen, setAccessToken, setUsername, setLoginWarning, set
         const res = await AuthService.registerPostRequest(registerUsername, registerEmail, registerPassword);
 
         if(!res.error) {
-            await EmailService.postRequest(registerEmail, res.data);
             setScreenState("Email");
         } else {
             setRegisterMessage("The register is failed");

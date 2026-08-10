@@ -1,14 +1,13 @@
 import { apiFetch } from "./api.js"
 
 export const EmailService = {
-    async postRequest(email, activateToken) {
+    async postRequest(email) {
         const url = "/email";
 
         return apiFetch(url, {
             method: "POST",
             body: {
-                email: email,
-                activateToken: activateToken
+                email: email
             }
         });
     },
