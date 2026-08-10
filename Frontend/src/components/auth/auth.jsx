@@ -14,6 +14,7 @@ const auth = ({ setScreen, setAccessToken, setUsername }) => {
     const [loginWarningMessage, setLoginMessage] = useState("");
     const [registerWarning, setRegisterWarning] = useState(false);
     const [registerWarningMessage, setRegisterMessage] = useState("");
+    const [authState, setAuthState] = useState(true);
     const splineRef = useRef(null);
 
     const getSplineRef = (spline) => {
@@ -63,10 +64,10 @@ const auth = ({ setScreen, setAccessToken, setUsername }) => {
                         )
                     }
                 </AnimatePresence>
-                {/* <Warningpopup/> */}
-                <Signinup className={styles.auth} setScreen={setScreen} setAccessToken={setAccessToken} setUsername={setUsername} setLoginWarning={setLoginWarning} setLoginMessage={setLoginMessage} setRegisterWarning={setRegisterWarning} setRegisterMessage={setRegisterMessage}/>
-                {/* <img className={styles.img} src={pomodoroImg} alt="" /> */}
-                {/* <spline-viewer className={styles.img} url="https://prod.spline.design/H9q8WTUpX4ZTzm35/scene.splinecode"></spline-viewer> */}
+                {
+                    authState && (<Signinup className={styles.auth} setScreen={setScreen} setAccessToken={setAccessToken} setUsername={setUsername} setLoginWarning={setLoginWarning} setLoginMessage={setLoginMessage} setRegisterWarning={setRegisterWarning} setRegisterMessage={setRegisterMessage}/>)
+                }
+                
             </div>
         </div>
     );

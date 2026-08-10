@@ -20,6 +20,11 @@
     --white-two: #d5d5d5;
     --white-three: #afafaf;           
     --white-four: #959595;     
+
+    /* Green */
+    --green-one: #5ac72f;
+    --green-two: #439422;
+    --green-three: #327019;
     
     /* Font */
     --title-font: "Poppins", sans-serif;

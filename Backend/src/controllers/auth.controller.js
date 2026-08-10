@@ -2,6 +2,7 @@
 import UserModel from "../model/user.model.js";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
+import crypto from "node:crypto"
 
 export const AuthController = {
     async registerAuth(req, res) {
@@ -9,13 +10,16 @@ export const AuthController = {
         const username = body.username;
         const email = body.email;
         const password = body.password;
-
+        
+        const activateToken = crypto.randomBytes(32).toString('hex');
         const passwordHash = await bcrypt.hash(password, 12);
+        const now = new Date();
+        const expiresIn = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
         try {
-            const insertResponse = await UserModel.insertUser(username, email, passwordHash);
+            const insertResponse = await UserModel.insertUser(username, email, passwordHash, activateToken, expiresIn);
 
-            res.status(201).json({ error: false });
+            res.status(201).json({ error: false, data: activateToken });
         } catch(err) {
             res.status(400).json({ error: true });
         }
@@ -34,7 +38,11 @@ export const AuthController = {
             if(!user) {
                 return res
                     .status(401)
-                    .json({ error: true, msg: "Usuário inexistente" });
+                    .json({ error: true, msg: "Invalid username or password" });
+            }
+
+            if(!user.is_active) {
+                return res.status(403).json({ error: true, msg: "Invalid username or password" });
             }
 
             const correctPassword = await bcrypt.compare(password, user.password);
@@ -42,7 +50,7 @@ export const AuthController = {
             if (!correctPassword) {
                 return res
                     .status(401)
-                    .json({ error: true, msg: "Usuário ou senha inválidos" });
+                    .json({ error: true, msg: "Invalid username or password" });
             }
 
             const accessToken = jwt.sign(
@@ -70,11 +78,11 @@ export const AuthController = {
                 error: false,
                 data: {
                     username: username,
-                    accessToken: accessToken
+                    accessToken: accessToken,
                 }
             });
         } catch (error) {
-            res.status(400).json({ error: true });
+            res.status(400).json({ error: true, msg: "Internal error" });
         }
     },
 

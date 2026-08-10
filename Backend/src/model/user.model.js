@@ -1,12 +1,12 @@
 import db from "../database/db.js";
 
 export default {
-    async insertUser(username, email, password) {
+    async insertUser(username, email, password, activateToken, expiresIn) {
         return await db.query(
             `
-            INSERT INTO users (username, email, password) 
-            VALUES ($1, $2, $3)`,
-            [username, email, password],
+            INSERT INTO users (username, email, password, activetoken, activate_expires_at) 
+            VALUES ($1, $2, $3, $4, $5)`,
+            [username, email, password, activateToken, expiresIn],
         );
     },
 
@@ -30,6 +30,16 @@ export default {
         );
     },
 
+    async selectUserByActivateToken(activateToken) {
+        return await db.query(
+            `
+            SELECT *
+            FROM users
+            WHERE activetoken = $1`,
+            [activateToken],
+        );
+    },
+
     async updateRefreshTokenUser(username, newRefreshToken) {
         return await db.query(
                 `
@@ -38,6 +48,16 @@ export default {
                 WHERE username = $2
                 `, [newRefreshToken, username]
         )
+    },
+
+    async activateUser(username) {
+        return await db.query(
+            `
+            UPDATE users
+            SET is_active = true, activetoken = null
+            WHERE username = $1
+            `, [username]
+        );
     },
 
     async clearRefreshTokenUser(username) {

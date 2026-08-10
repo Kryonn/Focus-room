@@ -71,7 +71,7 @@ export async function apiFetch(endpoint, option = {}) {
         return reres.json();
     };
 
-    if(res.status === 401 && endpoint === "/auth/refresh" || res.status === 403) {
+    if((res.status === 401 || res.status === 403) && endpoint === "/auth/refresh") {
         setScreenFunction("auth");
         return { error: true };
     }

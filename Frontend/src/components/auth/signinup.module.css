@@ -143,6 +143,42 @@
     border: 2px solid var(--white-one);
 }
 
+.email-title {
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 30px;
+    font-weight: 700;
+}
+
+.email-div {
+    height: 100%;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+}
+
+.email-text {
+    font-size: 20px;
+}
+
+.emailIcon {
+    /* border: 1px solid red; */
+    /* color: aliceblue; */
+    /* background-color: aliceblue; */
+    fill: var(--white-three);
+    height: 250px;
+}
+
+.email-footer {
+    font-size: 17px;
+}
+
+.bold {
+    font-weight: 700;
+    color: var(--white-one);
+}
+
 .hidden {
     display: none;
 }

@@ -8,6 +8,7 @@ import { useState, useEffect, useRef } from "react";
 import Sidebar from "./components/sidebar/sidebar.jsx";
 import Content from "./components/content/content.jsx";
 import Auth from "./components/auth/auth.jsx";
+import Activate from "./components/auth/activate.jsx";
 
 // Services
 import { GridService } from "./services/grid.service.js";
@@ -31,10 +32,12 @@ async function initFunction(setUsername, setAccessToken, setScreen) {
 
 function App() {
     // States
-    const [screen, setScreen] = useState("init");
+    const [screen, setScreen] = useState("activate");
     const [username, setUsername] = useState("");
     const [accessToken, setAccessToken] = useState("");
     const [gridState, setGridState] = useState(0);
+    const [activateToken, setActivateToken] = useState("");
+    const [activateEmail, setActivateEmail] = useState("");
         
     // Refs
     const listGridInstance = useRef([]);
@@ -48,6 +51,18 @@ function App() {
             return;
         }
         initialized.current = true;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const tokenFromUrl = urlParams.get("token");
+        const emailFromUrl = urlParams.get("email");
+
+        if(tokenFromUrl) {
+            console.log("tokenFromUrl: ", tokenFromUrl);
+            setActivateToken(tokenFromUrl);
+            setActivateEmail(emailFromUrl);
+            setScreen("activate");
+            return;
+        }
 
         setSetScreen(setScreen);
         setSetAccessToken(setAccessToken);
@@ -70,6 +85,11 @@ function App() {
             setListGridParameter(parameterList);
         });
     }, [screen, accessToken]);
+
+    if (screen === "activate") {
+        console.log("activateToken: ", activateToken);
+        return <Activate setScreen={setScreen} activateToken={activateToken} activateEmail={activateEmail}/>      
+    }
 
     // Auth 
     if (screen === "auth") {
