@@ -9,7 +9,11 @@ import { motion, AnimatePresence } from "framer-motion"
 
 const SCENE_URL = `https://prod.spline.design/H9q8WTUpX4ZTzm35/scene.splinecode?v=${import.meta.env.VITE_SPLINE_VERSION}`;
 
-const auth = ({ setScreen, setAccessToken, setUsername }) => {
+const auth = ({ email, recover, recoverToken, setScreen, setAccessToken, setUsername }) => {
+    const [recoverWarning, setRecoverWarning] = useState(false);
+    const [recoverWarningMessage, setRecoverMessage] = useState("");
+    const [changeWarning, setChangeWarning] = useState(false);
+    const [changeWarningMessage, setChangeMessage] = useState("");
     const [loginWarning, setLoginWarning] = useState(false);
     const [loginWarningMessage, setLoginMessage] = useState("");
     const [registerWarning, setRegisterWarning] = useState(false);
@@ -63,9 +67,31 @@ const auth = ({ setScreen, setAccessToken, setUsername }) => {
                             </motion.div>
                         )
                     }
+                    {
+                        recoverWarning && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}    
+                                exit={{ opacity: 0, y: 10 }}    
+                            >
+                                <Warningpopup setWarningPopupState={setRecoverWarning} warningPopupMessage={recoverWarningMessage}/>
+                            </motion.div>
+                        )
+                    }
+                    {
+                        changeWarning && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}    
+                                exit={{ opacity: 0, y: 10 }}    
+                            >
+                                <Warningpopup setWarningPopupState={setChangeWarning} warningPopupMessage={changeWarningMessage}/>
+                            </motion.div>
+                        )
+                    }
                 </AnimatePresence>
                 {
-                    authState && (<Signinup className={styles.auth} setScreen={setScreen} setAccessToken={setAccessToken} setUsername={setUsername} setLoginWarning={setLoginWarning} setLoginMessage={setLoginMessage} setRegisterWarning={setRegisterWarning} setRegisterMessage={setRegisterMessage}/>)
+                    authState && (<Signinup className={styles.auth} email={email} recover={recover} recoverToken={recoverToken} setScreen={setScreen} setAccessToken={setAccessToken} setUsername={setUsername} setLoginWarning={setLoginWarning} setLoginMessage={setLoginMessage} setRegisterWarning={setRegisterWarning} setRegisterMessage={setRegisterMessage} setRecoverWarning={setRecoverWarning} setRecoverMessage={setRecoverMessage} setChangeWarning={setChangeWarning} setChangeMessage={setChangeMessage}/>)
                 }
                 
             </div>

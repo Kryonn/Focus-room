@@ -40,6 +40,16 @@ export default {
         );
     },
 
+    async selectUserByRecoverToken(recoverToken) {
+        return await db.query(
+            `
+            SELECT *
+            FROM users
+            WHERE recovertoken = $1`,
+            [recoverToken],
+        );
+    },
+
     async updateRefreshTokenUser(username, newRefreshToken) {
         return await db.query(
                 `
@@ -57,6 +67,26 @@ export default {
                 SET activetoken = $1, activate_expires_at = $2
                 WHERE email = $3
             `, [activateToken, expireIn, email]
+        )
+    },
+
+    async updateRecoverTokenUser(email, recoverToken, expireIn) {
+        return await db.query(
+            `
+                UPDATE users
+                SET recovertoken = $1, recover_expires_at = $2
+                WHERE email = $3
+            `, [recoverToken, expireIn, email]
+        )
+    },
+
+    async updatePasswordUser(email, password) {
+        return await db.query(
+            `
+                UPDATE users
+                SET recovertoken = $1, password = $2
+                WHERE email = $3
+            `, [null, password, email]
         )
     },
 

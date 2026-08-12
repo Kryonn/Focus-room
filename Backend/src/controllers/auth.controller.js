@@ -33,7 +33,7 @@ export const AuthController = {
                     To activate your account, just click on the button below:
                     </p>
 
-                    <a href="${clientUrl}/?token=${activateToken}&email=${encodeURIComponent(email)}" style="display: inline-block; width: 80%; max-width: 300px; background-color: seagreen; color: #ffffff; text-decoration: none; font-size: 16px; font-weight: bold; text-align: center; padding: 14px 0; border-radius: 10px;">
+                    <a href="${clientUrl}/?action=activate&token=${activateToken}&email=${encodeURIComponent(email)}" style="display: inline-block; width: 80%; max-width: 300px; background-color: seagreen; color: #ffffff; text-decoration: none; font-size: 16px; font-weight: bold; text-align: center; padding: 14px 0; border-radius: 10px;">
                     Activate Account
                     </a>
 

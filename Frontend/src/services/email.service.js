@@ -21,5 +21,33 @@ export const EmailService = {
                 activateToken: activateToken
             }
         })
+    },
+
+    async postRecoverEmailRequest(email) {
+        const url = "/email/recover";
+
+        return apiFetch(url, {
+            method: "POST",
+            body: {
+                email: email
+            }
+        });
+    },
+
+    async postRecoverRequest(recoverToken, email, password) {
+        const url = "/email/verify/recover";
+
+        console.log("recoverToken", recoverToken);
+        console.log("email", email);
+        console.log("password", password);
+
+        return apiFetch(url, {
+            method: "POST",
+            body: {
+                recoverToken: recoverToken,
+                email: email,
+                password: password
+            }
+        });
     }
 }

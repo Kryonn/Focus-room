@@ -23,7 +23,6 @@ async function initFunction(setUsername, setAccessToken, setScreen) {
         setUsername(postResponse.data.username);
         setAccessToken(postResponse.data.accessToken);
         setToken(postResponse.data.accessToken)
-        // setAccessToken(postResponse.data.accessToken);
         setScreen("app");
     } else {
         setScreen("auth");
@@ -32,12 +31,13 @@ async function initFunction(setUsername, setAccessToken, setScreen) {
 
 function App() {
     // States
-    const [screen, setScreen] = useState("activate");
+    const [screen, setScreen] = useState("init");
     const [username, setUsername] = useState("");
     const [accessToken, setAccessToken] = useState("");
     const [gridState, setGridState] = useState(0);
     const [activateToken, setActivateToken] = useState("");
     const [activateEmail, setActivateEmail] = useState("");
+    const [recover, setRecover] = useState(false);
         
     // Refs
     const listGridInstance = useRef([]);
@@ -54,13 +54,25 @@ function App() {
 
         const urlParams = new URLSearchParams(window.location.search);
         const tokenFromUrl = urlParams.get("token");
+        const actionFromUrl = urlParams.get("action");
         const emailFromUrl = urlParams.get("email");
+        console.log("URL:", window.location.href);
+        console.log("SEARCH:", window.location.search);
+        console.log("PARAMS:", Object.fromEntries(urlParams.entries()));
+        console.log("ACTION:", actionFromUrl);
+        console.log("TOKEN:", tokenFromUrl);
+        console.log("EMAIL:", emailFromUrl);
 
         if(tokenFromUrl) {
-            console.log("tokenFromUrl: ", tokenFromUrl);
             setActivateToken(tokenFromUrl);
             setActivateEmail(emailFromUrl);
-            setScreen("activate");
+            // setAction(actionFromUrl);
+            if(actionFromUrl === "activate") {
+                setScreen("activate");
+            } else {
+                setScreen("auth");
+                setRecover(true);
+            }
             return;
         }
 
@@ -93,7 +105,7 @@ function App() {
 
     // Auth 
     if (screen === "auth") {
-        return <Auth setScreen={setScreen} setAccessToken={setAccessToken} setUsername={setUsername}/>;
+        return <Auth email={activateEmail} recover={recover} recoverToken={activateToken} setScreen={setScreen} setAccessToken={setAccessToken} setUsername={setUsername}/>;
     }
 
     // App
