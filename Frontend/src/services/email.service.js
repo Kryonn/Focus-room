@@ -34,19 +34,13 @@ export const EmailService = {
         });
     },
 
-    async postRecoverRequest(recoverToken, email, password) {
+    async postRecoverRequest(recoverToken) {
         const url = "/email/verify/recover";
-
-        console.log("recoverToken", recoverToken);
-        console.log("email", email);
-        console.log("password", password);
 
         return apiFetch(url, {
             method: "POST",
             body: {
                 recoverToken: recoverToken,
-                email: email,
-                password: password
             }
         });
     }

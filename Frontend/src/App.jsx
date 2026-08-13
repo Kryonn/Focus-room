@@ -13,6 +13,7 @@ import Activate from "./components/auth/activate.jsx";
 // Services
 import { GridService } from "./services/grid.service.js";
 import { AuthService } from "./services/auth.service.js";
+import { EmailService } from "./services/email.service.js";
 
 import { setSetAccessToken, setSetScreen, setToken } from "./services/api.js";
 
@@ -35,47 +36,51 @@ function App() {
     const [username, setUsername] = useState("");
     const [accessToken, setAccessToken] = useState("");
     const [gridState, setGridState] = useState(0);
-    const [activateToken, setActivateToken] = useState("");
-    const [activateEmail, setActivateEmail] = useState("");
+    const [token, setToken] = useState("");
+    const [email, setEmail] = useState("");
     const [recover, setRecover] = useState(false);
+    const [initAuthState, setInitAuthState] = useState("");
         
     // Refs
     const listGridInstance = useRef([]);
     const listGridRef = useRef([]);
     const listGridPosition = useRef([]);
     const [listGridParameter, setListGridParameter] = useState([]);
-    const initialized = useRef(false);
 
     useEffect(() => {
-        if(initialized.current) {
-            return;
-        }
-        initialized.current = true;
-
         const urlParams = new URLSearchParams(window.location.search);
         const tokenFromUrl = urlParams.get("token");
         const actionFromUrl = urlParams.get("action");
         const emailFromUrl = urlParams.get("email");
-        console.log("URL:", window.location.href);
-        console.log("SEARCH:", window.location.search);
-        console.log("PARAMS:", Object.fromEntries(urlParams.entries()));
-        console.log("ACTION:", actionFromUrl);
-        console.log("TOKEN:", tokenFromUrl);
-        console.log("EMAIL:", emailFromUrl);
 
         if(tokenFromUrl) {
-            setActivateToken(tokenFromUrl);
-            setActivateEmail(emailFromUrl);
-            // setAction(actionFromUrl);
+            setToken(tokenFromUrl);
+            setEmail(emailFromUrl);
+
             if(actionFromUrl === "activate") {
-                setScreen("activate");
+                EmailService.postActivateRequest(tokenFromUrl).then((res) => {
+                    if(!res.error) {
+                        setInitAuthState("Success Activate");
+                    } else {
+                        setInitAuthState("Fail");
+                    }
+                    setScreen("auth");
+                })
             } else {
-                setScreen("auth");
-                setRecover(true);
+                EmailService.postRecoverRequest(tokenFromUrl).then((res) => {
+                    if(!res.error) {
+                        setInitAuthState("Change");
+                    } else {
+                        setInitAuthState("Fail");
+                    }
+                    setScreen("auth");
+                });
             }
+
             return;
         }
 
+        setInitAuthState("Login");
         setSetScreen(setScreen);
         setSetAccessToken(setAccessToken);
         initFunction(setUsername, setAccessToken, setScreen);
@@ -98,14 +103,9 @@ function App() {
         });
     }, [screen, accessToken]);
 
-    if (screen === "activate") {
-        console.log("activateToken: ", activateToken);
-        return <Activate setScreen={setScreen} activateToken={activateToken} activateEmail={activateEmail}/>      
-    }
-
     // Auth 
     if (screen === "auth") {
-        return <Auth email={activateEmail} recover={recover} recoverToken={activateToken} setScreen={setScreen} setAccessToken={setAccessToken} setUsername={setUsername}/>;
+        return <Auth setScreen={setScreen} setAccessToken={setAccessToken} setUsername={setUsername} initAuthState={initAuthState}/>;
     }
 
     // App

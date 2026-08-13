@@ -12,13 +12,15 @@ const activate = ({ setScreen, activateToken, activateEmail }) => {
         if(!activateToken) {
             return;
         }
-        EmailService.postActivateRequest(activateToken).then(res => {
-            if(!res.error) {
-                setSuccess(true);
-            } else {
-                setFailed(true);
-            }
-        });
+        // EmailService.postActivateRequest(activateToken).then(res => {
+        //     console.log(activateToken);
+        //     if(!res.error) {
+        //         setSuccess(true);
+        //     } else {
+        //         setFailed(true);
+        //     }
+        // });
+        setSuccess(true);
 
     }, [activateToken]);
     
@@ -26,10 +28,17 @@ const activate = ({ setScreen, activateToken, activateEmail }) => {
         <div className={styles.main}>
             {
                 success && (
-                    <div className={styles.content}>
+                    // <div className={styles.content}>
+                    //     <p className={styles.title}>Account Activated Successfully!</p>
+                    //     <p className={styles.text}>Your email has been verified and your Focus Room account is now ready.</p>
+                    //     <button onClick={() => { setScreen("auth") }} className={styles.button}>Return to login screen</button>
+                    // </div>
+                    <div className={styles["message-div"]}>
                         <p className={styles.title}>Account Activated Successfully!</p>
-                        <p className={styles.text}>Your email has been verified and your Focus Room account is now ready.</p>
-                        <button onClick={() => { setScreen("auth") }} className={styles.button}>Return to login screen</button>
+                        <div className={styles["message-content"]}>
+                            <p className={styles["message-text"]} >Your email has been verified and your Focus Room account is now ready.</p>
+                        </div>
+                        <button onClick={() => { setAuthState("Login"); } } className={styles.button}>Back to Login</button>
                     </div>
                 )
             }

@@ -57,18 +57,6 @@ const signinup = ({ email, recover, recoverToken, setScreen, setAccessToken, set
         }
     }, [screenState]);
 
-    // const verifyInput = (event) => {
-    //     if (!event.target.value) {
-    //         if (event.target.classList.contains(`${styles.text}`)) {
-    //             event.target.classList.toggle(`${styles.text}`);
-    //         }
-    //     } else {
-    //         if (!event.target.classList.contains(`${styles.text}`)) {
-    //             event.target.classList.toggle(`${styles.text}`);
-    //         }
-    //     }
-    // };
-
     const loginFunction = async (loginUsername, loginPassword) => {
 
         if(!loginUsername || !loginPassword) {

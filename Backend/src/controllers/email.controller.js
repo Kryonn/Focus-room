@@ -153,42 +153,65 @@ const EmailController = {
     async verifyRecoverToken(req, res) {
         const body = req.body;
         const recoverToken = body.recoverToken;
-        const email = body.email;
-        const password = body.password;
 
-        console.log("recoverToken", recoverToken);
-            console.log("email", email);
-            console.log("password", password);
-            
-            
-            
-            try {
-                const selectResponse = await UserModel.selectUserByRecoverToken(recoverToken);
-                
-                const user = selectResponse.rows[0];
-                console.log("user", user);
+        try {
+            const selectResponse = await UserModel.selectUserByRecoverToken(recoverToken);
+
+            const user = selectResponse.rows[0];
 
             if(!user) {
                 return res.status(400).json({ error: true });
             }
-
-            
             
             if(user.recover_expires_at < Date.now()) {
                 return res.status(400).json({ error: true });
             }
 
-            
-
-            const passwordHash = await bcrypt.hash(password, 12);
-
-            const updateResponse = await UserModel.updatePasswordUser(email, passwordHash);
-
             res.status(200).json({ error: false });
         } catch(err) {
             res.status(400).json({ error: true });
         }
-    }
+    },
+
+    // async verifyRecoverToken(req, res) {
+    //     const body = req.body;
+    //     const recoverToken = body.recoverToken;
+    //     const email = body.email;
+    //     const password = body.password;
+
+    //     console.log("recoverToken", recoverToken);
+    //         console.log("email", email);
+    //         console.log("password", password);
+            
+            
+            
+    //         try {
+    //             const selectResponse = await UserModel.selectUserByRecoverToken(recoverToken);
+                
+    //             const user = selectResponse.rows[0];
+    //             console.log("user", user);
+
+    //         if(!user) {
+    //             return res.status(400).json({ error: true });
+    //         }
+
+            
+            
+    //         if(user.recover_expires_at < Date.now()) {
+    //             return res.status(400).json({ error: true });
+    //         }
+
+            
+
+    //         const passwordHash = await bcrypt.hash(password, 12);
+
+    //         const updateResponse = await UserModel.updatePasswordUser(email, passwordHash);
+
+    //         res.status(200).json({ error: false });
+    //     } catch(err) {
+    //         res.status(400).json({ error: true });
+    //     }
+    // }
 };
 
 export default EmailController;

@@ -25,7 +25,7 @@
 
 .title {
     /* margin-bottom: 40px; */
-    flex: 1;
+    /* flex: 1; */
     font-size: 40px;
     /* border: 1px solid red; */
 }
@@ -59,5 +59,85 @@
     /* justify-content: center; */
     /* flex: 1; */
     font-size: 20px;
+}
+
+.message-div {
+    height: 400px;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    color: var(--white-one);
+    font-family: var(--text-font);
+    padding: 60px;
+    box-sizing: border-box;
+    background-color: #1a1a1ab8;
+    border-radius: 20px;
+    /* background-color: aliceblue; */
+    /* border: 1px solid red; */
+}
+
+.title {
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    /* padding-bottom: 20px; */
+    font-weight: 700;
+    font-family: var(--title-font);
+    font-size: 40px;
+}
+
+.message-content {
+    /* height: 100%; */
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.message-text {
+    font-size: 23px;
+}
+
+.message-center-text {
+    /* flex: 1; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    font-size: 30px;
+    font-weight: 700;
+    /* border: 1px solid red; */
+}
+
+.message-footer {
+    margin-top: 20px;
+    font-size: 17px;
+}
+
+.bold {
+    font-weight: 700;
+    color: var(--white-one);
+}
+
+.message-icon {
+    fill: var(--white-two);
+    height: 150px
+}
+
+.button {
+    width: 100%;
+    background: transparent;
+    cursor: pointer;
+    color: var(--white-two);
+    height: 40px;
+    border: 2px solid var(--white-two);
+    border-radius: 12px;
+    transition: 0.5s;
+    font-size: 18px;
+}
+
+.button:hover {
+    color: var(--white-one);
+    border: 2px solid var(--white-one);
 }
 

@@ -1,0 +1,201 @@
+.main {
+    height: 600px;
+    /* width: 570px; */
+    display: flex;
+    flex-direction: column;
+    padding: 60px;
+    box-sizing: border-box;
+    color: var(--white-one);
+    font-family: var(--text-font);
+    /* background-color: aliceblue; */
+    background-color: #1a1a1ab8;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    /* border: 1px solid green; */
+}
+
+.form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    /* border: 1px solid red; */
+    justify-content: space-between;
+    /* border: 1px solid red; */
+}
+
+.title {
+    font-family: var(--title-font);
+    font-size: 40px;
+    /* padding: 5px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* border: 1px solid red; */
+}
+
+
+
+.input-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* border: 1px solid red; */
+    /* gap: 20px; */
+    /* padding-bottom: 80px; */
+}
+
+.label-input-div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.label-input {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    /* padding: 10px; */
+    margin: 15px 0;
+    gap: 5px;
+    box-sizing: border-box;
+    /* border: 1px solid red; */
+}
+
+.label-input .label {
+    font-weight: 600;
+    top: 50%;
+    position: absolute;
+    transform: translateY(-50%);
+    transition: 0.5s;
+    color: var(--white-two);
+    cursor: text;
+    /* border: 1px solid red; */
+}
+.label-input .input.text ~ .label,
+.label-input .input:focus ~ .label {
+    color: var(--white-one);
+    top: -15px;
+}
+
+.label-input .input {
+    height: 30px;
+    /* border-radius: 5px; */
+    /* border: 1px solid red; */
+    border: none;
+    border-bottom: 2px solid var(--white-two);
+    /* background-color: var(--black-two); */
+    background-color: transparent;
+    color: var(--white-two);
+    font: inherit;
+    padding: 7px;
+    box-sizing: border-box;
+    transition: 0.5s;
+}
+
+.label-input .input:focus {
+    outline: none;
+    border-bottom: 2px solid var(--white-one);
+}
+
+.bottom-message {
+    color: var(--white-two);
+    font-size: 15px;
+    display: flex;
+    gap: 3px;
+    /* margin: 10px; */
+    justify-content: center;
+}
+
+.link {
+    color: var(--white-one);
+    cursor: pointer;
+    font-weight: bold;
+    /* text-decoration: underline; */
+}
+
+.recover-message {
+    /* border: 1px solid red; */
+    color: var(--white-two);
+    font-size: 15px;
+}
+
+.button-div {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.button {
+    width: 100%;
+    background: transparent;
+    cursor: pointer;
+    color: var(--white-two);
+    height: 40px;
+    border: 2px solid var(--white-two);
+    border-radius: 12px;
+    transition: 0.5s;
+    font-size: 18px;
+}
+
+.button:hover {
+    color: var(--white-one);
+    border: 2px solid var(--white-one);
+}
+
+/* .email-title {
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 30px;
+    font-weight: 700;
+}
+
+.email-div {
+    height: 100%;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+}
+
+.email-text {
+    font-size: 20px;
+}
+
+.emailIcon {
+    fill: var(--white-three);
+    height: 250px;
+}
+
+.email-footer {
+    font-size: 17px;
+}
+
+.bold {
+    font-weight: 700;
+    color: var(--white-one);
+}
+
+.recover-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.change-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.changeIcon {
+    fill: var(--white-three);
+    height: 200px;
+    margin: 50px;
+}
+
+
+.hidden {
+    display: none;
+} */
