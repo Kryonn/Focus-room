@@ -1,7 +1,7 @@
 import styles from "./form.module.css"
 import { useEffect, useState } from "react";
 
-const form = ({ formTitle, setInputList, labelList, labelTypeList, buttonFunction, buttonText, formType, setAuthState }) => {
+const form = ({ formTitle, inputList, setInputList, labelList, labelTypeList, buttonFunction, buttonText, formType, setAuthState }) => {
 
     return (
         <div className={styles.main}>
@@ -15,7 +15,7 @@ const form = ({ formTitle, setInputList, labelList, labelTypeList, buttonFunctio
                                     className={`${styles["label-input"]}`}
                                 >
                                     <input
-                                        className={styles.input}
+                                        className={`${styles.input} ${ inputList[index] ? styles.text : "" }`}
                                         id={label}
                                         type={labelTypeList[index]}
                                         onChange={(e) => {

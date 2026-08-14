@@ -1,12 +1,12 @@
-import styles from "./warningpopup.module.css"
+import styles from "./warning.module.css"
 import { useEffect } from "react"
 
-const warningpopup = ({ setWarningPopupState, warningPopupMessage }) => {
+const warning = ({ setWarningState, warningMessage }) => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            setWarningPopupState(false)
-        }, 5000);
+            setWarningState(false)
+        }, 3000);
 
         return () => clearInterval(timer);
     }, []);
@@ -22,11 +22,11 @@ const warningpopup = ({ setWarningPopupState, warningPopupMessage }) => {
                     <p>Something went wrong</p>
                 </div>
                 <div className={styles.bottom}>
-                    <p>{warningPopupMessage}</p>
+                    <p>{warningMessage}</p>
                 </div>
             </div>
         </div>
     )
 }
 
-export default warningpopup
+export default warning

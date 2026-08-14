@@ -4,30 +4,25 @@ import cachorroJoinha from "../../assets/cachorro-joinha.jpg";
 import pomodoroImg from "../../assets/pomodoro.png";
 import { useRef, useEffect, useState } from "react";
 import Spline from "@splinetool/react-spline";
-import Warningpopup from "./warningpopup.jsx";
+import Warning from "./warning.jsx";
 import { AuthService } from "../../services/auth.service.js";
 import { EmailService } from "../../services/email.service.js";
 import { motion, AnimatePresence } from "framer-motion" 
 import { UserService } from "../../services/user.service.js";
 import Form from "./form.jsx";
 import Message from "./message.jsx";
+import { MoonLoader } from "react-spinners";
 
 const SCENE_URL = `https://prod.spline.design/H9q8WTUpX4ZTzm35/scene.splinecode?v=${import.meta.env.VITE_SPLINE_VERSION}`;
 
-const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
-    const [recoverWarning, setRecoverWarning] = useState(false);
-    const [recoverWarningMessage, setRecoverMessage] = useState("");
-    const [changeWarning, setChangeWarning] = useState(false);
-    const [changeWarningMessage, setChangeMessage] = useState("");
-    const [loginWarning, setLoginWarning] = useState(false);
-    const [loginWarningMessage, setLoginMessage] = useState("");
-    const [registerWarning, setRegisterWarning] = useState(false);
-    const [registerWarningMessage, setRegisterMessage] = useState("");
-    const [authState, setAuthState] = useState(initAuthState);
+const auth = ({ email, setEmail, setScreen, setAccessToken, initAuthState }) => {
+    // const [authState, setAuthState] = useState("");
+    const [authState, setAuthState] = useState("Loading");
     const [inputList, setInputList] = useState([]);
     const splineRef = useRef(null);
-    const [email, setEmail] = useState("");
-
+    // const [email, setEmail] = useState("");
+    const [warningState, setWarningState] = useState(false);
+    const [warningMessage, setWarningMessage] = useState("");
     const [formTitle, setFormTitle] = useState("");
     const [labelList, setLabelList] = useState([]);
     const [labelTypeList, setLabelTypeList] = useState([]);
@@ -39,6 +34,7 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
     };
 
     useEffect(() => {
+
         return () => {
             if (splineRef.current) {
                 splineRef.current.dispose();
@@ -47,7 +43,14 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
         };
     }, []);
 
+    useEffect(() => { 
+        if (initAuthState && initAuthState !== authState) { 
+            setAuthState(initAuthState); 
+        } 
+    }, [initAuthState]);
+
     useEffect(() => {
+        console.log("initAuth: ", initAuthState);
         switch(authState) {
             case "Login":
                 setFormTitle("Log In");
@@ -89,18 +92,18 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
 
         if(!username || !password) {
             if(!username) {
-                setLoginMessage("Username is required");
+                setWarningMessage("Username is required");
             }
 
             if(!password) {
-                setLoginMessage("Password is required");
+                setWarningMessage("Password is required");
             }   
 
             if(!username && !password) {
-                setLoginMessage("Username and password are required");
+                setWarningMessage("Username and password are required");
             }
         
-            setLoginWarning(true);
+            setWarningState(true);
             return;
         }
 
@@ -109,12 +112,11 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
         if(!res.error) {
             const data = res.data;
 
-            setUsername(data.username);
             setAccessToken(data.accessToken);
             setScreen("app");
         } else {
-            setLoginMessage("Invalid username or password");
-            setLoginWarning(true);
+            setWarningMessage("Invalid username or password");
+            setWarningState(true);
         }
     }
 
@@ -129,14 +131,14 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
         const passwordConfirm = inputList[3];
 
         if(!email || !username || !password) {
-            setRegisterMessage("All inputs are required");
-            setRegisterWarning(true);
+            setWarningMessage("All inputs are required");
+            setWarningState(true);
             return;
         }
         
         if(password !== passwordConfirm) {
-            setRegisterMessage("Matching passwords required");
-            setRegisterWarning(true);
+            setWarningMessage("Matching passwords required");
+            setWarningState(true);
             return;
         }
 
@@ -146,8 +148,8 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
             setEmail(email);
             setAuthState("Success Register");
         } else {
-            setRegisterMessage("The register is failed");
-            setRegisterWarning(true);
+            setWarningMessage("The register is failed");
+            setWarningState(true);
         }
     }
 
@@ -155,9 +157,9 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
         const email = inputList[0];
 
         if(!email) {
-                setRecoverMessage("All inputs are required");
-                setRecoverWarning(true);
-                return;
+            setWarningMessage("All inputs are required");
+            setWarningState(true);
+            return;
         }
 
         const res = await EmailService.postRecoverEmailRequest(email);
@@ -165,8 +167,8 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
         if(!res.error) {
             setAuthState("Success Recover");
         } else {
-            setRecoverMessage("The recover is failed");
-            setRecoverWarning(true);
+            setWarningMessage("The recover is failed");
+            setWarningState(true);
         }
     }
 
@@ -175,14 +177,14 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
         const passwordConfirm = inputList[1];
 
         if(!password || !passwordConfirm) {
-            setChangeMessage("All inputs are required");
-            setChangeWarning(true);
+            setWarningMessage("All inputs are required");
+            setWarningState(true);
             return;
         }
         
         if(password !== passwordConfirm) {
-            setChangeMessage("Matching passwords required");
-            setChangeWarning(true);
+            setWarningMessage("Matching passwords required");
+            setWarningState(true);
             return;
         }
 
@@ -191,8 +193,8 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
         if(!res.error) {
             setAuthState("Success Change");
         } else {
-            setRecoverMessage("The change is failed");
-            setRecoverWarning(true);
+            setWarningMessage("The change is failed");
+            setWarningState(true);
         }
     }
 
@@ -206,46 +208,13 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
             <div className={styles.content}>
                 <AnimatePresence>
                     {
-                        loginWarning && (
+                        warningState && (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}    
                                 exit={{ opacity: 0, y: 10 }}    
                             >
-                                <Warningpopup setWarningPopupState={setLoginWarning} warningPopupMessage={loginWarningMessage}/>
-                            </motion.div>
-                        )
-                    }
-                    {
-                        registerWarning && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}    
-                                exit={{ opacity: 0, y: 10 }}    
-                            >
-                                <Warningpopup setWarningPopupState={setRegisterWarning} warningPopupMessage={registerWarningMessage}/>
-                            </motion.div>
-                        )
-                    }
-                    {
-                        recoverWarning && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}    
-                                exit={{ opacity: 0, y: 10 }}    
-                            >
-                                <Warningpopup setWarningPopupState={setRecoverWarning} warningPopupMessage={recoverWarningMessage}/>
-                            </motion.div>
-                        )
-                    }
-                    {
-                        changeWarning && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}    
-                                exit={{ opacity: 0, y: 10 }}    
-                            >
-                                <Warningpopup setWarningPopupState={setChangeWarning} warningPopupMessage={changeWarningMessage}/>
+                                <Warning setWarningState={setWarningState} warningMessage={warningMessage}/>
                             </motion.div>
                         )
                     }
@@ -254,6 +223,7 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
                     authState === "Login" && (
                         <Form
                             formTitle={formTitle}
+                            inputList={inputList}
                             setInputList={setInputList}
                             labelList={labelList}
                             labelTypeList={labelTypeList}
@@ -268,6 +238,7 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
                     authState === "Register" && (
                         <Form
                             formTitle={formTitle}
+                            inputList={inputList}
                             setInputList={setInputList}
                             labelList={labelList}
                             labelTypeList={labelTypeList}
@@ -282,6 +253,7 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
                     authState === "Recover" && (
                         <Form
                             formTitle={formTitle}
+                            inputList={inputList}
                             setInputList={setInputList}
                             labelList={labelList}
                             labelTypeList={labelTypeList}
@@ -296,6 +268,7 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
                     authState === "Change" && (
                         <Form
                             formTitle={formTitle}
+                            inputList={inputList}
                             setInputList={setInputList}
                             labelList={labelList}
                             labelTypeList={labelTypeList}
@@ -376,6 +349,13 @@ const auth = ({ setScreen, setAccessToken, setUsername, initAuthState }) => {
                                 <p className={styles["message-text"]}>Please try again in a few moments.</p>
                             </div>
                             <button onClick={() => { setAuthState("Login"); } } className={styles.button}>Back to Login</button>
+                        </div>
+                    )
+                }
+                {
+                    authState === "Loading" && (
+                        <div className={styles["loading-div"]}>
+                            <MoonLoader size={100}/>
                         </div>
                     )
                 }

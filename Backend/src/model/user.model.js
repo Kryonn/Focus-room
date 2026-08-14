@@ -84,9 +84,9 @@ export default {
         return await db.query(
             `
                 UPDATE users
-                SET recovertoken = $1, password = $2
-                WHERE email = $3
-            `, [null, password, email]
+                SET recovertoken = null, password = $1
+                WHERE email = $2
+            `, [password, email]
         )
     },
 

@@ -1,5 +1,5 @@
 .main {
-    /* background-color: var(--black-two); */
+    background-color: #000000;
     width: 100vw;
     height: 100vh;
     /* display: flex; */
@@ -62,14 +62,14 @@
     font-size: 40px;
     display: flex;
     justify-content: center;
-    padding-bottom: 30px;
+    padding-bottom: 0px;
     font-weight: 700;
     font-family: var(--title-font);
     font-size: 40px;
 }
 
 .message-content {
-    height: 100%;
+    /* height: 100%; */
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -92,7 +92,7 @@
 }
 
 .message-footer {
-    margin-top: 20px;
+    /* margin-top: 20px; */
     font-size: 17px;
 }
 
@@ -111,8 +111,10 @@
     background: transparent;
     cursor: pointer;
     color: var(--white-two);
+    /* min-width: 40px; */
     height: 40px;
     border: 2px solid var(--white-two);
+    /* border: 1px solid red; */
     border-radius: 12px;
     transition: 0.5s;
     font-size: 18px;
@@ -123,6 +125,14 @@
     border: 2px solid var(--white-one);
 }
 
+
+
+.loading-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+}
 
 .hidden {
     display: none;

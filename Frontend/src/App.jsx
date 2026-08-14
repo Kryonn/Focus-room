@@ -17,30 +17,29 @@ import { EmailService } from "./services/email.service.js";
 
 import { setSetAccessToken, setSetScreen, setToken } from "./services/api.js";
 
-async function initFunction(setUsername, setAccessToken, setScreen) {
+import { MoonLoader } from "react-spinners";
+
+async function initFunction(setAccessToken, setScreen, setInitAuthState) {
     const postResponse = await AuthService.refreshPostRequest();
 
     if(!postResponse.error) {
-        setUsername(postResponse.data.username);
         setAccessToken(postResponse.data.accessToken);
         setToken(postResponse.data.accessToken)
         setScreen("app");
     } else {
+        setInitAuthState("Login");
         setScreen("auth");
     }
 }
 
 function App() {
     // States
-    const [screen, setScreen] = useState("init");
-    const [username, setUsername] = useState("");
+    const [screen, setScreen] = useState("auth");
     const [accessToken, setAccessToken] = useState("");
     const [gridState, setGridState] = useState(0);
-    const [token, setToken] = useState("");
+    const [initAuthState, setInitAuthState] = useState("Loading");
     const [email, setEmail] = useState("");
-    const [recover, setRecover] = useState(false);
-    const [initAuthState, setInitAuthState] = useState("");
-        
+
     // Refs
     const listGridInstance = useRef([]);
     const listGridRef = useRef([]);
@@ -54,7 +53,6 @@ function App() {
         const emailFromUrl = urlParams.get("email");
 
         if(tokenFromUrl) {
-            setToken(tokenFromUrl);
             setEmail(emailFromUrl);
 
             if(actionFromUrl === "activate") {
@@ -80,10 +78,9 @@ function App() {
             return;
         }
 
-        setInitAuthState("Login");
         setSetScreen(setScreen);
         setSetAccessToken(setAccessToken);
-        initFunction(setUsername, setAccessToken, setScreen);
+        initFunction(setAccessToken, setScreen, setInitAuthState);
     }, []);
 
     useEffect(() => {
@@ -105,7 +102,7 @@ function App() {
 
     // Auth 
     if (screen === "auth") {
-        return <Auth setScreen={setScreen} setAccessToken={setAccessToken} setUsername={setUsername} initAuthState={initAuthState}/>;
+        return <Auth email={email} setEmail={setEmail} setScreen={setScreen} setAccessToken={setAccessToken} initAuthState={initAuthState}/>;
     }
 
     // App
@@ -138,7 +135,7 @@ function App() {
         );
     }
 
-    return <div className="main"></div>;
+    return <div className={styles.main}></div>;
 }
 
 export default App;
