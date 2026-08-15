@@ -55,7 +55,7 @@ const sidebar = ({
                     setListGridParameter={setListGridParameter}
                 />
             )}
-            <button onClick={() => { setScreen("auth"); AuthService.logoutPostRequest(accessToken); }} className={`${styles.button} ${styles[sidebarMode]}`}>
+            <button onClick={() => { window.location = window.location.origin; AuthService.logoutPostRequest(accessToken); setScreen("auth");   }} className={`${styles.button} ${styles[sidebarMode]}`}>
                 <img className={styles.img} src={logoutIcon} alt="" />
                 <p
                     className={`${sidebarMode === "hide" ? styles["p-hidden"] : ""} ${styles["sidebar-button-p"]}`}

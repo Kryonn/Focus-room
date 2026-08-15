@@ -34,8 +34,6 @@ export async function apiFetch(endpoint, option = {}) {
         ...(option.body && { body: JSON.stringify(option.body) })
     });
 
-    console.log(res);
-
     if(res.status === 401 && endpoint !== "/auth/refresh") {
         const refreshRes = await fetch(BASE_URL + "/auth/refresh", {
             method: "POST",
@@ -66,8 +64,6 @@ export async function apiFetch(endpoint, option = {}) {
             ...(option.body && { body: JSON.stringify(option.body) })
         })
                 
-        console.log(reres);
-
         return reres.json();
     };
 

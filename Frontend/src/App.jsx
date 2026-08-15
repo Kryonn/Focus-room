@@ -34,7 +34,7 @@ async function initFunction(setAccessToken, setScreen, setInitAuthState) {
 
 function App() {
     // States
-    const [screen, setScreen] = useState("auth");
+    const [screen, setScreen] = useState("app");
     const [accessToken, setAccessToken] = useState("");
     const [gridState, setGridState] = useState(0);
     const [initAuthState, setInitAuthState] = useState("Loading");
