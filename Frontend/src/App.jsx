@@ -8,7 +8,6 @@ import { useState, useEffect, useRef } from "react";
 import Sidebar from "./components/sidebar/sidebar.jsx";
 import Content from "./components/content/content.jsx";
 import Auth from "./components/auth/auth.jsx";
-import Activate from "./components/auth/activate.jsx";
 
 // Services
 import { GridService } from "./services/grid.service.js";

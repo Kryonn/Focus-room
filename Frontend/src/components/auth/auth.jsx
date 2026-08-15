@@ -1,5 +1,4 @@
 import styles from "./auth.module.css";
-import Signinup from "./signinup.jsx";
 import cachorroJoinha from "../../assets/cachorro-joinha.jpg";
 import pomodoroImg from "../../assets/pomodoro.png";
 import { useRef, useEffect, useState } from "react";
