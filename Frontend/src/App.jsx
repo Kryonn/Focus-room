@@ -61,6 +61,7 @@ function App() {
                     } else {
                         setInitAuthState("Fail");
                     }
+                    window.history.pushState({}, '', '/');;
                     setScreen("auth");
                 })
             } else {
@@ -70,6 +71,7 @@ function App() {
                     } else {
                         setInitAuthState("Fail");
                     }
+                    window.history.pushState({}, '', '/');;
                     setScreen("auth");
                 });
             }
