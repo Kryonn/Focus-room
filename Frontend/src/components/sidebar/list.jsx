@@ -51,7 +51,7 @@ const list = ({
                                             setGridState(prev => prev - 1);
                                         }
                                     } catch (err) {
-                                        console.log(err.message);
+                                        // console.log(err.message);
                                     }
                                 }}
                                 className={styles["grid-delete-button"]}

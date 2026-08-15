@@ -50,7 +50,6 @@ const auth = ({ email, setEmail, setScreen, setAccessToken, initAuthState }) => 
     }, [initAuthState]);
 
     useEffect(() => {
-        console.log("initAuth: ", initAuthState);
         switch(authState) {
             case "Login":
                 setFormTitle("Log In");
@@ -124,7 +123,7 @@ const auth = ({ email, setEmail, setScreen, setAccessToken, initAuthState }) => 
         if(!inputList) {
             return;
         }
-        // console.log(inputList);
+
         const email = inputList[0];
         const username = inputList[1];
         const password = inputList[2];

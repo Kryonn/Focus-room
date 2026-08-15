@@ -78,8 +78,6 @@ const signinup = ({ email, recover, recoverToken, setScreen, setAccessToken, set
 
         const res = await AuthService.loginPostRequest(loginUsername, loginPassword);
 
-        console.log("resLogin", res);
-
         const data = res.data;
         if(!res.error) {
             setUsername(data.username);

@@ -173,8 +173,6 @@ const grid = ({
 
             widgetRoot.current[index] = createRoot(widgetList[index]);
 
-            console.log("widget: ",widget);
-
             // Set widget type
             const type = widget.id.split("-")[0];
 
@@ -205,8 +203,6 @@ const grid = ({
             if (!gridRef.current) {
                 return;
             }
-
-            console.log("gridParameter.id: ", gridParameter.name);
 
             // Initialize Grid
             gridInstance.current = GridStack.init(

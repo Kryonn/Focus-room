@@ -43,7 +43,6 @@ export const utils = {
             for (let j = 0; j < row; j++) {
                 switch (widgetType) {
                     case "pomodoro":
-                        console.log("Matriz: ", matrix[i][j]);
                         if (!matrix[i][j]) {
                             if(this.verifyWidget(matrix, row, column, 1, 1, i, j)) {
                                 return true;

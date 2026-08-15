@@ -34,7 +34,7 @@ async function initFunction(setAccessToken, setScreen, setInitAuthState) {
 
 function App() {
     // States
-    const [screen, setScreen] = useState("app");
+    const [screen, setScreen] = useState("");
     const [accessToken, setAccessToken] = useState("");
     const [gridState, setGridState] = useState(0);
     const [initAuthState, setInitAuthState] = useState("Loading");
@@ -135,7 +135,7 @@ function App() {
         );
     }
 
-    return <div className={styles.main}></div>;
+    return <div className="main"></div>;
 }
 
 export default App;
