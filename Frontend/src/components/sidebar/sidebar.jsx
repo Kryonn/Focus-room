@@ -58,7 +58,7 @@ const sidebar = ({
             <button onClick={() => { 
                 AuthService.logoutPostRequest(accessToken).then(res => {
                     setScreen("auth");  
-                    window.location = window.location.origin;
+                    window.history.pushState({}, '', '/');;
                 });
                 }} className={`${styles.button} ${styles[sidebarMode]}`}>
                 <img className={styles.img} src={logoutIcon} alt="" />
