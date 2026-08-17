@@ -360,35 +360,46 @@ const content = ({
     return (
         <div className={styles.main}>
             {/* Grid div */}
-            {listGridParameter[gridState] && (
-                <Grid
-                    key={listGridParameter[gridState].name}
-                    accessToken={accessToken}
-                    gridState={gridState}
-                    setGridState={setGridState}
-                    gridCache={gridCache}
-                    taskCache={taskCache}
-                    widgetRoot={widgetRoot}
-                    gridParameter={listGridParameter[gridState]}
-                    gridInstanceRef={listGridInstance}
-                    gridRefRef={listGridRef}
-                    gridPositionRef={listGridPosition}
-                />
-            )}
+            {
+                listGridParameter.map((grid) => (
+                    grid.name === gridState && (
+                        <Grid
+                            key={grid.name}
+                            accessToken={accessToken}
+                            gridState={gridState}
+                            setGridState={setGridState}
+                            gridCache={gridCache}
+                            taskCache={taskCache}
+                            widgetRoot={widgetRoot}
+                            gridParameter={grid}
+                            gridInstanceRef={listGridInstance}
+                            gridRefRef={listGridRef}
+                            gridPositionRef={listGridPosition}
+                        />
+                    )
 
+                ))
+            }
+            
             {/* Tool div */}
-            {listGridParameter[gridState] && (
-                <Tool
-                    accessToken={accessToken}
-                    gridCache={gridCache}
-                    gridState={gridState}
-                    setWidget={functionList}
-                    gridParameter={listGridParameter[gridState]}
-                    gridInstanceRef={listGridInstance}
-                    gridRefRef={listGridRef}
-                    gridPositionRef={listGridPosition}
-                />
-            )}
+            {
+                listGridParameter.map((grid) => (
+                    grid.name === gridState && (
+                        <Tool
+                            key={grid.name}
+                            accessToken={accessToken}
+                            gridCache={gridCache}
+                            gridState={gridState}
+                            setWidget={functionList}
+                            gridParameter={grid}
+                            gridInstanceRef={listGridInstance}
+                            gridRefRef={listGridRef}
+                            gridPositionRef={listGridPosition}
+                        />
+                    )
+                ))
+            }
+            
         </div>
     );
 };

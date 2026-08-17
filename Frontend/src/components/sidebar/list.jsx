@@ -17,6 +17,24 @@ const list = ({
     setListGridParameter,
 }) => {
 
+    const deleteElement = (name) => {
+        const newList = listGridParameter.filter((item) => item.name !== name);
+
+        if(newList.length === 0) {
+            setGridState(null);
+            setListGridParameter(newList);
+            return;
+        } 
+
+        if(gridState === name) {
+            const elementIndex = listGridParameter.findIndex((item) => item.name === name);
+            const newIndex = Math.min(elementIndex, newList.length - 1);
+            setGridState(newList[newIndex].name);
+        }
+        
+        setListGridParameter(newList);
+    }
+
     return (
         <nav
             className={`${styles.main} ${mode === "hide" ? styles["hidden"] : ""}`}
@@ -24,9 +42,9 @@ const list = ({
             <ul ref={listRef} className={styles.list}>
                 {listGridParameter.map((listElement, index) => (
                     <li
-                        onClick={() => setGridState(index)}
+                        onClick={() => setGridState(listElement.name)}
                         key={listElement.name}
-                        className={`${styles.element} element ${index === gridState ? styles.selected : ""}`}
+                        className={`${styles.element} element ${listElement.name === gridState ? styles.selected : ""}`}
                     >
                         <a className={styles.link}>
                             <p>{listElement.name}</p>
@@ -41,15 +59,7 @@ const list = ({
                                             gridName,
                                             accessToken
                                         );
-                                        setListGridParameter((prevList) =>
-                                            prevList.filter(
-                                                (item) =>
-                                                    item.name !== gridName,
-                                            ),
-                                        );
-                                        if(gridState === index) {
-                                            setGridState(prev => prev - 1);
-                                        }
+                                        deleteElement(listElement.name);
                                     } catch (err) {
                                         // console.log(err.message);
                                     }
