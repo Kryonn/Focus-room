@@ -183,22 +183,8 @@ const content = ({
             // Append new widget
             gridRef.appendChild(div);
             gridInstance.makeWidget(div, { id: id, w: 3, h: 2, minW: 3, minH: 2 });
-            // gridCache = [...gridCache, {
-            //     gridname: gridParameter.name,
-            //     height: DEFAULT_WIDGET_SIZE.LIST_HEIGHT,
-            //     width: DEFAULT_WIDGET_SIZE.LIST_WIDTH,
-            //     id: id,
-            //     listname: listParameter,
-            //     notename: null,
-            //     notedescription: null,
-            //     pomodoroworktime: null,
-            //     pomodorobreaktime: null,
-            //     username: "asd",
-            //     xposition: div.gridstackNode.x,
-            //     yposition: div.gridstackNode.y,
-            // }];
 
-            gridCache.current[gridParameter.name].widget = {...gridCache.current[gridParameter.name].widget,
+            gridCache.widget = {...gridCache.widget,
                 [id]: {
                     gridName: gridParameter.name,
                     height: DEFAULT_WIDGET_SIZE.LIST_HEIGHT,
@@ -281,21 +267,7 @@ const content = ({
             gridRef.appendChild(div);
             gridInstance.makeWidget(div, { id: id, w: 2, h: 2, minH: 2, minW: 2 });
 
-            // gridCache = [...gridCache, {
-            //     gridName: gridParameter.name,
-            //     height: DEFAULT_WIDGET_SIZE.NOTE_HEIGHT,
-            //     width: DEFAULT_WIDGET_SIZE.NOTE_WIDTH,
-            //     id: id,
-            //     listname: null,
-            //     notename: listParameter,
-            //     notedescription: null,
-            //     pomodoroworktime: null,
-            //     pomodorobreaktime: null,
-            //     username: "asd",
-            //     xposition: div.gridstackNode.x,
-            //     yposition: div.gridstackNode.y,
-            // }];
-            gridCache.current[gridParameter.name].widget = {...gridCache.current[gridParameter.name].widget,
+            gridCache.widget = {...gridCache.widget,
                 [id]: {
                     gridName: gridParameter.name,
                     height: DEFAULT_WIDGET_SIZE.NOTE_HEIGHT,
