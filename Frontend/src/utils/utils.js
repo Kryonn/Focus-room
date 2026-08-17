@@ -91,5 +91,5 @@ export const utils = {
             return true;
         }
         return false;
-    }
+    },
 };
