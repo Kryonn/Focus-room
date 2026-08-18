@@ -36,38 +36,6 @@ const sidebarButton = ({ accessToken, mode, setListGridParameter, functions }) =
                     Adicionar
                 </p>
             </button>
-            {/* <button
-                onClick={(e) => {
-                    // if (e.target === e.currentTarget) {
-                    // }
-                    if(searchButtonState) {
-                        setSearchButtonState((prev) => !prev);
-                    }
-                }}
-                className={`${styles.button} ${styles[mode]} ${setSearchButtonState ? styles["search-active"] : styles["search-no-active"]}`}
-            >
-                <img src={searchIcon} className={`
-                        ${!searchButtonState
-                            ? styles["p-hidden"]
-                            : ""} ${styles["sidebar-button-p"]}
-                        `
-                    } alt="" />
-                <input
-                    className={`${styles["search-input"]} ${mode === "hide" || searchButtonState ? styles["input-hidden"] : ""}`}
-                    type="text"
-                />
-                <p
-                    ref={searchRef}
-                    className={`
-                        ${mode === "hide" || !searchButtonState
-                            ? styles["p-hidden"]
-                            : ""} ${styles["sidebar-button-p"]}
-                        `
-                    }
-                >
-                    Buscar
-                </p>
-            </button> */}
         </div>
     );
 };

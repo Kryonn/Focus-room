@@ -76,18 +76,10 @@ const grid = ({
 
         const node = el.gridstackNode;
 
-        console.log("updateWidget, gridCache: ", gridCache);
-
         gridCache.current[gridParameter.name].widget[node.id].xposition = node.x;
         gridCache.current[gridParameter.name].widget[node.id].yposition = node.y;
         gridCache.current[gridParameter.name].widget[node.id].height = node.h;
         gridCache.current[gridParameter.name].widget[node.id].width = node.w;
-
-        console.log("node.x: ", node.x);
-        console.log("node.y: ", node.y);
-        // gridCache.current[node.id].yposition = node.y;
-        // gridCache.current[node.id].height = node.h;
-        // gridCache.current[node.id].width = node.w;
 
         updateDebounce(
             node.id,
@@ -239,7 +231,6 @@ const grid = ({
             // If the grid data was requested previously no need to request again
             
             const cache = Boolean(gridCache.current[gridParameter.name]?.widget);
-            // console.log("TemCache", )
 
             if(!cache) {
                 const getResponse = await WidgetService.getRequest(gridParameter.name, accessToken);
@@ -251,7 +242,6 @@ const grid = ({
                 gridCache.current[gridParameter.name] = {
                     widget: {}
                 }
-                console.log("gridCache: ", gridCache);
                 widgetRequestList.forEach((item) => {
                     gridCache.current[gridParameter.name].widget = {
                         ...gridCache.current[gridParameter.name]?.widget,
@@ -260,14 +250,8 @@ const grid = ({
                         }
                     }
                 });
-                console.log("widgetRequestList(sem cache): ", widgetRequestList);
-                console.log("gridCache: ", gridCache);
-                // gridCache.current[gridParameter.name] = widgetRequestList;
             } else {
-                console.log("gridCache.curret: ", gridCache);
                 widgetRequestList = Object.values(gridCache.current[gridParameter.name].widget);
-                // widgetRequestList = [...gridCache.current[gridParameter.name].widget];
-                console.log("widgetRequestList: ", widgetRequestList);
             }
 
             gridRef.current.innerHTML = "";

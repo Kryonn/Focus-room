@@ -61,7 +61,6 @@ const list = ({
                                         );
                                         deleteElement(listElement.name);
                                     } catch (err) {
-                                        // console.log(err.message);
                                     }
                                 }}
                                 className={styles["grid-delete-button"]}
