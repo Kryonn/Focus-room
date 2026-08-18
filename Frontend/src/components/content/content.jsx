@@ -36,7 +36,7 @@ const content = ({
     const widgetRoot = useRef([]);
 
     const gridCache = useRef({});
-    const taskCache = useRef([]);
+    const taskCache = useRef({});
 
     // Add Components Function List
     const functionList = {

@@ -28,6 +28,17 @@ const list = ({ gridname, id, listname, taskCache, accessToken }) => {
             [...prev, { taskName: taskName, deadLine: deadLine }]
         )
 
+        taskCache.current[gridname] = {
+            [id]: {
+                ...taskCache.current[gridname][id],
+                [taskName]: {
+                    taskName: taskName,
+                    deadLine: deadLine
+                }
+            }    
+            
+        }
+
         await TaskService.postRequest(taskName, deadLine, accessToken, gridname, id);
     }
 
@@ -35,10 +46,13 @@ const list = ({ gridname, id, listname, taskCache, accessToken }) => {
         setTaskList((prev) => 
             prev.filter((_, index) => index != indexToRemove)
         )
+
     }
 
     useEffect(() => {
-        if(!taskCache.current[id]) {
+
+        if(!taskCache.current[gridname]) {
+            taskCache.current[gridname] = {};
             TaskService.getRequest(gridname, id, accessToken).then((res) => {
                 const list = res.data;
                 const taskList = list.map((item) => (
@@ -46,12 +60,21 @@ const list = ({ gridname, id, listname, taskCache, accessToken }) => {
                 )
 
                 setTaskList(taskList);
-                taskCache.current[id] = taskList;
+                taskList.map((task) => {
+                    taskCache.current[gridname] = {
+                        [id]: {
+                            ...taskCache.current[gridname][id],
+                            [task.taskName]: {
+                                taskName: task.taskName,
+                                deadLine: task.deadLine
+                            }
+                        } 
+                    }
+                });
+
             })
-            console.log("taskCache é nulo");
         } else {
-            console.log("taskCache não é nulo");
-            setTaskList(taskCache.current[id]);
+            setTaskList(Object.values(taskCache.current[gridname][id]));
         }
     }, []);
 
