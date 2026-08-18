@@ -43,10 +43,11 @@ const list = ({ gridname, id, listname, taskCache, accessToken }) => {
     }
 
     const removeTask = (indexToRemove) => {
-        setTaskList((prev) => 
-            prev.filter((_, index) => index != indexToRemove)
-        )
+        setTaskList((prev) => prev.filter((item, index) => index != indexToRemove));
 
+        const taskName = taskList[indexToRemove].taskName;
+
+        delete taskCache.current[gridname][id][taskName];
     }
 
     useEffect(() => {
@@ -56,7 +57,8 @@ const list = ({ gridname, id, listname, taskCache, accessToken }) => {
             TaskService.getRequest(gridname, id, accessToken).then((res) => {
                 const list = res.data;
                 const taskList = list.map((item) => (
-                    { taskName: item.taskname, deadLine: item.deadline })
+                        { taskName: item.taskname, deadLine: item.deadline }
+                    )
                 )
 
                 setTaskList(taskList);
@@ -74,6 +76,10 @@ const list = ({ gridname, id, listname, taskCache, accessToken }) => {
 
             })
         } else {
+            if(!taskCache.current[gridname][id]) {
+                taskCache.current[gridname][id] = {};
+            }
+            
             setTaskList(Object.values(taskCache.current[gridname][id]));
         }
     }, []);
