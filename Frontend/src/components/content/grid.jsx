@@ -30,6 +30,7 @@ const grid = ({
     setGridState,
     gridCache,
     taskCache,
+    noteCache,
     widgetRoot,
     gridParameter,
     gridInstanceRef,
@@ -75,6 +76,11 @@ const grid = ({
         }
 
         const node = el.gridstackNode;
+
+        gridCache.current[gridParameter.name].widget[node.id].xposition = node.x;
+        gridCache.current[gridParameter.name].widget[node.id].yposition = node.y;
+        gridCache.current[gridParameter.name].widget[node.id].height = node.h;
+        gridCache.current[gridParameter.name].widget[node.id].width = node.w;
 
         updateDebounce(
             node.id,
@@ -183,11 +189,11 @@ const grid = ({
                     break;
 
                 case "list":
-                    widgetRoot.current[index].render(<List gridname={gridParameter.name} id={widget.id} listname={widget.listname} taskCache={taskCache} accessToken={accessToken}/>);
+                    widgetRoot.current[index].render(<List gridname={gridParameter.name} id={widget.id} listname={widget.listname} taskCache={taskCache} gridCache={gridCache} accessToken={accessToken}/>);
                     break;
 
                 case "note":
-                    widgetRoot.current[index].render(<Note gridname={gridParameter.name} id={widget.id} notename={widget.notename} notedescription={widget.notedescription} accessToken={accessToken}/>);
+                    widgetRoot.current[index].render(<Note gridname={gridParameter.name} id={widget.id} notename={widget.notename} notedescription={widget.notedescription} gridCache={gridCache} accessToken={accessToken}/>);
                     break;
             }
         });
@@ -224,15 +230,29 @@ const grid = ({
             let widgetRequestList;
 
             // If the grid data was requested previously no need to request again
-            if(!gridCache.current[gridParameter.name]) {
+            
+            const cache = Boolean(gridCache.current[gridParameter.name]?.widget);
+
+            if(!cache) {
                 const getResponse = await WidgetService.getRequest(gridParameter.name, accessToken);
                 widgetRequestList = getResponse.data;
                 if(!isMounted || !gridRef.current) {
                     return;
                 }
-                gridCache.current[gridParameter.name] = widgetRequestList;
+
+                gridCache.current[gridParameter.name] = {
+                    widget: {}
+                }
+                widgetRequestList.forEach((item) => {
+                    gridCache.current[gridParameter.name].widget = {
+                        ...gridCache.current[gridParameter.name]?.widget,
+                        [item.id]: {
+                            ...item
+                        }
+                    }
+                });
             } else {
-                widgetRequestList = gridCache.current[gridParameter.name];
+                widgetRequestList = Object.values(gridCache.current[gridParameter.name].widget);
             }
 
             gridRef.current.innerHTML = "";

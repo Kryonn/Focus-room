@@ -35,8 +35,9 @@ const content = ({
     // Components Root List
     const widgetRoot = useRef([]);
 
-    const gridCache = useRef([]);
-    const taskCache = useRef([]);
+    const gridCache = useRef({});
+    const taskCache = useRef({});
+    const noteCache = useRef({});
 
     // Add Components Function List
     const functionList = {
@@ -78,23 +79,41 @@ const content = ({
           </div>
       `;
             
+            // const newWidget = {
+            //     gridName: gridParameter.name,
+            //     height: DEFAULT_WIDGET_SIZE.POMODORO_HEIGHT,
+            //     width: DEFAULT_WIDGET_SIZE.POMODORO_WIDTH,
+            //     id: id,
+            //     listname: null,
+            //     notename: null,
+            //     notedescription: null,
+            //     pomodoroworktime: DEFAULT_POMODORO_TIME.WORK_TIME,
+            //     pomodorobreaktime: DEFAULT_POMODORO_TIME.BREAK_TIME,
+            //     username: "asd",
+            //     xposition: div.gridstackNode.x,
+            //     yposition: div.gridstackNode.y,
+            // };
+
             // Append new widget
             gridRef.appendChild(div);
             gridInstance.makeWidget(div);
-            gridCache.current[gridParameter.name] = [...gridCache.current[gridParameter.name], {
-                gridName: gridParameter.name,
-                height: DEFAULT_WIDGET_SIZE.POMODORO_HEIGHT,
-                width: DEFAULT_WIDGET_SIZE.POMODORO_WIDTH,
-                id: id,
-                listname: null,
-                notename: null,
-                notedescription: null,
-                pomodoroworktime: DEFAULT_POMODORO_TIME.WORK_TIME,
-                pomodorobreaktime: DEFAULT_POMODORO_TIME.BREAK_TIME,
-                username: "asd",
-                xposition: div.gridstackNode.x,
-                yposition: div.gridstackNode.y,
-            }];
+
+            gridCache.current[gridParameter.name].widget = {...gridCache.current[gridParameter.name].widget,
+                [id]: {
+                    gridName: gridParameter.name,
+                    height: DEFAULT_WIDGET_SIZE.POMODORO_HEIGHT,
+                    width: DEFAULT_WIDGET_SIZE.POMODORO_WIDTH,
+                    id: id,
+                    listname: null,
+                    notename: null,
+                    notedescription: null,
+                    pomodoroworktime: DEFAULT_POMODORO_TIME.WORK_TIME,
+                    pomodorobreaktime: DEFAULT_POMODORO_TIME.BREAK_TIME,
+                    username: "asd",
+                    xposition: div.gridstackNode.x,
+                    yposition: div.gridstackNode.y,
+                }
+            }
 
             const buttonList =
                 gridRef.querySelectorAll(".delete-button");
@@ -165,20 +184,23 @@ const content = ({
             // Append new widget
             gridRef.appendChild(div);
             gridInstance.makeWidget(div, { id: id, w: 3, h: 2, minW: 3, minH: 2 });
-            gridCache = [...gridCache, {
-                gridname: gridParameter.name,
-                height: DEFAULT_WIDGET_SIZE.LIST_HEIGHT,
-                width: DEFAULT_WIDGET_SIZE.LIST_WIDTH,
-                id: id,
-                listname: listParameter,
-                notename: null,
-                notedescription: null,
-                pomodoroworktime: null,
-                pomodorobreaktime: null,
-                username: "asd",
-                xposition: div.gridstackNode.x,
-                yposition: div.gridstackNode.y,
-            }];
+
+            gridCache.widget = {...gridCache.widget,
+                [id]: {
+                    gridName: gridParameter.name,
+                    height: DEFAULT_WIDGET_SIZE.LIST_HEIGHT,
+                    width: DEFAULT_WIDGET_SIZE.LIST_WIDTH,
+                    id: id,
+                    listname: listParameter,
+                    notename: null,
+                    notedescription: null,
+                    pomodoroworktime: null,
+                    pomodorobreaktime: null,
+                    username: "asd",
+                    xposition: div.gridstackNode.x,
+                    yposition: div.gridstackNode.y,
+                }
+            }
 
             const buttonList =
                 gridRef.querySelectorAll(".delete-button");
@@ -246,20 +268,22 @@ const content = ({
             gridRef.appendChild(div);
             gridInstance.makeWidget(div, { id: id, w: 2, h: 2, minH: 2, minW: 2 });
 
-            gridCache = [...gridCache, {
-                gridName: gridParameter.name,
-                height: DEFAULT_WIDGET_SIZE.NOTE_HEIGHT,
-                width: DEFAULT_WIDGET_SIZE.NOTE_WIDTH,
-                id: id,
-                listname: null,
-                notename: listParameter,
-                notedescription: null,
-                pomodoroworktime: null,
-                pomodorobreaktime: null,
-                username: "asd",
-                xposition: div.gridstackNode.x,
-                yposition: div.gridstackNode.y,
-            }];
+            gridCache.widget = {...gridCache.widget,
+                [id]: {
+                    gridName: gridParameter.name,
+                    height: DEFAULT_WIDGET_SIZE.NOTE_HEIGHT,
+                    width: DEFAULT_WIDGET_SIZE.NOTE_WIDTH,
+                    id: id,
+                    listname: null,
+                    notename: listParameter,
+                    notedescription: null,
+                    pomodoroworktime: null,
+                    pomodorobreaktime: null,
+                    username: "asd",
+                    xposition: div.gridstackNode.x,
+                    yposition: div.gridstackNode.y,
+                }
+            }
 
             const buttonList =
                 gridRef.querySelectorAll(".delete-button");
@@ -309,35 +333,47 @@ const content = ({
     return (
         <div className={styles.main}>
             {/* Grid div */}
-            {listGridParameter[gridState] && (
-                <Grid
-                    key={listGridParameter[gridState].name}
-                    accessToken={accessToken}
-                    gridState={gridState}
-                    setGridState={setGridState}
-                    gridCache={gridCache}
-                    taskCache={taskCache}
-                    widgetRoot={widgetRoot}
-                    gridParameter={listGridParameter[gridState]}
-                    gridInstanceRef={listGridInstance}
-                    gridRefRef={listGridRef}
-                    gridPositionRef={listGridPosition}
-                />
-            )}
+            {
+                listGridParameter.map((grid) => (
+                    grid.name === gridState && (
+                        <Grid
+                            key={grid.name}
+                            accessToken={accessToken}
+                            gridState={gridState}
+                            setGridState={setGridState}
+                            gridCache={gridCache}
+                            taskCache={taskCache}
+                            noteCache={noteCache}
+                            widgetRoot={widgetRoot}
+                            gridParameter={grid}
+                            gridInstanceRef={listGridInstance}
+                            gridRefRef={listGridRef}
+                            gridPositionRef={listGridPosition}
+                        />
+                    )
 
+                ))
+            }
+            
             {/* Tool div */}
-            {listGridParameter[gridState] && (
-                <Tool
-                    accessToken={accessToken}
-                    gridCache={gridCache}
-                    gridState={gridState}
-                    setWidget={functionList}
-                    gridParameter={listGridParameter[gridState]}
-                    gridInstanceRef={listGridInstance}
-                    gridRefRef={listGridRef}
-                    gridPositionRef={listGridPosition}
-                />
-            )}
+            {
+                listGridParameter.map((grid) => (
+                    grid.name === gridState && (
+                        <Tool
+                            key={grid.name}
+                            accessToken={accessToken}
+                            gridCache={gridCache}
+                            gridState={gridState}
+                            setWidget={functionList}
+                            gridParameter={grid}
+                            gridInstanceRef={listGridInstance}
+                            gridRefRef={listGridRef}
+                            gridPositionRef={listGridPosition}
+                        />
+                    )
+                ))
+            }
+            
         </div>
     );
 };

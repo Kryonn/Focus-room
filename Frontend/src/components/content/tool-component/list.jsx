@@ -12,11 +12,13 @@ import { useState, useRef, useEffect, use } from "react";
 import { TaskService } from "../../../services/task.service.js";
 import { WidgetService } from "../../../services/widget.service.js";
 
-const list = ({ gridname, id, listname, taskCache, accessToken }) => {
+import { utils } from "../../../utils/utils.js";
+
+const list = ({ gridname, id, listname, taskCache, accessToken, gridCache }) => {
     // States
     const [listAddPopupState, setListAddPopupState] = useState(false);
     const [listUpdatePopupState, setListUpdatePopupState] = useState(false);
-    const [listName, setListName] = useState(listname);
+    const [listName, setListName] = useState(gridCache.current[gridname].widget[id].listname);
     const [taskList, setTaskList] = useState([]);
 
     // List
@@ -28,33 +30,75 @@ const list = ({ gridname, id, listname, taskCache, accessToken }) => {
             [...prev, { taskName: taskName, deadLine: deadLine }]
         )
 
-        await TaskService.postRequest(taskName, deadLine, accessToken, gridname, id);
+        taskCache.current[gridname] = {
+            [id]: {
+                ...taskCache.current[gridname][id],
+                [taskName]: {
+                    taskName: taskName,
+                    deadLine: deadLine
+                }
+            }    
+        }
+
+        let dl;
+
+        if(deadLine === "") {
+            dl = null;
+        } else {
+            dl = deadLine;
+        }
+
+        await TaskService.postRequest(taskName, dl, accessToken, gridname, id);
     }
 
     const removeTask = (indexToRemove) => {
-        setTaskList((prev) => 
-            prev.filter((_, index) => index != indexToRemove)
-        )
+        setTaskList((prev) => prev.filter((item, index) => index != indexToRemove));
+
+        const taskName = taskList[indexToRemove].taskName;
+
+        delete taskCache.current[gridname][id][taskName];
     }
 
     useEffect(() => {
-        if(!taskCache.current[id]) {
+        if(!taskCache.current[gridname]) {
+            taskCache.current[gridname] = {};
+        }
+
+        if(!taskCache.current[gridname][id]) {
+
             TaskService.getRequest(gridname, id, accessToken).then((res) => {
                 const list = res.data;
+
                 const taskList = list.map((item) => (
-                    { taskName: item.taskname, deadLine: item.deadline })
+                        { taskName: item.taskname, deadLine: item.deadline }
+                    )
                 )
 
                 setTaskList(taskList);
-                taskCache.current[id] = taskList;
+
+                taskList.map((task) => {
+                    taskCache.current[gridname] = {
+                        ...taskCache.current[gridname],
+                        [id]: {
+                            ...taskCache.current[gridname][id],
+                            [task.taskName]: {
+                                taskName: task.taskName,
+                                deadLine: task.deadLine
+                            }
+                        } 
+                    }
+                });
+
             })
-            console.log("taskCache é nulo");
         } else {
-            console.log("taskCache não é nulo");
-            setTaskList(taskCache.current[id]);
+            
+            setTaskList(Object.values(taskCache.current[gridname][id]));
         }
     }, []);
 
+    useEffect(() => {
+        gridCache.current[gridname].widget[id].listname = listName;
+    }, [listName]);
 
 
     return (
@@ -95,7 +139,7 @@ const list = ({ gridname, id, listname, taskCache, accessToken }) => {
                                     {element.taskName}
                                 </p>
                                 <p className={styles["list-element-deadline"]}>
-                                    {element.deadLine}
+                                    {utils.formatDate(element.deadLine)}
                                 </p>
                                 <div className={styles["list-element-button-div"]}>
                                     <button onClick={() => { removeTask(index); TaskService.deleteRequest(gridname, id, element.taskName, accessToken) }} className={styles["list-element-button"]}>
