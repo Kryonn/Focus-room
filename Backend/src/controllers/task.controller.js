@@ -25,14 +25,7 @@ const TaskController = {
         const deadLine = body.deadLine;
 
         try {
-            let dl;
-            if(deadLine === "") {
-                dl = null;
-            } else {
-                dl = deadLine;
-            }
-
-            const insertResponse = await TaskModel.insertTask(username, gridName, widgetId, taskName, dl);
+            const insertResponse = await TaskModel.insertTask(username, gridName, widgetId, taskName, deadLine);
 
             res.status(201).json({ error: false, data: insertResponse });
         } catch(err) {

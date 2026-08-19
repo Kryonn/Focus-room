@@ -5,7 +5,7 @@ import styles from "./note.module.css";
 import Popup from "./popup.jsx";
 
 // React
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 // Services
 import { WidgetService } from "../../../services/widget.service.js";
@@ -13,14 +13,18 @@ import { WidgetService } from "../../../services/widget.service.js";
 // Utils
 import { utils } from "../../../utils/utils.js";
 
-const note = ({ accessToken, gridname, id, notename, notedescription }) => {
+const note = ({ accessToken, gridname, id, gridCache }) => {
     // States
-    const [noteName, setNoteName] = useState(notename);
-    const [noteDescription, setNoteDescription] = useState(notedescription);
+    const [noteName, setNoteName] = useState(gridCache.current[gridname].widget[id].notename);
+    const [noteDescription, setNoteDescription] = useState(gridCache.current[gridname].widget[id].notedescription);
     const [notePopupState, setNotePopupState] = useState(false);
     
     // List
     const setList = [setNoteName];
+
+    useEffect(() => {
+        gridCache.current[gridname].widget[id].notename = noteName;
+    }, [noteName]);
 
     // This function call the update description function with delay
     const updateNoteDescriptionDebounce = useRef(
@@ -30,6 +34,12 @@ const note = ({ accessToken, gridname, id, notename, notedescription }) => {
             }, 2000
         )
     ).current;
+
+    const textAreaFunction = (event) => {
+        setNoteDescription(event.target.value);
+        gridCache.current[gridname].widget[id].notedescription = event.target.value;
+        updateNoteDescriptionDebounce(gridname, id, event.target.value, accessToken);
+    }
     
     return (
         <div className={styles.main}>
@@ -55,7 +65,7 @@ const note = ({ accessToken, gridname, id, notename, notedescription }) => {
 
             {/* Text div */}
             <div className={styles["text-div"]}>
-                <textarea onChange={(e) => { setNoteDescription(e.target.value); updateNoteDescriptionDebounce(gridname, id, e.target.value, accessToken) }} value={noteDescription} className={styles["text-input"]} spellCheck="false" name=""></textarea>
+                <textarea onChange={(e) => { textAreaFunction(e); }} value={noteDescription} className={styles["text-input"]} spellCheck="false" name=""></textarea>
             </div>
         </div>
     );

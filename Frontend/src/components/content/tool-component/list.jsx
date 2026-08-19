@@ -12,11 +12,13 @@ import { useState, useRef, useEffect, use } from "react";
 import { TaskService } from "../../../services/task.service.js";
 import { WidgetService } from "../../../services/widget.service.js";
 
-const list = ({ gridname, id, listname, taskCache, accessToken }) => {
+import { utils } from "../../../utils/utils.js";
+
+const list = ({ gridname, id, listname, taskCache, accessToken, gridCache }) => {
     // States
     const [listAddPopupState, setListAddPopupState] = useState(false);
     const [listUpdatePopupState, setListUpdatePopupState] = useState(false);
-    const [listName, setListName] = useState(listname);
+    const [listName, setListName] = useState(gridCache.current[gridname].widget[id].listname);
     const [taskList, setTaskList] = useState([]);
 
     // List
@@ -36,10 +38,17 @@ const list = ({ gridname, id, listname, taskCache, accessToken }) => {
                     deadLine: deadLine
                 }
             }    
-            
         }
 
-        await TaskService.postRequest(taskName, deadLine, accessToken, gridname, id);
+        let dl;
+
+        if(deadLine === "") {
+            dl = null;
+        } else {
+            dl = deadLine;
+        }
+
+        await TaskService.postRequest(taskName, dl, accessToken, gridname, id);
     }
 
     const removeTask = (indexToRemove) => {
@@ -51,19 +60,25 @@ const list = ({ gridname, id, listname, taskCache, accessToken }) => {
     }
 
     useEffect(() => {
-
         if(!taskCache.current[gridname]) {
             taskCache.current[gridname] = {};
+        }
+
+        if(!taskCache.current[gridname][id]) {
+
             TaskService.getRequest(gridname, id, accessToken).then((res) => {
                 const list = res.data;
+
                 const taskList = list.map((item) => (
                         { taskName: item.taskname, deadLine: item.deadline }
                     )
                 )
 
                 setTaskList(taskList);
+
                 taskList.map((task) => {
                     taskCache.current[gridname] = {
+                        ...taskCache.current[gridname],
                         [id]: {
                             ...taskCache.current[gridname][id],
                             [task.taskName]: {
@@ -76,14 +91,14 @@ const list = ({ gridname, id, listname, taskCache, accessToken }) => {
 
             })
         } else {
-            if(!taskCache.current[gridname][id]) {
-                taskCache.current[gridname][id] = {};
-            }
             
             setTaskList(Object.values(taskCache.current[gridname][id]));
         }
     }, []);
 
+    useEffect(() => {
+        gridCache.current[gridname].widget[id].listname = listName;
+    }, [listName]);
 
 
     return (
@@ -124,7 +139,7 @@ const list = ({ gridname, id, listname, taskCache, accessToken }) => {
                                     {element.taskName}
                                 </p>
                                 <p className={styles["list-element-deadline"]}>
-                                    {element.deadLine}
+                                    {utils.formatDate(element.deadLine)}
                                 </p>
                                 <div className={styles["list-element-button-div"]}>
                                     <button onClick={() => { removeTask(index); TaskService.deleteRequest(gridname, id, element.taskName, accessToken) }} className={styles["list-element-button"]}>

@@ -92,4 +92,23 @@ export const utils = {
         }
         return false;
     },
+
+    formatDate(date) {
+        if(!date) {
+            return;
+        }
+
+        let newDate;
+        let newDateString;
+
+        if(date.includes("/")) {
+            newDate = date.split("/");
+            newDateString = newDate[0] + "/" + newDate[1] + "/" + newDate[2];
+        } else {
+            newDate = date.split("-");
+            newDateString = newDate[2] + "/" + newDate[1] + "/" + newDate[0];
+        }
+
+        return newDateString;
+    }
 };

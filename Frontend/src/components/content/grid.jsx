@@ -30,6 +30,7 @@ const grid = ({
     setGridState,
     gridCache,
     taskCache,
+    noteCache,
     widgetRoot,
     gridParameter,
     gridInstanceRef,
@@ -188,11 +189,11 @@ const grid = ({
                     break;
 
                 case "list":
-                    widgetRoot.current[index].render(<List gridname={gridParameter.name} id={widget.id} listname={widget.listname} taskCache={taskCache} accessToken={accessToken}/>);
+                    widgetRoot.current[index].render(<List gridname={gridParameter.name} id={widget.id} listname={widget.listname} taskCache={taskCache} gridCache={gridCache} accessToken={accessToken}/>);
                     break;
 
                 case "note":
-                    widgetRoot.current[index].render(<Note gridname={gridParameter.name} id={widget.id} notename={widget.notename} notedescription={widget.notedescription} accessToken={accessToken}/>);
+                    widgetRoot.current[index].render(<Note gridname={gridParameter.name} id={widget.id} notename={widget.notename} notedescription={widget.notedescription} gridCache={gridCache} accessToken={accessToken}/>);
                     break;
             }
         });

@@ -37,6 +37,7 @@ const content = ({
 
     const gridCache = useRef({});
     const taskCache = useRef({});
+    const noteCache = useRef({});
 
     // Add Components Function List
     const functionList = {
@@ -342,6 +343,7 @@ const content = ({
                             setGridState={setGridState}
                             gridCache={gridCache}
                             taskCache={taskCache}
+                            noteCache={noteCache}
                             widgetRoot={widgetRoot}
                             gridParameter={grid}
                             gridInstanceRef={listGridInstance}
