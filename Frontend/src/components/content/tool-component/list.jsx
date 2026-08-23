@@ -3,10 +3,9 @@ import styles from "./list.module.css";
 
 // Components
 import Popup from "./popup.jsx";
-import Grid from "../grid.jsx";
 
 // React
-import { useState, useRef, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 
 // Services
 import { TaskService } from "../../../services/task.service.js";
@@ -14,11 +13,11 @@ import { WidgetService } from "../../../services/widget.service.js";
 
 import { utils } from "../../../utils/utils.js";
 
-const list = ({ gridname, id, listname, taskCache, accessToken, gridCache }) => {
+const list = ({ gridname, id, taskCache, accessToken, gridCache }) => {
     // States
     const [listAddPopupState, setListAddPopupState] = useState(false);
     const [listUpdatePopupState, setListUpdatePopupState] = useState(false);
-    const [listName, setListName] = useState(gridCache.current[gridname].widget[id].listname);
+    const [listName, setListName] = useState("");
     const [taskList, setTaskList] = useState([]);
 
     // List
@@ -52,7 +51,7 @@ const list = ({ gridname, id, listname, taskCache, accessToken, gridCache }) => 
     }
 
     const removeTask = (indexToRemove) => {
-        setTaskList((prev) => prev.filter((item, index) => index != indexToRemove));
+        setTaskList((prev) => prev.filter((_, index) => index != indexToRemove));
 
         const taskName = taskList[indexToRemove].taskName;
 
@@ -91,14 +90,13 @@ const list = ({ gridname, id, listname, taskCache, accessToken, gridCache }) => 
 
             })
         } else {
-            
             setTaskList(Object.values(taskCache.current[gridname][id]));
         }
     }, []);
 
     useEffect(() => {
-        gridCache.current[gridname].widget[id].listname = listName;
-    }, [listName]);
+        setListName(gridCache.current[gridname].widget[id].listname);
+    }, [gridCache])
 
 
     return (

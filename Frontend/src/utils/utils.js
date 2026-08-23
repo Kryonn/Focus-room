@@ -100,7 +100,7 @@ export const utils = {
 
         let newDate;
         let newDateString;
-
+        
         if(date.includes("/")) {
             newDate = date.split("/");
             newDateString = newDate[0] + "/" + newDate[1] + "/" + newDate[2];

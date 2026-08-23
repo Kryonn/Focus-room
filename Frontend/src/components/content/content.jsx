@@ -10,7 +10,7 @@ import Note from "./tool-component/note.jsx";
 
 // React
 import { createRoot } from "react-dom/client";
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 
 // Services
 import { WidgetService } from "../../services/widget.service.js";
@@ -78,21 +78,6 @@ const content = ({
             <div class="${styles.pomodoro} alvo-pomodoro widget" style="height:100%; width: 100%; display: flex"></div>
           </div>
       `;
-            
-            // const newWidget = {
-            //     gridName: gridParameter.name,
-            //     height: DEFAULT_WIDGET_SIZE.POMODORO_HEIGHT,
-            //     width: DEFAULT_WIDGET_SIZE.POMODORO_WIDTH,
-            //     id: id,
-            //     listname: null,
-            //     notename: null,
-            //     notedescription: null,
-            //     pomodoroworktime: DEFAULT_POMODORO_TIME.WORK_TIME,
-            //     pomodorobreaktime: DEFAULT_POMODORO_TIME.BREAK_TIME,
-            //     username: "asd",
-            //     xposition: div.gridstackNode.x,
-            //     yposition: div.gridstackNode.y,
-            // };
 
             // Append new widget
             gridRef.appendChild(div);
@@ -163,7 +148,7 @@ const content = ({
         },
 
         // Create list widget function
-        listComponent: async (listParameter, gridParameter, gridInstance, gridRef, gridCache) => {
+        listComponent: async (listParameter, gridParameter, gridInstance, gridRef) => {
             
             // Create widget html
             const div = document.createElement("div");
@@ -185,7 +170,8 @@ const content = ({
             gridRef.appendChild(div);
             gridInstance.makeWidget(div, { id: id, w: 3, h: 2, minW: 3, minH: 2 });
 
-            gridCache.widget = {...gridCache.widget,
+
+            gridCache.current[gridParameter.name].widget = {...gridCache.current[gridParameter.name].widget,
                 [id]: {
                     gridName: gridParameter.name,
                     height: DEFAULT_WIDGET_SIZE.LIST_HEIGHT,
@@ -233,7 +219,7 @@ const content = ({
             // Create and rendering the widget root
             const widgetList = document.querySelectorAll(".widget");
             widgetRoot.current[widgetList.length - 1] = createRoot(widgetList[widgetList.length - 1]);
-            widgetRoot.current[widgetList.length - 1].render(<List gridname={gridParameter.name} id={id} listname={listParameter} taskCache={taskCache} accessToken={accessToken}/>);
+            widgetRoot.current[widgetList.length - 1].render(<List gridname={gridParameter.name} id={id} taskCache={taskCache} gridCache={gridCache} accessToken={accessToken}/>);
 
             // Create widget into the database
             await WidgetService.postListRequest(
@@ -247,7 +233,7 @@ const content = ({
         },
 
         // Create note widget function
-        noteComponent: async (listParameter, gridParameter, gridInstance, gridRef, gridCache) => {
+        noteComponent: async (listParameter, gridParameter, gridInstance, gridRef) => {
             // Create widget html
             const div = document.createElement("div");
             div.classList.add("grid-stack-item");
@@ -268,7 +254,7 @@ const content = ({
             gridRef.appendChild(div);
             gridInstance.makeWidget(div, { id: id, w: 2, h: 2, minH: 2, minW: 2 });
 
-            gridCache.widget = {...gridCache.widget,
+            gridCache.current[gridParameter.name].widget = {...gridCache.widget,
                 [id]: {
                     gridName: gridParameter.name,
                     height: DEFAULT_WIDGET_SIZE.NOTE_HEIGHT,
@@ -316,7 +302,7 @@ const content = ({
             // Create and rendering the widget root
             const widgetList = document.querySelectorAll(".widget");
             widgetRoot.current[widgetList.length - 1] = createRoot(widgetList[widgetList.length - 1]);
-            widgetRoot.current[widgetList.length - 1].render(<Note gridname={gridParameter.name} id={id} notename={listParameter} notedescription={""} accessToken={accessToken}/>);
+            widgetRoot.current[widgetList.length - 1].render(<Note gridname={gridParameter.name} id={id} gridCache={gridCache} accessToken={accessToken}/>);
 
             // Create widget into the database
             await WidgetService.postNoteRequest(

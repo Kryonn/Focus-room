@@ -23,6 +23,7 @@ import { utils } from "../../utils/utils.js";
 // Constants
 import { DEFAULT_WIDGET_SIZE } from "../../constants/constant.js"
 import { DEFAULT_GRID_SETTINGS } from "../../constants/constant.js"
+import { DEFAULT_POMODORO_TIME } from "../../constants/constant.js";
 
 const grid = ({
     accessToken,
@@ -133,6 +134,25 @@ const grid = ({
                 y: widget.yposition
             });
 
+            gridCache.current[gridParameter.name].widget = {
+                ...gridCache.current[gridParameter.name].widget,
+                [widget.id]: {
+                        gridName: gridParameter.name,
+                        height: widget.height,
+                        width: widget.width,
+                        id: widget.id,
+                        listname: widgetType === "list" ? widget.listname : null,
+                        notename: widgetType === "note" ? widget.notename : null,
+                        notedescription: widgetType === "note" ? widget.notedescription : null,
+                        pomodoroworktime: DEFAULT_POMODORO_TIME.WORK_TIME,
+                        pomodorobreaktime: DEFAULT_POMODORO_TIME.BREAK_TIME,
+                        username: "asd",
+                        xposition: widget.xposition,
+                        yposition: widget.yposition,
+                    }
+            }
+
+
             const buttonList =
                 gridRef.current.querySelectorAll(".delete-button");
 
@@ -189,11 +209,11 @@ const grid = ({
                     break;
 
                 case "list":
-                    widgetRoot.current[index].render(<List gridname={gridParameter.name} id={widget.id} listname={widget.listname} taskCache={taskCache} gridCache={gridCache} accessToken={accessToken}/>);
+                    widgetRoot.current[index].render(<List gridname={gridParameter.name} id={widget.id} taskCache={taskCache} gridCache={gridCache} accessToken={accessToken}/>);
                     break;
 
                 case "note":
-                    widgetRoot.current[index].render(<Note gridname={gridParameter.name} id={widget.id} notename={widget.notename} notedescription={widget.notedescription} gridCache={gridCache} accessToken={accessToken}/>);
+                    widgetRoot.current[index].render(<Note gridname={gridParameter.name} id={widget.id} gridCache={gridCache} accessToken={accessToken}/>);
                     break;
             }
         });
@@ -243,6 +263,7 @@ const grid = ({
                 gridCache.current[gridParameter.name] = {
                     widget: {}
                 }
+
                 widgetRequestList.forEach((item) => {
                     gridCache.current[gridParameter.name].widget = {
                         ...gridCache.current[gridParameter.name]?.widget,

@@ -5,7 +5,7 @@ import styles from "./tool.module.css";
 import Popup from "./tool-component/popup.jsx";
 
 // React
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 
 // Services
 import { WidgetService } from "../../services/widget.service.js";
@@ -44,10 +44,10 @@ const tool = ({
         <div className={styles.main}>
             {/* Create popup */}
             {
-                listPopupState && <Popup popupTitle={popupTitle} setPopupState={setListPopupState} labelList={labelList} inputTypeList={[""]} buttonFunction={setWidget.listComponent} buttonFunctionParameter={[gridParameter, gridInstanceRef.current[gridParameter.name], gridRefRef.current[gridParameter.name], gridCache.current[gridParameter.name]]}/>
+                listPopupState && <Popup popupTitle={popupTitle} setPopupState={setListPopupState} labelList={labelList} inputTypeList={[""]} buttonFunction={setWidget.listComponent} buttonFunctionParameter={[gridParameter, gridInstanceRef.current[gridParameter.name], gridRefRef.current[gridParameter.name]]}/>
             }
             {
-                notePopupState && <Popup popupTitle={popupTitle} setPopupState={setNotePopupState} labelList={labelList} inputTypeList={[""]} buttonFunction={setWidget.noteComponent} buttonFunctionParameter={[gridParameter, gridInstanceRef.current[gridParameter.name], gridRefRef.current[gridParameter.name], gridCache.current[gridParameter.name]]}/>
+                notePopupState && <Popup popupTitle={popupTitle} setPopupState={setNotePopupState} labelList={labelList} inputTypeList={[""]} buttonFunction={setWidget.noteComponent} buttonFunctionParameter={[gridParameter, gridInstanceRef.current[gridParameter.name], gridRefRef.current[gridParameter.name]]}/>
             }
 
             {/* Tool div */}
