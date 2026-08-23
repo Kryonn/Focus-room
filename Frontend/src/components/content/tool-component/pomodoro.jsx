@@ -200,10 +200,15 @@ const pomodoro = ({ gridName, id, pomodoroWorkTime, pomodoroBreakTime, accessTok
         // Create an observer to verify widget size
         const resizeObserver = new ResizeObserver((entries) => {
             const entry = entries[0];
-            const { width, height } = entry.contentRect;
+            // const { width, height } = entry.contentRect;
 
             // Get widget attributes
             const widget = entry.target.closest(".grid-stack-item");
+
+            if(!widget) {
+                return;
+            }
+            
             const cellWidth = Number(widget.getAttribute("gs-w"));
             const cellHeight = Number(widget.getAttribute("gs-h"));
 

@@ -173,6 +173,8 @@ const grid = ({
                         delete widgetRoot.current[buttonList - 1];
                     }
 
+                    delete gridCache.current[gridParameter.name].widget[widget.id];
+
                     await WidgetService.deleteRequest(
                         widget.id,
                         gridParameter.name,

@@ -254,7 +254,7 @@ const content = ({
             gridRef.appendChild(div);
             gridInstance.makeWidget(div, { id: id, w: 2, h: 2, minH: 2, minW: 2 });
 
-            gridCache.current[gridParameter.name].widget = {...gridCache.widget,
+            gridCache.current[gridParameter.name].widget = {...gridCache.current[gridParameter.name].widget,
                 [id]: {
                     gridName: gridParameter.name,
                     height: DEFAULT_WIDGET_SIZE.NOTE_HEIGHT,
