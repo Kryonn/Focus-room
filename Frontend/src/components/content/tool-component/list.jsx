@@ -98,6 +98,10 @@ const list = ({ gridname, id, taskCache, accessToken, gridCache }) => {
         setListName(gridCache.current[gridname].widget[id].listname);
     }, [gridCache])
 
+    useEffect(() => {
+        gridCache.current[gridname].widget[id].listname = listName;
+    }, [listName])
+
 
     return (
         <div className={`${styles.main}`}>

@@ -23,6 +23,10 @@ const note = ({ accessToken, gridname, id, gridCache }) => {
     const setList = [setNoteName];
 
     useEffect(() => {
+        setNoteName(gridCache.current[gridname].widget[id].notename);
+    }, [gridCache])
+
+    useEffect(() => {
         gridCache.current[gridname].widget[id].notename = noteName;
     }, [noteName]);
 
